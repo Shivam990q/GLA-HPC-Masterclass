@@ -1,82 +1,106 @@
-# 💻 DAY 1: HANDS-ON LAB & COMMANDS PLAYBOOK
-## Practical Execution for Google Colab & Linux Terminals (Strictly 3-Hour Class)
+# 💻 DAY 1: MASTER STEP-BY-STEP COMMANDS & SETUP RUNBOOK
+## Complete Practical Execution Guide (Linux Setup, Shell Automation, SSH & Intel oneAPI/HPC Toolkit)
 **Course Code:** `GLA-HPC-BCSG701` | **Track:** Intel & NEC Supercomputing Alliance  
-**Lead Trainer:** Shivam Gupta | **Target Audience:** 60 B.Tech / M.Tech CS Students  
+**Lead Trainer:** Shivam Gupta | **Target Session:** Day 1 (Strictly 3 Hours / 180 Minutes)  
 **Primary Reference:** [`Intel & NEC - High Performance Computing.pdf` (Page 2)](file:///c:/Users/Rose/Videos/GLA%20Trainings/_official_syllabus_docs/Intel%20%26%20NEC%20-%20High%20Performance%20Computing.pdf)
 
 ---
 
-## 🚀 Lab Overview & Execution Architecture
+## 📌 Executive Architecture & Environment Strategy
 
-This hands-on lab covers all **7 official topics** of Day 1 in exact sequential order.
+This runbook contains **every single command** required to set up, configure, and execute the entire Day 1 hands-on curriculum from scratch on:
+1. **Ubuntu Linux / WSL2** (Trainer Laptop & Lab Workstations)
+2. **Google Colab** (Zero-friction browser sandbox for 60 students)
+3. **Intel Developer Cloud (`idc-vm`)** (Enterprise 4th Gen Xeon Sapphire Rapids)
 
 ```
 +-----------------------------------------------------------------------------------------------+
-|                                  LAB EXECUTION MODEL                                          |
+|                                  THE 8-STAGE COMMAND PIPELINE                                 |
 +-----------------------------------------------------------------------------------------------+
-| [ Student Track: Google Colab / Lab PC ]       | [ Trainer Track: Projector Screen ]          |
-| - Runs inside browser with zero local friction | - Dual-split screen: Slides (Left) + Terminal|
-| - Full Linux container with bash terminal      | - Local WSL Ubuntu for shell & scripts       |
-| - Direct execution of Shell scripts & C++ labs | - Live `ssh idc-vm` connection to Sapphire   |
-| - Pre-loaded in `Day_01_Master_Lab.ipynb`      |   Rapids 4th Gen Xeon Gold 6442Y Cluster      |
+| STAGE 0: Linux System Package Setup & Preflight Verification                                  |
+| STAGE 1: Hardware Introspection & Silicon Architecture Probing (Cores, Caches, AVX-512, AMX)   |
+| STAGE 2: Linux Directory Tree Hierarchy & File Management (pwd, mkdir, heredoc, cat, grep)   |
+| STAGE 3: Permissions, Security & Environment Variables ($PATH, export, chmod 755/644/600)    |
+| STAGE 4: Automated Shell Scripting (Writing & Executing hpc_node_audit.sh)                   |
+| STAGE 5: Secured Shell (SSH) Key Generation & Remote Access (ed25519, authorized_keys, scp)  |
+| STAGE 6: Intel oneAPI Toolkit Installation, Environment Setup & C++/SYCL Vector Addition      |
+| STAGE 7: Intel HPC Toolkit Setup & Intel MPI Multi-Process Supercomputing Simulation          |
 +-----------------------------------------------------------------------------------------------+
 ```
 
 ---
 
-## 📋 LAB SECTION 1: Hardware Introspection & Intel HPC Architecture
-*Maps to Syllabus Topic 1 & 2: Introduction to HPC & Intel HPC Architecture (Xeon, GPUs, AI Accelerators)*
-
-Run these commands to inspect the physical silicon under the operating system:
+## 🚀 STAGE 0: Linux System Package Setup & Preflight Verification
+*Run these commands on a fresh Ubuntu/WSL machine to install core development tools:*
 
 ```bash
-# 1. Print full CPU hardware topology and instruction architecture
+# 1. Verify operating system distribution and kernel release
+cat /etc/os-release
+uname -sr
+
+# 2. Identify the active user and machine hostname
+whoami
+hostname
+
+# 3. Update local package repository lists
+sudo apt-get update -y
+
+# 4. Install essential Linux development utilities, compilers, and networking tools
+sudo apt-get install -y build-essential g++ gdb wget curl gnupg openssh-client
+
+# 5. Verify presence of core build utilities
+gcc --version
+g++ --version
+ssh -V
+```
+
+---
+
+## 🔬 STAGE 1: Hardware Introspection & Silicon Architecture
+*Maps to Syllabus Topics 1 & 2: Introduction to HPC & Intel HPC Architecture*
+
+```bash
+# 1. Print comprehensive CPU architecture summary
 lscpu
 
-# 2. Extract CPU model name and core frequency
-lscpu | grep -E "Model name|CPU MHz|Socket|Thread|NUMA"
+# 2. Extract CPU Model, Socket count, and Hardware Threads per Core
+lscpu | grep -E "Model name|Socket\(s\)|Core\(s\) per socket|Thread\(s\) per core|NUMA"
 
-# 3. Check for hardware vector and matrix extensions (AVX-512 and Intel AMX)
+# 3. Probe for hardware vector and matrix acceleration flags
+# Look for avx512f (512-bit SIMD) and amx_tile/amx_bf16 (Intel AMX Matrix Engines)
 lscpu | grep -E "avx512|amx"
 
-# 4. Inspect system RAM and cache sizes (L1d, L1i, L2, L3 Last Level Cache)
+# 4. Inspect physical memory (RAM) and Swap allocation
 free -h
-lscpu | grep -E "L1d|L1i|L2|L3"
-```
 
-**Expected Verification Output:**
-```text
-Architecture:            x86_64
-CPU op-mode(s):          32-bit, 64-bit
-Address sizes:           46 bits physical, 48 bits virtual
-Byte Order:              Little Endian
-CPU(s):                  48
-Model name:              Intel(R) Xeon(R) Gold 6442Y
-Thread(s) per core:      2
-Core(s) per socket:      24
-Socket(s):               2
-Flags:                   ... avx512f avx512cd avx512bw avx512vl amx_bf16 amx_tile amx_int8 ...
+# 5. Inspect cache hierarchy (L1 data, L1 instruction, L2, and shared L3 Last Level Cache)
+lscpu | grep -E "L1d|L1i|L2|L3"
+
+# 6. Check root filesystem storage capacity
+df -h /
 ```
 
 ---
 
-## 📋 LAB SECTION 2: Linux Filesystem Navigation & File Operations
-*Maps to Syllabus Topic 3: Linux Basics (File system, commands, environment setup)*
+## 📂 STAGE 2: Linux Directory Tree Hierarchy & File Management
+*Maps to Syllabus Topic 3: Linux Basics (File system, navigation, commands)*
 
 ```bash
-# 1. Print Current Working Directory
+# 1. Print the Current Working Directory
 pwd
 
-# 2. Create structured project workspace hierarchy
+# 2. Create the standardized high-performance project hierarchy
 mkdir -p ~/hpc_day01/{scripts,data,logs,bin}
 
-# 3. Navigate into the scripts workspace
+# 3. Navigate into the scripts directory and verify location
 cd ~/hpc_day01/scripts
 pwd
 
-# 4. Create an environment configuration file using Heredoc
+# 4. Generate cluster configuration file using Heredoc redirection
 cat << 'EOF' > cluster_config.env
-# HPC Cluster Environment Configuration
+# ==============================================================================
+# Intel HPC Cluster Environment Configuration
+# ==============================================================================
 CLUSTER_NAME="GLA_Intel_HPC_Cluster"
 HEAD_NODE_IP="10.100.1.1"
 COMPUTE_NODES=("node01" "node02" "node03" "node04")
@@ -85,69 +109,68 @@ DEFAULT_PARTITION="standard"
 SCRATCH_STORAGE="/scratch/gla_user"
 EOF
 
-# 5. Verify file creation and inspect detailed permissions
+# 5. Inspect file creation and metadata
 ls -lh cluster_config.env
 
-# 6. Read file contents to stdout
+# 6. Print file contents to terminal
 cat cluster_config.env
 
-# 7. Search for specific configuration parameters using grep
+# 7. Search text patterns inside the file using grep
 grep "COMPUTE_NODES" cluster_config.env
 grep "SCRATCH" cluster_config.env
 
-# 8. Copy and backup files
+# 8. Copy file to create a backup
 cp cluster_config.env cluster_config.env.bak
 ls -l cluster_config.env*
 
-# 9. Move and rename backup into data directory
+# 9. Move the backup file into the data directory
 mv cluster_config.env.bak ~/hpc_day01/data/production.env
 ls -l ~/hpc_day01/data/
 
-# 10. Search filesystem recursively for all configuration files
+# 10. Recursively search filesystem for all .env configuration files
 find ~/hpc_day01 -name "*.env"
 ```
 
 ---
 
-## 📋 LAB SECTION 3: Linux Permissions, File Ownership & Environment Variables
+## 🛡️ STAGE 3: Permissions, Security & Environment Variables
 *Maps to Syllabus Topic 3: Linux Basics (Permissions, environment variables, PATH)*
 
 ```bash
-# 1. Display current user, active shell, and system hostname
+# 1. Print active shell environment variables
 echo "User: $USER | Shell: $SHELL | Hostname: $(hostname)"
 
 # 2. View current executable search path ($PATH)
 echo $PATH
 
-# 3. Create a custom environment variable for HPC project root
+# 3. Create a custom environment variable pointing to the HPC project root
 export GLA_HPC_ROOT="$HOME/hpc_day01"
-echo "Root workspace is set to: $GLA_HPC_ROOT"
+echo "Root workspace set to: $GLA_HPC_ROOT"
 
 # 4. Prepend custom bin directory to $PATH
 export PATH="$GLA_HPC_ROOT/bin:$PATH"
 echo "Updated PATH: $PATH"
 
-# 5. Inspect octal permissions of scripts directory
+# 5. Inspect directory permissions in octal format
 ls -ld ~/hpc_day01/scripts
 
-# 6. Set secure permissions: Owner read/write/execute (7), Group & Others read/execute (5)
+# 6. Set secure production permissions:
+# Owner: read/write/execute (7), Group & Others: read/execute (5)
 chmod 755 ~/hpc_day01/scripts
 ```
 
 ---
 
-## 📋 LAB SECTION 4: Shell Scripting for HPC Automation
+## 🤖 STAGE 4: Automated Shell Scripting for HPC
 *Maps to Syllabus Topic 4: Shell Scripting for Automation*
 
-We create a production-grade automated node audit script using defensive Bash programming (`set -euo pipefail`).
-
 ```bash
-# 1. Write the automated node audit script
+# 1. Create the automated compute node hardware audit script
 cat << 'EOF' > ~/hpc_day01/scripts/hpc_node_audit.sh
 #!/usr/bin/env bash
 # ==============================================================================
 # Script Name : hpc_node_audit.sh
-# Purpose     : Automated HPC Compute Node Hardware & Software Audit
+# Purpose     : Automated Compute Node Hardware & Software Health Audit
 # Author      : GLA University HPC Masterclass (Lead: Shivam Gupta)
 # ==============================================================================
 
@@ -175,14 +198,12 @@ LOG_FILE="${LOG_DIR}/node_audit_${TIMESTAMP}.log"
     echo "----------------------------------------------------------"
     echo "Hardware Acceleration Probing:"
     
-    # Check AVX-512 Support
     if grep -q "avx512" /proc/cpuinfo; then
         printf "  %-20s: [SUPPORTED]\n" "AVX-512 Vector"
     else
         printf "  %-20s: [NOT DETECTED]\n" "AVX-512 Vector"
     fi
 
-    # Check Intel AMX Support
     if grep -q "amx" /proc/cpuinfo; then
         printf "  %-20s: [SUPPORTED]\n" "Intel AMX Matrix"
     else
@@ -205,68 +226,83 @@ echo ""
 echo "[INFO] Audit successfully completed and persisted to: $LOG_FILE"
 EOF
 
-# 2. Grant execution permission to the script
+# 2. Grant executable permission to the script
 chmod u+x ~/hpc_day01/scripts/hpc_node_audit.sh
 
 # 3. Execute the automated script
 ~/hpc_day01/scripts/hpc_node_audit.sh
+
+# 4. Verify that the persistent log file was written
+ls -la ~/hpc_day01/logs/
 ```
 
 ---
 
-## 📋 LAB SECTION 5: Secured Shell (SSH) Key Generation & Remote Access
+## 🔒 STAGE 5: Secured Shell (SSH) Key Generation & Remote Access
 *Maps to Syllabus Topic 5: Secured Shell (SSH)*
 
 ```bash
-# 1. Check SSH client version
+# 1. Verify SSH client presence
 ssh -V
 
-# 2. Generate an industrial-standard Ed25519 asymmetric SSH Key Pair
+# 2. Generate an industrial-grade Ed25519 asymmetric cryptographic key pair
 ssh-keygen -t ed25519 -C "shivam@gla_hpc_cluster" -f ~/.ssh/id_ed25519_gla -N ""
 
-# 3. Inspect generated cryptographic keys and strict permissions
+# 3. Inspect generated keys and verify strict file permissions
 ls -la ~/.ssh/id_ed25519_gla*
-# Target output:
-# -rw------- 1 user user (600: Private key must remain secret!)
-# -rw-r--r-- 1 user user (644: Public key distributed to server authorized_keys)
+# Ensure private key permissions are strictly 600 (read/write only by owner):
+chmod 600 ~/.ssh/id_ed25519_gla
 
-# 4. View Public Key string (Safe to distribute)
+# 4. View Public Key string (Safe to distribute to server authorized_keys)
 cat ~/.ssh/id_ed25519_gla.pub
 
 # 5. Remote Supercomputer Connection Syntax:
-# ssh -i ~/.ssh/id_ed25519_gla username@cluster_head_node_ip -p 22
+# ssh -i ~/.ssh/id_ed25519_gla username@remote_cluster_ip -p 22
 
 # 6. Remote script transfer using Secure Copy (SCP):
-# scp -i ~/.ssh/id_ed25519_gla ~/hpc_day01/scripts/hpc_node_audit.sh username@cluster_ip:~/
+# scp -i ~/.ssh/id_ed25519_gla ~/hpc_day01/scripts/hpc_node_audit.sh username@remote_cluster_ip:~/
 
 # 7. Non-interactive remote command execution:
-# ssh -i ~/.ssh/id_ed25519_gla username@cluster_ip 'bash ~/hpc_node_audit.sh'
+# ssh -i ~/.ssh/id_ed25519_gla username@remote_cluster_ip 'bash ~/hpc_node_audit.sh'
 ```
 
 ---
 
-## 📋 LAB SECTION 6: Intel oneAPI Toolkit Environment & SYCL Heterogeneous Compute
+## ⚡ STAGE 6: Intel oneAPI Toolkit Installation & SYCL Execution
 *Maps to Syllabus Topic 6: Intel oneAPI Toolkit*
 
-In this section, we initialize the Intel oneAPI development environment, query available devices using `sycl-ls`, compile a modern C++/SYCL vector addition program, and validate bit-exact execution.
-
+### Step 6A: Install Intel oneAPI Packages (Run once on fresh Ubuntu / Colab)
 ```bash
-# 1. Source the oneAPI environment variables (if oneAPI is installed locally or on cluster)
-if [ -f /opt/intel/oneapi/setvars.sh ]; then
-    source /opt/intel/oneapi/setvars.sh
-    echo "[SUCCESS] Intel oneAPI environment initialized."
-else
-    echo "[INFO] Checking alternative paths or using standard C++ compiler."
-fi
+# 1. Download and install Intel's official GPG signing key
+wget -O- https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB \
+  | gpg --dearmor | sudo tee /usr/share/keyrings/oneapi-archive-keyring.gpg > /dev/null
 
-# 2. Probe heterogeneous compute targets (CPU, GPU, FPGA)
-if command -v sycl-ls >/dev/null 2>&1; then
-    sycl-ls
-else
-    echo "[NOTE] sycl-ls available when Intel DPC++ runtime is loaded."
-fi
+# 2. Configure Intel's official APT software repository
+echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" \
+  | sudo tee /etc/apt/sources.list.d/oneAPI.list
 
-# 3. Write real C++/SYCL Vector Addition Program (vector_add_sycl.cpp)
+# 3. Update package index
+sudo apt-get update -y
+
+# 4. Install standalone Intel oneAPI DPC++/C++ Compiler and MPI developer packages
+sudo apt-get install -y intel-oneapi-compiler-dpcpp-cpp intel-oneapi-mpi-devel
+```
+
+### Step 6B: Environment Initialization & Device Discovery
+```bash
+# 1. Source the official Intel oneAPI environment variables
+source /opt/intel/oneapi/setvars.sh
+
+# 2. Verify compiler detection and version
+icpx --version
+
+# 3. Enumerate all compute targets detected by the oneAPI SYCL runtime
+sycl-ls
+```
+
+### Step 6C: Compile & Execute C++/SYCL Vector Addition (`vector_add_sycl.cpp`)
+```bash
+# 1. Write the modern C++/SYCL heterogeneous vector addition program
 cat << 'EOF' > ~/hpc_day01/scripts/vector_add_sycl.cpp
 #include <sycl/sycl.hpp>
 #include <iostream>
@@ -330,32 +366,23 @@ int main() {
 }
 EOF
 
-# 4. Compilation Method 1: Using Intel oneAPI icpx compiler with -fsycl
-if command -v icpx >/dev/null 2>&1; then
-    echo "[BUILD] Compiling with Intel oneAPI icpx..."
-    icpx -fsycl -O2 ~/hpc_day01/scripts/vector_add_sycl.cpp -o ~/hpc_day01/bin/vector_add_sycl
-    ~/hpc_day01/bin/vector_add_sycl
-else
-    echo "[BUILD] icpx not in local path; demonstrating standard C++ fallback..."
-fi
+# 2. Compile using Intel oneAPI icpx compiler with -fsycl and optimization (-O2)
+icpx -fsycl -O2 ~/hpc_day01/scripts/vector_add_sycl.cpp -o ~/hpc_day01/bin/vector_add_sycl
+
+# 3. Run the compiled binary
+~/hpc_day01/bin/vector_add_sycl
 ```
 
 ---
 
-## 📋 LAB SECTION 7: Introduction to Intel HPC Toolkit & Intel MPI
+## 🌐 STAGE 7: Intel HPC Toolkit Setup & Intel MPI Cluster Execution
 *Maps to Syllabus Topic 7: Introduction to Intel HPC Toolkit*
 
-In this section, we explore the multi-process communication model of the Intel HPC Toolkit using the **Intel MPI Library (`mpicxx` & `mpirun`)**.
-
 ```bash
-# 1. Probe MPI runtime environment and version
-if command -v mpirun >/dev/null 2>&1; then
-    mpirun --version | head -n 2
-else
-    echo "[INFO] Intel MPI runtime is available on HPC cluster nodes."
-fi
+# 1. Verify Intel MPI runtime installation
+mpirun --version
 
-# 2. Write standard MPI Multi-Process Program (mpi_hello.cpp)
+# 2. Write the standard MPI distributed-memory program (mpi_hello.cpp)
 cat << 'EOF' > ~/hpc_day01/scripts/mpi_hello.cpp
 #include <mpi.h>
 #include <iostream>
@@ -383,40 +410,21 @@ int main(int argc, char** argv) {
 }
 EOF
 
-# 3. Compile using MPI C++ compiler wrapper
-if command -v mpicxx >/dev/null 2>&1; then
-    echo "[BUILD] Compiling with MPI compiler wrapper..."
-    mpicxx -O2 ~/hpc_day01/scripts/mpi_hello.cpp -o ~/hpc_day01/bin/mpi_hello
+# 3. Compile using Intel MPI compiler wrapper (mpicxx)
+mpicxx -O2 ~/hpc_day01/scripts/mpi_hello.cpp -o ~/hpc_day01/bin/mpi_hello
 
-    # 4. Launch 4 parallel worker processes simultaneously
-    echo "[EXECUTE] Launching 4 parallel MPI processes..."
-    mpirun -n 4 ~/hpc_day01/bin/mpi_hello
-else
-    echo "[NOTE] MPI compilers (mpicxx) active in cluster / Colab MPI environment."
-fi
+# 4. Launch 4 parallel processes simulating a distributed cluster
+mpirun -n 4 ~/hpc_day01/bin/mpi_hello
 ```
 
-**Expected MPI Cluster Output:**
+**Target Output:**
 ```text
->> [Intel HPC Cluster: idc-vm] Process Rank 0 of 4 is actively executing parallel workload!
->> [Intel HPC Cluster: idc-vm] Process Rank 1 of 4 is actively executing parallel workload!
->> [Intel HPC Cluster: idc-vm] Process Rank 2 of 4 is actively executing parallel workload!
->> [Intel HPC Cluster: idc-vm] Process Rank 3 of 4 is actively executing parallel workload!
+>> [Intel HPC Cluster: hostname] Process Rank 0 of 4 is actively executing parallel workload!
+>> [Intel HPC Cluster: hostname] Process Rank 1 of 4 is actively executing parallel workload!
+>> [Intel HPC Cluster: hostname] Process Rank 2 of 4 is actively executing parallel workload!
+>> [Intel HPC Cluster: hostname] Process Rank 3 of 4 is actively executing parallel workload!
 ```
 
 ---
-
-## 🛠️ Lab Troubleshooting & Common Student Errors Table
-
-| Error Message Observed | Root Cause | Instant Classroom Fix |
-| :--- | :--- | :--- |
-| `bash: ./script.sh: Permission denied` | Execute bit (`x`) is not set on the script file. | Run `chmod u+x script.sh` and re-run. |
-| `No such file or directory` | Typo in path or current working directory is wrong. | Run `pwd` to check location, then use absolute paths (`~/...`). |
-| `Permissions 0644 for 'id_ed25519' are too open` | Private SSH key must only be accessible by the owner. | Run `chmod 600 ~/.ssh/id_ed25519`. |
-| `icpx: command not found` | The oneAPI environment variables are not sourced into active shell. | Run `source /opt/intel/oneapi/setvars.sh`. |
-| `mpirun: command not found` | MPI runtime is not installed or not in current `$PATH`. | Ensure oneAPI setvars is sourced or use Colab pre-installed MPI. |
-| `Connection timed out` on SSH | Network firewall or wrong IP address / port. | Verify Tailscale is active or check cluster IP with admin. |
-
----
-**Lab Document Status:** 100% Complete & Syllabus-Aligned | GLA University HPC Masterclass
+**Runbook Status:** 100% Complete, Exhaustive & Verified | GLA University HPC Masterclass
 EOF
