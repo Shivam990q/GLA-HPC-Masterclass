@@ -1,0 +1,66 @@
+--- Page 1 ---
+Shivam Gupta
+Python F ull-Stack & AI Systems Engineer
++91-8269699824
+ guptashivam93660@gmail.com
+ LinkedIn
+ GitHub
+SUMMAR Y
+Full-stack and AI systems engineer experienced in Python, Go (Golang) , Django REST , F astAPI, React.js, and
+TypeScript. Shipped production client platforms and university-wide enterprise systems serving 5,000+ students with
+high-concurrency backends, isolated execution sandboxes, and modern UI architectures. President of ITM Developers
+Club with proven leadership in live technical workshops and problem-based engineering.
+TECHNICAL SKILLS
+Languages: Python, Go (Golang), JavaScript (ES6+), TypeScript, SQL, HTML5, CSS3, Java
+Backend & APIs: Django, Django REST Framework, FastAPI, Flask, Go (Chi), RESTful APIs, WebSockets, JWT
+F rontend & UI: React.js, Next.js, Astro SSR, Redux, React Query, Tailwind CSS, Responsive Design
+AI, ML & DevOps: Scikit-learn, PyTorch, Pandas, NumPy, NLP, Docker, PostgreSQL, SQLite, MongoDB,
+Git/GitHub, Postman, CI/CD, Model Context Protocol (MCP)
+EXPERIENCE
+F ull Stack Engineer (Intern) May 2025 – Feb 2026
+ITM University, Gwalior On-site
+• Engineered high-throughput REST APIs and modular components using Python (Django REST) and React.js for
+university ERP portals.
+• Optimized PostgreSQL database queries, implemented role-based access control (RBAC), and automated end-to-end
+data workflows across departments.
+Subject Matter Expert (Internship) Jan 2024 – Aug 2024
+Solvitude Solutions (Brainly.com, US) Remote
+• Delivered accurate, high-quality technical solutions in Computer Science adhering to strict verification rubrics and
+SLAs.
+• Applied step-by-step problem-based pedagogy, error analysis, and concept breakdown, maintaining a consistent
+>95% accuracy rating.
+FEA TURED PROJECTS
+• IDC Engineering Platform (SA Y-IDC) (Live
+ )
+Architected an ultra-high concurrency coding assessment platform for 5,000+ university students. Built with a high-
+performance Go (Golang) backend (Chi, WebSockets) and an Astro SSR + React frontend; features isolated
+multi-language code execution sandboxes, PostgreSQL, Redis caching, and real-time proctoring.
+• NETWORKED — Client Consultancy Platform (Noida) (Live
+ )
+Delivered an end-to-end commercial platform for a Noida-based consultancy firm as solo developer (concept to
+production). Built a custom Python / Django REST CMS backend and a React + TypeScript frontend with
+self-serve content publishing, client inquiry pipelines, SEO optimization, and automated zero-downtime CI/CD
+deployment to a Linux VPS.
+• Open Figma MCP Server — Design T oken & UI Bridge (GitHub
+ )
+High-throughput Model Context Protocol (MCP) server translating Figma designs into design tokens (8 formats)
+and generating production UI code across 8 frameworks (React, Vue, Svelte, Angular, HTML, Flutter, SwiftUI).
+LEADERSHIP & ACHIEVEMENTS
+• President, ITM Developers Club (IDC) — Organized and led the university-wide Gen AI: 2-Day W orkshop &
+Contest (Oct 2025), training students on the complete software lifecycle from scratch to live cloud hosting.
+• T op Performer — Open Innovation , Hacksagon 2025 (IEEE, ABV-IIITM Gwalior).
+• Certificate of Achievement , Google Developer Groups (GDG) Solution Challenge 2025.
+• Secured 3rd Position , Full Stack Development Bootcamp, ITM University (Dec 2025).
+EDUCA TION
+B.T ech in Computer Science & Engineering 2023 – 2027
+ITM University, Gwalior CGPA: 7.23
+CER TIFICA TIONS
+• Career Essentials in Generative AI — Microsoft & LinkedIn ( Verify
+ )
+• Postman API Fundamentals Student Expert — Postman ( Verify
+ )
+• Full Stack Web Development with Django — Udemy ( Verify
+ )
+• MongoDB Basics for Students — MongoDB ( Verify
+ )
+

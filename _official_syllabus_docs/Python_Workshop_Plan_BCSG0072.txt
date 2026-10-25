@@ -1,0 +1,97 @@
+--- Page 1 ---
+5-Day Workshop Plan 
+Day 1: Python Basics, Lists and Strings 
+Topics 
+• Basic Introduction 
+• Conditions: if, if-else, elif, nested if, ternary expression 
+• Iteration: for, while, range(), nested loops, loop with else, break, continue, pass 
+• Lists: introduction, indexing (positive and negative), slicing with step, nested lists, list 
+operations (+, *, in) 
+• List methods and functions (15): append(), extend(), insert(), remove(), pop(), clear(), 
+index(), count(), sort(), reverse(), copy(), len(), sum(), min(), max() 
+• List comprehensions, with condition and nested; sorted(), enumerate(), zip() 
+• Strings: literals (single, double, triple quotes, raw strings), escape sequences, indexing, 
+slicing, immutability, operations (+, *, in) 
+• String methods (18): upper(), lower(), title(), capitalize(), swapcase(), strip(), lstrip(), 
+rstrip(), split(), join(), replace(), find(), index(), count(), startswith(), endswith(), isdigit(), 
+isalpha() 
+• Other string methods: center(), zfill(), isalnum(), isspace(), partition(); string formatting 
+Day 2: Tuples, Sets, Dictionaries & Functions  
+Topics 
+• Tuple methods and functions (12): count(), index(), len(), min(), max(), sum(), sorted(), 
+tuple(), any(), all(), enumerate(), reversed() 
+• Set methods (15): add(), update(), remove(), discard(), pop(), clear(), copy(), union(), 
+intersection(), difference(), symmetric_difference(), issubset(), issuperset(), isdisjoint(), 
+len() 
+• Dictionary methods (15): get(), keys(), values(), items(), update(), pop(), popitem(), 
+setdefault(), clear(), copy(), fromkeys(), del, len(), in, sorted() 
+• Dictionary comprehensions and sorting a dictionary by key or value 
+• Functions: defining and calling, return statement, returning multiple values, docstrings 
+• Arguments: positional, keyword, default, variable-length (*args and **kwargs), passing 
+lists and dictionaries 
+• Scope: local, global, nonlocal, LEGB rule; nested functions 
+• Lambda functions: syntax, lambda with conditions, lambda with sorted(), min(), max() 
+• map(): applying a function to every item, with lambda and with multiple iterables 
+• filter(): selecting items by condition, with lambda 
+• reduce() from functools: syntax, sum, product and maximum using reduce(), comparison 
+with loops 
+• Combining map(), filter() and reduce() in one pipeline; list comprehension vs map/filter 
+
+--- Page 2 ---
+Day 3: Recursion, Modules and Packages 
+Topics 
+• Recursion: definition, base case and recursive case, how the call stack works, stack 
+overflow and recursion limit (sys.setrecursionlimit) 
+• Recursion vs iteration: readability, speed and memory 
+• Recursive examples: factorial, Fibonacci, sum of natural numbers, sum of digits, power, 
+GCD, string reversal, palindrome check 
+• Recursion on lists and strings: sum of a list, finding the maximum, counting characters 
+• Binary search using recursion; Tower of Hanoi 
+• Improving recursion with memoization (dictionary cache and functools.lru_cache) 
+• Inbuilt functions: input(), eval(), map(), filter(), len(), range(), zip(), enumerate(), abs(), 
+round(), type() 
+• Modules and packages: creating and importing user-defined modules, import styles 
+(import, from-import, as), __name__ == "__main__", package structure with __init__.py 
+• math module (12): sqrt(), pow(), ceil(), floor(), factorial(), gcd(), fabs(), log(), sin(), cos(), 
+pi, e 
+• time module (8): time(), sleep(), ctime(), localtime(), gmtime(), strftime(), mktime(), 
+perf_counter() 
+• OS module (12): getcwd(), listdir(), mkdir(), makedirs(), rmdir(), remove(), rename(), 
+path.exists(), path.join(), path.isfile(), path.isdir(), path.getsize() 
+• random module: random(), randint(), choice(), shuffle(), sample(), seed() 
+• datetime module: date, time, datetime, timedelta, formatting and date arithmetic 
+• Introduction to numpy (array, arange, reshape, mean, sum) and scipy 
+Day 4: Exceptions and Files 
+Topics 
+• Errors vs exceptions; common exceptions: ZeroDivisionError, ValueError, TypeError, 
+IndexError, KeyError, FileNotFoundError 
+• try-except, multiple except blocks, catching several exceptions, else clause, finally 
+• raise statement, assert statement, User Defined Exceptions (custom exception classes) 
+• File handling: introduction, open() function and its syntax, close() method, using the with 
+statement 
+• File modes: r, w, a, r+, rb, wb 
+• File methods (10): read(), readline(), readlines(), write(), writelines(), seek(), tell(), flush(), 
+close(), truncate() 
+• Working with text files, binary files and CSV-style data; checking files with the OS module 
+Day 5: Regex and Project 
+Topics 
+• Regular expressions: the re module, raw strings, metacharacters (. ^ $ * + ? [] {} | \), 
+character classes (\d \w \s) 
+• match(), search(), findall(), finditer(), split(), replace() using sub() 
+• Groups and compile(): extracting parts of a match 
+
+--- Page 3 ---
+• Database Connectivity Overview 
+• Project 
+Sample Project ideas  
+• Contact book: add, search, update and delete contacts, saved in a file 
+• Student grade analyzer: marks stored in lists and dictionaries, with average, topper and 
+grade using lambda, map, filter and reduce 
+• Quiz game: random questions, score calculation and score history saved in a file 
+• Expense tracker: record expenses by category, show totals, and save to a file 
+• Email and log validator: check emails and phone numbers with regex and report errors 
+• ATM or library management simulation using functions and exception handling 
+ 
+Note: Please give students practice questions every day based on the topics covered that day, 
+make sure every student completes them, and let students discuss their doubts if required.  
+

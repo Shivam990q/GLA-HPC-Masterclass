@@ -1,0 +1,1512 @@
+{
+  "Day-01_HPC_Linux_Shell_oneAPI_MCQs.md": [
+    {
+      "id": "D1-Q01",
+      "question": "Why did Dennard scaling breakdown around 2005, forcing processor manufacturers to transition from increasing single-core clock frequencies to multi-core and heterogeneous architectures?",
+      "options": {
+        "A": "Sub-threshold leakage current and static power dissipation grew exponentially at sub-90nm process nodes, causing thermal runaway.",
+        "B": "Amdahl's law proved that clock frequencies above 4 GHz mathematically reduce instruction-level parallelism.",
+        "C": "InfiniBand fabric became mandatory for motherboard bus routing, capping CPU clock oscillators.",
+        "D": "Operating system schedulers could not allocate virtual memory addresses faster than 3.8 GHz."
+      },
+      "answer": "A",
+      "explanation": "Dennard scaling stated that as transistors shrink, power density stays constant because voltage and current scale downward proportionally. Below ~90nm, quantum tunneling and gate oxide leakage currents escalated exponentially. Operating voltages could no longer scale down without causing gate instability, leading to the 'Power Wall' where increasing clock speed resulted in uncontrollable thermal dissipation."
+    },
+    {
+      "id": "D1-Q02",
+      "question": "According to Amdahl's Law, if 90% of an HPC application's execution time is parallelizable and 10% is strictly sequential, what is the theoretical maximum speedup limit as the number of parallel processor cores approaches infinity?",
+      "options": {
+        "A": "90x",
+        "B": "10x",
+        "C": "100x",
+        "D": "Infinity"
+      },
+      "answer": "B",
+      "explanation": "Amdahl's law states that maximum speedup S = 1 / ((1 - p) + (p / N)). As N -> infinity, p / N -> 0, leaving S_max = 1 / (1 - p). Here, p = 0.90, so S_max = 1 / (1 - 0.90) = 1 / 0.10 = 10x. Regardless of having 10,000 cores, the 10% serial bottleneck caps speedup at 10x."
+    },
+    {
+      "id": "D1-Q03",
+      "question": "How does Gustafson's Law fundamentally differ from Amdahl's Law in evaluating the scalability of high-performance computing clusters?",
+      "options": {
+        "A": "Gustafson's Law assumes a fixed problem size, whereas Amdahl's Law scales the problem size with core count.",
+        "B": "Gustafson's Law models scaled speedup where problem size increases proportionally to compute resources, demonstrating that the parallel fraction dominates large-scale workloads.",
+        "C": "Gustafson's Law only applies to shared-memory NUMA nodes, while Amdahl's Law applies to InfiniBand networks.",
+        "D": "Gustafson's Law models GPU matrix multiplication while Amdahl's Law models CPU scalar execution."
+      },
+      "answer": "B",
+      "explanation": "Amdahl's law assumes strong scaling (fixed problem size run on more cores). Gustafson's law assumes weak scaling (scaled speedup S(P) = P - alpha*(P - 1)), where as compute resources expand, scientists enlarge the problem grid, causing the time spent in parallel execution to dwarf the constant sequential setup phase."
+    },
+    {
+      "id": "D1-Q04",
+      "question": "In a dual-socket 4th Gen Intel Xeon Scalable (Sapphire Rapids) server, what interconnect fabric facilitates cache-coherent inter-socket communication, and what is its typical latency penalty relative to local DRAM access?",
+      "options": {
+        "A": "PCIe Gen 3 bus; ~20ns penalty.",
+        "B": "Intel Ultra Path Interconnect (UPI); approximately 60ns to 80ns latency penalty compared to local NUMA memory.",
+        "C": "InfiniBand HDR switch; ~500ns penalty.",
+        "D": "SATA Express controller; 10x slower bandwidth."
+      },
+      "answer": "B",
+      "explanation": "Intel Xeon multi-socket systems use UPI (Ultra Path Interconnect) links to maintain hardware cache coherency across sockets. Accessing memory attached to a local socket takes ~80ns, whereas a remote NUMA access crossing UPI links incurs an additional ~60-80ns (~140-160ns total), emphasizing the critical need for thread pinning and NUMA-aware allocation."
+    },
+    {
+      "id": "D1-Q05",
+      "question": "What is the register width and single-precision IEEE 754 floating-point capacity of Intel AVX-512 vector units?",
+      "options": {
+        "A": "256 bits, processing 8 FP32 values per instruction.",
+        "B": "512 bits (ZMM registers), processing 16 FP32 values per instruction.",
+        "C": "128 bits (XMM registers), processing 4 FP32 values per instruction.",
+        "D": "1024 bits, processing 32 FP32 values per instruction."
+      },
+      "answer": "B",
+      "explanation": "AVX-512 defines thirty-two 512-bit wide vector registers (ZMM0 through ZMM31). In a single clock cycle, an AVX-512 Fused Multiply-Add (FMA) unit computes sixteen 32-bit single-precision floats simultaneously (512 / 32 = 16)."
+    },
+    {
+      "id": "D1-Q06",
+      "question": "What architectural engine was introduced in 4th Gen Intel Xeon Scalable (Sapphire Rapids) to accelerate deep learning tensor matrix multiplications in hardware?",
+      "options": {
+        "A": "Intel AMX (Advanced Matrix Extensions) with 2D tile registers (TMM) and TMUL matrix multiplication units.",
+        "B": "Intel Iris Xe Integrated Graphics Core.",
+        "C": "Intel QuickPath Interconnect (QPI).",
+        "D": "Intel Hyper-Threading Technology v2."
+      },
+      "answer": "A",
+      "explanation": "Intel AMX (Advanced Matrix Extensions) is a dedicated accelerator block embedded directly in Sapphire Rapids cores. It features 8 two-dimensional tile registers (TMM0-TMM7, 1KB each) and a TMUL (Tile Matrix Multiply) systolic execution unit capable of executing 2048 INT8 or 1024 BF16 operations per cycle."
+    },
+    {
+      "id": "D1-Q07",
+      "question": "In the NEC SX-Aurora TSUBASA supercomputing architecture, what role does the Intel Xeon processor play relative to the NEC Vector Engine (VE)?",
+      "options": {
+        "A": "The Intel Xeon acts as the Vector Host (VH), running the Linux OS, managing storage/Lustre I/O, and job dispatching, while the NEC VE PCIe card executes ultra-wide vector computations.",
+        "B": "The Intel Xeon is an idle standby CPU used only if the NEC Vector Engine burns out.",
+        "C": "The Intel Xeon is embedded inside the NEC PCIe card as an L1 cache controller.",
+        "D": "The NEC VE runs the Linux kernel while the Intel Xeon acts as a graphical display adapter."
+      },
+      "answer": "A",
+      "explanation": "NEC SX-Aurora TSUBASA employs a decoupled hybrid model: the standard x86_64 CPU (Intel Xeon) is the Vector Host (VH), handling standard Linux OS services, network drivers, Slurm scheduling, and Lustre file I/O. The NEC Vector Engine (VE) is a dedicated PCIe processor with dedicated HBM2 memory delivering massive vector throughput."
+    },
+    {
+      "id": "D1-Q08",
+      "question": "What is the peak memory bandwidth of the NEC SX-Aurora TSUBASA Type 20B Vector Engine, and what memory technology enables it?",
+      "options": {
+        "A": "128 GB/s using standard DDR4 memory.",
+        "B": "1.53 TB/s using stacked High Bandwidth Memory (HBM2).",
+        "C": "25.6 GB/s using PCIe Gen 3 lanes.",
+        "D": "500 GB/s using GDDR6 graphic memory."
+      },
+      "answer": "B",
+      "explanation": "The NEC SX-Aurora TSUBASA VE20B features integrated 3D-stacked HBM2 memory directly on the silicon interposer, delivering up to 1.53 Terabytes per second (TB/s) of memory bandwidth\u2014essential for memory-bound sparse scientific HPC codes."
+    },
+    {
+      "id": "D1-Q09",
+      "question": "In an HPC Linux cluster, what is the functional difference between `/home` and `/scratch` parallel file systems?",
+      "options": {
+        "A": "`/home` is backed by high-throughput parallel Lustre storage for high IOPS, while `/scratch` is a slow USB stick.",
+        "B": "`/home` is typically an NFS share for source code and config files, while `/scratch` is a high-bandwidth parallel file system (Lustre/GPFS) striped across Object Storage Targets (OSTs) for temporary simulation data.",
+        "C": "`/scratch` is volatile RAM that gets erased every second.",
+        "D": "`/home` is only accessible by root, while `/scratch` is for normal users."
+      },
+      "answer": "B",
+      "explanation": "In production HPC clusters, user home directories are hosted on standard NFS with strict storage quotas and backup snapshots. The high-performance parallel file systems (such as Lustre or IBM Spectrum Scale / GPFS) are mounted at `/scratch`, striping multi-terabyte datasets across dozens of parallel OSTs for hundreds of gigabytes per second of aggregated sequential I/O."
+    },
+    {
+      "id": "D1-Q10",
+      "question": "Why is the bash directive `set -euo pipefail` considered mandatory for professional HPC job automation scripts?",
+      "options": {
+        "A": "It automatically compiles Python scripts into C++ binaries before execution.",
+        "B": "It halts execution immediately if any command fails (-e), if an unset variable is referenced (-u), or if any command in a pipeline fails (-o pipefail), preventing silent corrupted calculations.",
+        "C": "It allocates 100% of GPU memory to the current shell.",
+        "D": "It disables password prompts across the entire university network."
+      },
+      "answer": "B",
+      "explanation": "`set -e` ensures the script exits on non-zero command return; `set -u` treats uninitialized variables as fatal errors; and `set -o pipefail` ensures that a pipeline fails if any upstream command fails, rather than masking errors with the downstream command's exit code."
+    },
+    {
+      "id": "D1-Q11",
+      "question": "Which elliptic-curve algorithm is the modern enterprise standard for HPC passwordless SSH keys, replacing legacy RSA 2048/4096-bit keys due to superior security and cryptographic handshake speed?",
+      "options": {
+        "A": "DES",
+        "B": "Ed25519",
+        "C": "MD5",
+        "D": "SHA-1"
+      },
+      "answer": "B",
+      "explanation": "Ed25519 provides 128-bit security level equivalent to ~3000-bit RSA, but with significantly smaller keys (68 characters), immune to side-channel timing attacks, and orders of magnitude faster signature generation."
+    },
+    {
+      "id": "D1-Q12",
+      "question": "In OpenSSH configuration (`~/.ssh/config`), what does the directive `ControlMaster auto` combined with `ControlPath` achieve in an HPC cluster environment?",
+      "options": {
+        "A": "It allows normal users to gain root privileges on compute nodes.",
+        "B": "It enables SSH connection multiplexing, reusing a single master TCP connection for subsequent sessions and eliminating the latency of repeated TLS/cryptographic handshakes.",
+        "C": "It controls the CPU fan speed of remote servers.",
+        "D": "It automatically formats hard drives on remote nodes."
+      },
+      "answer": "B",
+      "explanation": "SSH connection multiplexing (`ControlMaster auto`, `ControlPath ~/.ssh/sockets/%r@%h:%p`) creates a local Unix domain socket on the first SSH handshake. Subsequent commands reuse the existing authenticated TCP socket, reducing connection latency from ~400ms to <2ms."
+    },
+    {
+      "id": "D1-Q13",
+      "question": "What is the primary role of Lmod / Environment Modules (`module load`, `module purge`) on production HPC clusters?",
+      "options": {
+        "A": "It installs Linux kernel drivers directly into motherboard BIOS.",
+        "B": "It dynamically modifies shell environment variables (`PATH`, `LD_LIBRARY_PATH`, `CPATH`) to switch between conflicting compiler toolchains and MPI versions without system-wide collisions.",
+        "C": "It acts as an anti-virus scanner for student home directories.",
+        "D": "It provides a web interface for playing video games on supercomputers."
+      },
+      "answer": "B",
+      "explanation": "HPC clusters host multiple conflicting versions of compilers and MPI libraries. Environment Modules modify `PATH`, `LD_LIBRARY_PATH`, and include directories dynamically per-user session without overwriting base system libraries."
+    },
+    {
+      "id": "D1-Q14",
+      "question": "What is the core distinction between the Intel oneAPI Base Toolkit and the Intel oneAPI HPC Toolkit?",
+      "options": {
+        "A": "Base Toolkit is for Microsoft Office; HPC Toolkit is for Linux kernels.",
+        "B": "Base Toolkit provides core SYCL/DPC++ compilers, oneMKL, oneDAL, and profiling tools; HPC Toolkit extends this with production C/C++/Fortran compilers (`icx`, `ifx`), Intel MPI Library, and cluster analysis tools (ITAC, Inspector).",
+        "C": "Base Toolkit is paid; HPC Toolkit is open-source.",
+        "D": "Base Toolkit only runs on laptops; HPC Toolkit only runs on quantum computers."
+      },
+      "answer": "B",
+      "explanation": "The Base Toolkit includes cross-architecture developer tools (Intel DPC++/C++ Compiler, oneMKL, oneDNN, oneDAL, VTune). The HPC Toolkit provides dedicated distributed HPC libraries: Intel Fortran (`ifx`), Intel MPI Library, and Intel Trace Analyzer & Collector (ITAC)."
+    },
+    {
+      "id": "D1-Q15",
+      "question": "What command-line tool is used in modern Linux kernels to inspect NUMA node assignments, socket CPU affinity, and distance matrices between CPU sockets and memory controllers?",
+      "options": {
+        "A": "numactl --hardware",
+        "B": "ipconfig /all",
+        "C": "systemctl restart numa",
+        "D": "cat /etc/hosts"
+      },
+      "answer": "A",
+      "explanation": "`numactl --hardware` (or `numactl -H`) queries the Linux kernel NUMA subsystem, outputting available NUMA nodes, CPU core IDs mapped to each node, physical RAM per node, and the relative distance matrix."
+    },
+    {
+      "id": "D1-Q16",
+      "question": "What does a NUMA distance value of '21' relative to a local distance of '10' indicate in `numactl -H` output?",
+      "options": {
+        "A": "The remote memory has 21 GB of capacity.",
+        "B": "Accessing memory located on the remote socket takes approximately 2.1x more latency than accessing memory attached to the local socket.",
+        "C": "The memory controller is operating at 21 MHz clock speed.",
+        "D": "The network connection is 21 Gbps Ethernet."
+      },
+      "answer": "B",
+      "explanation": "Local node memory access is normalized to a baseline distance of 10. A distance of 21 signifies that memory transactions must cross inter-socket UPI interconnects, incurring ~2.1 times the latency of local node DRAM."
+    },
+    {
+      "id": "D1-Q17",
+      "question": "What flag must be passed to the Intel oneAPI C/C++ compiler (`icx`) to instruct it to generate optimized AVX-512 vector instructions targeting Intel 4th Gen Xeon Scalable processors?",
+      "options": {
+        "A": "-O0 -mno-simd",
+        "B": "-O3 -xSapphireRapids (or -mavx512f -mavx512dq -mavx512bw)",
+        "C": "-cuda-arch=sm_80",
+        "D": "-march=armv8-a"
+      },
+      "answer": "B",
+      "explanation": "The Intel compiler (`icx`) uses `-x<target>` flags (e.g. `-xSapphireRapids`) along with optimization level `-O3` to vectorize loops into 512-bit ZMM register instructions, enabling AVX-512 FMA, VNNI, and mask register optimizations."
+    },
+    {
+      "id": "D1-Q18",
+      "question": "In Linux cluster administration, what virtual filesystem exposes real-time hardware status such as CPU temperature, frequency scaling governors, and memory sub-timings?",
+      "options": {
+        "A": "/sys and /proc",
+        "B": "/bin and /sbin",
+        "C": "/opt and /usr",
+        "D": "/var/log only"
+      },
+      "answer": "A",
+      "explanation": "`/proc` provides kernel process state and hardware definitions (`/proc/cpuinfo`, `/proc/meminfo`), while `/sys` (sysfs) exposes structured device tree hierarchies including CPU power management and cache geometry."
+    },
+    {
+      "id": "D1-Q19",
+      "question": "What does the Linux command `lscpu -C` display?",
+      "options": {
+        "A": "Computer cost breakdown.",
+        "B": "Detailed CPU cache hierarchy, including L1 Data, L1 Instruction, L2, and L3 cache sizes, types, and core sharing mappings.",
+        "C": "List of compiled C programs.",
+        "D": "PCIe bus clock frequencies."
+      },
+      "answer": "B",
+      "explanation": "`lscpu -C` formats a complete table of the processor cache subsystem, listing NAME (L1d, L1i, L2, L3), ONE-SIZE, ALL-SIZE, WAYS of associativity, TYPE, and the CPU allocation mapping."
+    },
+    {
+      "id": "D1-Q20",
+      "question": "In modern heterogeneous HPC clusters, what is the role of Intel Level Zero API?",
+      "options": {
+        "A": "A low-level direct-to-metal hardware abstraction interface for Intel GPUs and AI accelerators, providing fine-grained device control below the SYCL layer.",
+        "B": "A basic video game design framework.",
+        "C": "An entry-level Linux terminal shell.",
+        "D": "A tool to delete user passwords."
+      },
+      "answer": "A",
+      "explanation": "Intel oneAPI Level Zero provides direct, low-overhead access to hardware capabilities of Intel discrete GPUs (like Data Center GPU Max) and accelerators, controlling device initialization, memory allocations, peer-to-peer copies, and kernel launches."
+    },
+    {
+      "id": "D1-Q21",
+      "question": "What is the key technological feature of InfiniBand NDR networking in top-tier HPC clusters?",
+      "options": {
+        "A": "400 Gbps per-port throughput with sub-microsecond latency and hardware-offloaded RDMA (Remote Direct Memory Access).",
+        "B": "10 Mbps dial-up protocol for legacy terminals.",
+        "C": "Wireless Wi-Fi 6 transmission over antennas.",
+        "D": "Bluetooth 5.0 mesh for keyboard connectivity."
+      },
+      "answer": "A",
+      "explanation": "InfiniBand NDR delivers 400 Gbps per port using 4 lanes of 100 Gbps PAM4 signaling. With hardware-level RDMA, compute nodes transfer data directly between application memories without involving OS kernel copy overhead."
+    },
+    {
+      "id": "D1-Q22",
+      "question": "What is a Fat-Tree network topology in supercomputer cluster design?",
+      "options": {
+        "A": "A tree topology where tree branches grow thicker (more aggregated bandwidth) toward the root, guaranteeing full bisection non-blocking bandwidth across all compute racks.",
+        "B": "A circular ring where all computers share a single cable.",
+        "C": "A wireless network configured in an outdoor park.",
+        "D": "A random daisy chain of ethernet switches."
+      },
+      "answer": "A",
+      "explanation": "In a Fat-Tree topology, switches closer to the root have more aggregated uplink bandwidth than leaf switches. A non-blocking fat-tree guarantees that any arbitrary half of the cluster can communicate simultaneously with the other half at wire speed."
+    },
+    {
+      "id": "D1-Q23",
+      "question": "What Linux tool allows an engineer to pin a process to a specific NUMA node and enforce that memory allocations only occur from that node's local memory controllers?",
+      "options": {
+        "A": "numactl --cpunodebind=0 --membind=0 ./app",
+        "B": "kill -9 ./app",
+        "C": "chmod +x ./app",
+        "D": "grep -r numa ./app"
+      },
+      "answer": "A",
+      "explanation": "`numactl --cpunodebind=0 --membind=0 ./app` binds the process's CPU execution threads strictly to the cores of NUMA node 0 and strictly enforces memory allocations from node 0's local DRAM channels, eliminating remote cross-socket UPI traffic."
+    },
+    {
+      "id": "D1-Q24",
+      "question": "What does SYCL represent within the Intel oneAPI programming ecosystem?",
+      "options": {
+        "A": "An open standard, single-source C++ programming model governed by Khronos Group for heterogeneous computing across CPUs, GPUs, FPGAs, and AI accelerators.",
+        "B": "A proprietary Nvidia compiler for CUDA graphics cards.",
+        "C": "A replacement for HTML and CSS websites.",
+        "D": "A database query language similar to SQL."
+      },
+      "answer": "A",
+      "explanation": "SYCL is a royalty-free, open standard C++ programming model managed by the Khronos Group. Intel oneAPI's DPC++ is built upon SYCL, allowing developers to write standards-compliant modern C++ that compiles across Intel CPUs, GPUs, and accelerators."
+    },
+    {
+      "id": "D1-Q25",
+      "question": "When configuring passwordless SSH keys for an HPC cluster, why must the permissions of `~/.ssh` and `~/.ssh/authorized_keys` strictly be set to `700` and `600` respectively?",
+      "options": {
+        "A": "Because SSH daemons enforce strict permission checks and will refuse authentication if the directory or keys are writable by group or other users for security.",
+        "B": "Because Linux hard drives cannot store files larger than 600 bytes.",
+        "C": "Because the Slurm scheduler requires executable bits on authorized_keys.",
+        "D": "Because the files are automatically encrypted with AES-700."
+      },
+      "answer": "A",
+      "explanation": "The OpenSSH daemon enforces `StrictModes yes` by default. If `~/.ssh` has permissions looser than `700` or `authorized_keys` looser than `600`, other local users could tamper with the keys, causing OpenSSH to silently reject authentication."
+    }
+  ],
+  "Day-02_Parallel_OpenMP_MPI_oneDAL_MCQs.md": [
+    {
+      "id": "D2-Q01",
+      "question": "In Flynn's Classical Taxonomy, how are modern shared-memory multi-core processors executing OpenMP multithreaded programs categorized?",
+      "options": {
+        "A": "SISD (Single Instruction, Single Data)",
+        "B": "SIMD (Single Instruction, Multiple Data)",
+        "C": "MISD (Multiple Instruction, Single Data)",
+        "D": "MIMD (Multiple Instruction, Multiple Data)"
+      },
+      "answer": "D",
+      "explanation": "Modern multi-core processors running OpenMP are MIMD machines: each independent CPU core has its own program counter and executes distinct instruction streams on different data partitions, communicating through shared cache/memory."
+    },
+    {
+      "id": "D2-Q02",
+      "question": "What severe performance pathology occurs when two independent threads executing on separate CPU cores repeatedly write to distinct variables located on the exact same 64-byte L1 cache line?",
+      "options": {
+        "A": "Deadlock",
+        "B": "False Sharing (Cache Line Bouncing)",
+        "C": "DRAM Buffer Underflow",
+        "D": "Paging Thrashing"
+      },
+      "answer": "B",
+      "explanation": "False sharing occurs when two threads modify distinct variables that reside within the same 64-byte hardware cache line. The MESI cache coherency protocol continuously invalidates the cache line across cores, forcing expensive main memory and L3 snoops despite the absence of an algorithmic race condition."
+    },
+    {
+      "id": "D2-Q03",
+      "question": "In OpenMP, which schedule type is optimal for parallel loops where the computational workload per iteration varies drastically (e.g., ray tracing or Mandelbrot fractals)?",
+      "options": {
+        "A": "schedule(static, 100)",
+        "B": "schedule(dynamic, chunk_size)",
+        "C": "schedule(runtime, static)",
+        "D": "schedule(none)"
+      },
+      "answer": "B",
+      "explanation": "`schedule(dynamic, chunk_size)` assigns loop chunks to threads dynamically from a shared queue at runtime. As soon as a thread finishes its chunk, it requests another, preventing fast threads from sitting idle waiting for slow iterations to complete."
+    },
+    {
+      "id": "D2-Q04",
+      "question": "What is the key performance difference between `#pragma omp critical` and `#pragma omp atomic` in OpenMP?",
+      "options": {
+        "A": "`critical` is faster than `atomic` on all modern x86 chips.",
+        "B": "`atomic` maps directly to hardware bus lock / atomic assembly instructions (e.g. `LOCK XADD`) for simple scalar updates, whereas `critical` uses a heavyweight software mutex lock.",
+        "C": "`atomic` works across multiple Slurm cluster nodes; `critical` only works on laptops.",
+        "D": "`critical` is for floating point numbers; `atomic` is only for strings."
+      },
+      "answer": "B",
+      "explanation": "`#pragma omp atomic` allows the compiler to generate single hardware atomic instructions (like x86 `lock cmpxchg` or `lock xadd`) with minimal cycle overhead. `#pragma omp critical` instantiates a global software mutex, serializing execution through OS locking primitives that carry significantly higher overhead."
+    },
+    {
+      "id": "D2-Q05",
+      "question": "What does the OpenMP environment variable `export OMP_PROC_BIND=close` enforce regarding thread affinity?",
+      "options": {
+        "A": "It shuts down all worker threads immediately.",
+        "B": "It places consecutive OpenMP threads on adjacent physical cores contiguous to the master thread, maximizing L3 cache sharing.",
+        "C": "It closes all open network ports.",
+        "D": "It spreads threads across distant NUMA sockets to minimize heat."
+      },
+      "answer": "B",
+      "explanation": "`OMP_PROC_BIND=close` binds threads to contiguous processor cores as close as possible to the master thread. This is advantageous for workloads with heavy inter-thread data sharing, as threads can share data within common L2 or L3 caches."
+    },
+    {
+      "id": "D2-Q06",
+      "question": "In the Message Passing Interface (MPI), what is the function signature and behavior of `MPI_Bcast`?",
+      "options": {
+        "A": "It broadcasts an audio message to the computer speakers.",
+        "B": "It broadcasts a contiguous buffer of data from a single designated root rank to every other rank within the specified communicator.",
+        "C": "It sends a private encrypted email to the system administrator.",
+        "D": "It splits the communicator into two equal sub-groups."
+      },
+      "answer": "B",
+      "explanation": "`MPI_Bcast(void *buffer, int count, MPI_Datatype datatype, int root, MPI_Comm comm)` distributes data starting at `buffer` on rank `root` to all processes in communicator `comm`. It is a collective operation where all participating ranks must call the function."
+    },
+    {
+      "id": "D2-Q07",
+      "question": "What is the fundamental difference between `MPI_Scatter` and `MPI_Bcast`?",
+      "options": {
+        "A": "`MPI_Bcast` copies the exact same data block to all ranks; `MPI_Scatter` partitions a master array into disjoint equal chunks and sends one unique slice to each rank.",
+        "B": "`MPI_Scatter` only works on GPUs; `MPI_Bcast` works on CPUs.",
+        "C": "`MPI_Scatter` collects data into a single master rank; `MPI_Bcast` deletes it.",
+        "D": "There is no difference; they are aliases for the same underlying function."
+      },
+      "answer": "A",
+      "explanation": "In `MPI_Bcast`, every process receives a duplicate copy of the root's entire buffer. In `MPI_Scatter`, the root process divides an array of size $N \\times P$ into $P$ distinct segments of size $N$, sending segment $i$ exclusively to rank $i$."
+    },
+    {
+      "id": "D2-Q08",
+      "question": "Why is non-blocking communication using `MPI_Isend` and `MPI_Irecv` accompanied by `MPI_Wait` considered superior to blocking `MPI_Send` / `MPI_Recv` in high-performance computing?",
+      "options": {
+        "A": "Non-blocking communication is immune to computer viruses.",
+        "B": "It enables overlapping communication with computation, allowing the CPU to perform floating-point calculations while network interfaces transfer data asynchronously.",
+        "C": "It removes the requirement for having InfiniBand network cards.",
+        "D": "It converts C++ code into Fortran code automatically."
+      },
+      "answer": "B",
+      "explanation": "`MPI_Isend` and `MPI_Irecv` return control immediately before the network transfer completes. The CPU can then perform independent intensive computations while the InfiniBand HCA (Host Channel Adapter) handles packet transmission via zero-copy RDMA in the background, followed by `MPI_Wait` to synchronize."
+    },
+    {
+      "id": "D2-Q09",
+      "question": "What fatal condition occurs when Rank 0 executes a blocking `MPI_Recv` waiting for Rank 1, while Rank 1 simultaneously executes a blocking `MPI_Recv` waiting for Rank 0?",
+      "options": {
+        "A": "Cache Line Invalidation",
+        "B": "MPI Deadlock",
+        "C": "Hardware Interrupt Overflow",
+        "D": "Kernel Panic"
+      },
+      "answer": "B",
+      "explanation": "This is a classic circular wait MPI Deadlock. Both processes block indefinitely waiting for an incoming message that neither process will ever send, freezing the cluster job until Slurm kills it upon walltime expiration."
+    },
+    {
+      "id": "D2-Q10",
+      "question": "What does the library `scikit-learn-intelex` (Intel Extension for Scikit-learn) do when activated with `from sklearnex import patch_sklearn; patch_sklearn()`?",
+      "options": {
+        "A": "It converts all Scikit-learn algorithms into neural networks.",
+        "B": "It dynamically monkey-patches Scikit-learn algorithms with high-performance C++ kernels powered by Intel oneDAL, vectorizing mathematical operations with AVX-512 and multi-threading on Xeon CPUs.",
+        "C": "It sends dataset samples to Intel cloud servers for training.",
+        "D": "It restricts Scikit-learn to run on only one single thread."
+      },
+      "answer": "B",
+      "explanation": "`patch_sklearn()` replaces standard Python/Cython estimators (SVM, Random Forest, k-Means, PCA, k-NN, Ridge) at runtime with optimized oneDAL bindings. It requires zero code changes to the modeling logic while delivering 10x-50x speedups on Intel hardware."
+    },
+    {
+      "id": "D2-Q11",
+      "question": "What is Intel oneDAL (oneAPI Data Analytics Library)?",
+      "options": {
+        "A": "A cloud database for storing customer records.",
+        "B": "A high-performance algorithmic C++ library designed for accelerated data analysis and machine learning across CPUs and GPUs, optimizing all stages from preprocessing to model training and inference.",
+        "C": "A replacement for Apache Spark.",
+        "D": "A Python package manager."
+      },
+      "answer": "B",
+      "explanation": "Intel oneDAL is the data analytics component of oneAPI. It implements highly optimized mathematical primitives (BLAS Level 3, SIMD vectorized kernels, tree-traversal algorithms) tailored to maximize CPU cache utilization and vector register throughput."
+    },
+    {
+      "id": "D2-Q12",
+      "question": "In Support Vector Machines (SVM), why does `sklearnex` achieve up to 30x-100x speedups over baseline `scikit-learn` (LIBSVM)?",
+      "options": {
+        "A": "It reduces the number of training epochs to 1.",
+        "B": "It vectorizes kernel matrix evaluations (RBF/linear) using AVX-512 instructions, optimizes working set selection via multi-threaded SMO, and exploits cache blocking to fit sub-matrices in L2/L3 caches.",
+        "C": "It converts the training data into low-resolution 8-bit integers.",
+        "D": "It skips calculating the support vectors."
+      },
+      "answer": "B",
+      "explanation": "Standard LIBSVM relies on single-threaded, scalar evaluations of kernel distance matrices. oneDAL's SVM implementation leverages AVX-512 vectorization for kernel evaluations, multithreaded working set selection, and cache-blocked matrix operations."
+    },
+    {
+      "id": "D2-Q13",
+      "question": "How does `sklearnex` accelerate Random Forest training on multi-socket Intel Xeon servers?",
+      "options": {
+        "A": "By utilizing multi-threaded histogram-based split finding and vectorized feature binning across all physical NUMA cores.",
+        "B": "By training only a single decision tree and duplicating it 100 times.",
+        "C": "By converting decision trees into linear regression equations.",
+        "D": "By deleting 50% of the input features."
+      },
+      "answer": "A",
+      "explanation": "oneDAL builds decision trees using histogram-based feature binning vectorized via AVX-512/AVX2. Tree node splits and sub-tree construction are partitioned across threads with NUMA-aware memory allocations, eliminating inter-socket lock contention."
+    },
+    {
+      "id": "D2-Q14",
+      "question": "What happens if a user invokes `unpatch_sklearn()` in a Python script after patching?",
+      "options": {
+        "A": "Python crashes with a segmentation fault.",
+        "B": "Scikit-learn estimators are restored back to their original stock implementations without restarting the Python interpreter.",
+        "C": "The operating system uninstalls Scikit-learn completely.",
+        "D": "The CPU frequency drops to 1 GHz."
+      },
+      "answer": "B",
+      "explanation": "`sklearnex.unpatch_sklearn()` restores the original `sklearn` module attributes and estimator classes that were modified by `patch_sklearn()`, allowing side-by-side benchmarking within the same running script."
+    },
+    {
+      "id": "D2-Q15",
+      "question": "In OpenMP loop parallelization, what does the `reduction(+:sum)` clause prevent?",
+      "options": {
+        "A": "Memory leaks in dynamic memory allocation.",
+        "B": "Data races and race conditions on the shared variable `sum` by giving each thread a private accumulator and combining them into the global variable at the end.",
+        "C": "Compilation errors with GCC.",
+        "D": "Excessive disk writes."
+      },
+      "answer": "B",
+      "explanation": "Without `reduction(+:sum)`, multiple threads executing `sum += array[i]` concurrently would cause a data race (read-modify-write hazard). The `reduction` clause initializes a private copy of `sum` per thread and atomically sums them into the original variable upon exiting the parallel region."
+    },
+    {
+      "id": "D2-Q16",
+      "question": "What is the purpose of `MPI_Allreduce` in distributed scientific algorithms?",
+      "options": {
+        "A": "It performs an element-wise reduction (such as sum, min, max) across all ranks and distributes the final reduced scalar or array to every participating rank.",
+        "B": "It reduces the clock speed of all nodes in the cluster.",
+        "C": "It deletes all intermediate temporary files.",
+        "D": "It shuts down idle compute nodes."
+      },
+      "answer": "A",
+      "explanation": "`MPI_Allreduce(sendbuf, recvbuf, count, datatype, op, comm)` is equivalent to calling `MPI_Reduce` to a root rank followed immediately by an `MPI_Bcast` to all ranks, but is implemented using optimal collective algorithms (like recursive doubling or Rabenseifner's algorithm)."
+    },
+    {
+      "id": "D2-Q17",
+      "question": "In `mpi4py`, what is the difference between uppercase methods (e.g., `comm.Send()`, `comm.Recv()`) and lowercase methods (e.g., `comm.send()`, `comm.recv()`)?",
+      "options": {
+        "A": "Uppercase methods use fast direct memory buffers (C-contiguous NumPy arrays) via standard MPI buffer pointers; lowercase methods serialize arbitrary Python objects via pickle (incurring major CPU overhead).",
+        "B": "Uppercase methods run on GPUs; lowercase methods run on CPUs.",
+        "C": "Lowercase methods are deprecated and no longer supported.",
+        "D": "Uppercase methods send messages in capital letters."
+      },
+      "answer": "A",
+      "explanation": "In `mpi4py`, lowercase methods (`send`, `recv`, `bcast`) serialize general Python objects using `pickle`, which introduces massive serialization and memory copy latency. Uppercase methods (`Send`, `Recv`, `Bcast`) operate directly on C-contiguous memory buffers (NumPy arrays) with zero-copy C-level MPI speed."
+    },
+    {
+      "id": "D2-Q18",
+      "question": "What is the typical speedup observed when executing k-Means clustering on a 1-million sample dataset with Intel `sklearnex` compared to stock Scikit-learn?",
+      "options": {
+        "A": "0.1x (slower)",
+        "B": "1.0x (identical)",
+        "C": "10x to 40x speedup depending on feature count and core allocation.",
+        "D": "10,000x speedup."
+      },
+      "answer": "C",
+      "explanation": "Intel oneDAL's k-Means implementation vectorizes Euclidean distance calculations via AVX-512, maintains cluster centroids in L2/L3 caches, and parallelizes centroid updates across all threads, routinely yielding 10x to 40x speedups."
+    },
+    {
+      "id": "D2-Q19",
+      "question": "In OpenMP, what does `#pragma omp barrier` enforce?",
+      "options": {
+        "A": "It builds a software firewall to block unauthorized internet traffic.",
+        "B": "It synchronizes all threads in a team; each thread waits at the barrier until all other threads in the team have arrived.",
+        "C": "It terminates execution of the application.",
+        "D": "It forces threads to write to the hard disk."
+      },
+      "answer": "B",
+      "explanation": "A barrier is an explicit synchronization point. No thread can proceed past `#pragma omp barrier` until every thread in the current parallel team has reached the barrier, preventing race conditions across sequential computational phases."
+    },
+    {
+      "id": "D2-Q20",
+      "question": "What Intel oneAPI library provides optimized linear algebra routines (BLAS, LAPACK, FFT) that underpin Intel-optimized NumPy and SciPy?",
+      "options": {
+        "A": "Intel oneMKL (Math Kernel Library)",
+        "B": "Intel Graphics Media SDK",
+        "C": "Intel Quartus Prime",
+        "D": "Intel Neural Compressor"
+      },
+      "answer": "A",
+      "explanation": "Intel oneMKL (Math Kernel Library) contains hyper-optimized BLAS, LAPACK, ScaLAPACK, and FFT routines hand-tuned for every generation of Intel processors, automatically dispatching AVX-512 and AMX instructions."
+    },
+    {
+      "id": "D2-Q21",
+      "question": "When parallelizing a 2D grid simulation in MPI, what technique is used to exchange boundary values between neighboring sub-domains?",
+      "options": {
+        "A": "Halo Exchange (Ghost Cell Exchange)",
+        "B": "Kernel Paging",
+        "C": "Memory Compaction",
+        "D": "Round-Robin DNS"
+      },
+      "answer": "A",
+      "explanation": "In 2D/3D domain decomposition, each MPI rank processes a local sub-grid. To compute spatial stencils (like finite differences), ranks exchange border rows/columns with adjacent ranks in a process called 'Halo Exchange' (or Ghost Cells), typically implemented with non-blocking `MPI_Isend`/`MPI_Irecv`."
+    },
+    {
+      "id": "D2-Q22",
+      "question": "What is the effect of setting `KMP_BLOCKTIME=0` in an Intel OpenMP multithreaded application?",
+      "options": {
+        "A": "Threads yield the CPU immediately after completing their parallel region rather than busy-waiting, reducing CPU utilization during sequential phases.",
+        "B": "Threads block for 0 milliseconds before terminating the application.",
+        "C": "The compiler ignores all `#pragma` statements.",
+        "D": "Memory bandwidth is throttled to zero."
+      },
+      "answer": "A",
+      "explanation": "`KMP_BLOCKTIME` specifies the time (in milliseconds) a worker thread should wait in a spin-wait loop after completing a parallel region before going to sleep. Setting it to 0 causes threads to release the CPU immediately, freeing hardware cores for other processes."
+    },
+    {
+      "id": "D2-Q23",
+      "question": "Which MPI collective operation takes data from all processes and distributes the combined result to all processes (equivalent to an `MPI_Gather` followed by an `MPI_Bcast`)?",
+      "options": {
+        "A": "MPI_Allgather",
+        "B": "MPI_Scatter",
+        "C": "MPI_Barrier",
+        "D": "MPI_Comm_split"
+      },
+      "answer": "A",
+      "explanation": "`MPI_Allgather(sendbuf, sendcount, sendtype, recvbuf, recvcount, recvtype, comm)` collects data from all processes and stores the concatenated array in `recvbuf` on every participating process."
+    },
+    {
+      "id": "D2-Q24",
+      "question": "How does `scikit-learn-intelex` optimize Principal Component Analysis (PCA)?",
+      "options": {
+        "A": "By utilizing Intel oneMKL's vectorized SVD (Singular Value Decomposition) and correlation matrix eigensolvers with multi-threaded BLAS Level 3 matrix multiplication.",
+        "B": "By randomly dropping 50% of the principal components.",
+        "C": "By using a shallow decision tree.",
+        "D": "By running on a single CPU thread with low clock speed."
+      },
+      "answer": "A",
+      "explanation": "oneDAL accelerates PCA by computing the correlation/covariance matrix using oneMKL `GEMM` and finding eigenvalues/eigenvectors via LAPACK `syevd`/`gesvd` kernels optimized for AVX-512, avoiding Python loop bottlenecks."
+    },
+    {
+      "id": "D2-Q25",
+      "question": "What is the purpose of the MPI function `MPI_Init(int *argc, char ***argv)`?",
+      "options": {
+        "A": "It initializes the MPI execution environment and establishes network communication channels across participating cluster processes.",
+        "B": "It formats the compute node hard drives.",
+        "C": "It compiles the C++ code.",
+        "D": "It powers on the server rack."
+      },
+      "answer": "A",
+      "explanation": "`MPI_Init` must be called before any other MPI routines (except `MPI_Initialized`). It sets up internal communicator data structures, discovers network interfaces (InfiniBand/TCP), and establishes inter-process messaging handles."
+    }
+  ],
+  "Day-03_DeepLearning_TF_Slurm_Horovod_MCQs.md": [
+    {
+      "id": "D3-Q01",
+      "question": "What is the primary role of Intel oneDNN (oneAPI Deep Neural Network Library) in deep learning frameworks like TensorFlow and PyTorch?",
+      "options": {
+        "A": "It acts as a graphical user interface for training neural networks.",
+        "B": "It provides highly optimized compute kernels (convolution, GEMM, pooling, normalization, attention) with automatic operator fusion and JIT-compiled assembly for Intel Xeon CPUs and GPUs.",
+        "C": "It is a cloud storage database for dataset images.",
+        "D": "It automatically generates Python code from natural language prompts."
+      },
+      "answer": "B",
+      "explanation": "Intel oneDNN contains hand-tuned micro-kernels for deep learning primitives. It dynamically JIT-compiles assembly code targeting the host CPU's instruction set (AVX-512, AMX, VNNI) and performs operator fusion (e.g. Conv + Bias + ReLU in a single cache-resident pass)."
+    },
+    {
+      "id": "D3-Q02",
+      "question": "What environment variable must be set in TensorFlow to ensure oneDNN optimizations are fully enabled on Intel Xeon processors?",
+      "options": {
+        "A": "TF_ENABLE_ONEDNN_OPTS=1",
+        "B": "TF_DISABLE_INTEL=1",
+        "C": "CUDA_VISIBLE_DEVICES=-1",
+        "D": "OMP_NUM_THREADS=0"
+      },
+      "answer": "A",
+      "explanation": "Setting `TF_ENABLE_ONEDNN_OPTS=1` activates TensorFlow's oneDNN operator graph rewrite pass, replacing default Eigen GEMM and Conv operators with optimized Intel oneDNN primitives."
+    },
+    {
+      "id": "D3-Q03",
+      "question": "What are the two distinct thread pools managed by TensorFlow on multi-core HPC servers, and how do their functions differ?",
+      "options": {
+        "A": "Fast threads and Slow threads.",
+        "B": "intra_op_parallelism_threads (parallelizes individual tensor ops like matrix multiplications across cores) and inter_op_parallelism_threads (executes independent nodes in the computation graph concurrently).",
+        "C": "Read threads and Write threads.",
+        "D": "GPU threads and RAM threads."
+      },
+      "answer": "B",
+      "explanation": "`intra_op_parallelism_threads` controls how many threads work together to execute a single compute-intensive operation (e.g. multi-threaded MatMul). `inter_op_parallelism_threads` dictates how many independent operations in the execution graph run in parallel."
+    },
+    {
+      "id": "D3-Q04",
+      "question": "In the Slurm Workload Manager, what daemon runs on every compute node to monitor local hardware resources and execute allocated tasks?",
+      "options": {
+        "A": "slurmctld",
+        "B": "slurmd",
+        "C": "slurmdbd",
+        "D": "systemd"
+      },
+      "answer": "B",
+      "explanation": "`slurmd` is the node compute daemon that runs on every compute node. It listens for job launch requests from the central controller (`slurmctld`), spawns tasks, manages cgroups, and reports node health."
+    },
+    {
+      "id": "D3-Q05",
+      "question": "What is the function of the central `slurmctld` daemon in an HPC cluster?",
+      "options": {
+        "A": "It compiles C++ source code.",
+        "B": "It acts as the central management controller daemon that monitors node states, evaluates job queues, applies priority policies, and schedules jobs across compute nodes.",
+        "C": "It controls room air conditioning.",
+        "D": "It powers off the user's laptop."
+      },
+      "answer": "B",
+      "explanation": "`slurmctld` (Slurm Controller Daemon) is the orchestrator of the entire cluster. It maintains cluster state, schedules pending jobs according to fairness and resource constraints, and directs compute node daemons."
+    },
+    {
+      "id": "D3-Q06",
+      "question": "Which Slurm command is used to submit an asynchronous batch job script containing `#SBATCH` directives to the scheduling queue?",
+      "options": {
+        "A": "srun",
+        "B": "sbatch",
+        "C": "salloc",
+        "D": "squeue"
+      },
+      "answer": "B",
+      "explanation": "`sbatch` submits a batch script to the Slurm queue. It parses `#SBATCH` directives, registers the job in the pending queue, and returns the assigned Job ID immediately, allowing the user to disconnect while the script executes asynchronously."
+    },
+    {
+      "id": "D3-Q07",
+      "question": "In a Slurm batch script, what does the directive `#SBATCH --nodes=4 --ntasks-per-node=2 --cpus-per-task=16` allocate?",
+      "options": {
+        "A": "4 nodes, each running 2 tasks (8 total MPI ranks/processes), with each task allocated 16 CPU cores (128 total CPU cores across cluster).",
+        "B": "4 CPU cores in total.",
+        "C": "4 gigabytes of RAM across 2 hard drives.",
+        "D": "16 GPUs on 1 computer."
+      },
+      "answer": "A",
+      "explanation": "`--nodes=4` reserves 4 physical server nodes; `--ntasks-per-node=2` launches 2 processes per node ($4 \\times 2 = 8$ tasks total); and `--cpus-per-task=16` assigns 16 hardware CPU cores to each task ($8 \\times 16 = 128$ cores total), ideal for hybrid MPI + OpenMP applications."
+    },
+    {
+      "id": "D3-Q08",
+      "question": "What is the fundamental algorithmic difference between the Parameter Server architecture and Horovod's Ring-AllReduce architecture for distributed deep learning?",
+      "options": {
+        "A": "Parameter Server uses GPUs; Horovod only uses floppy disks.",
+        "B": "Parameter Server suffers from communication bottlenecks because all workers send gradients to central server nodes; Ring-AllReduce organizes workers in a logical ring where communication cost is constant and independent of the number of nodes.",
+        "C": "Horovod sends gradients via email.",
+        "D": "Parameter Server trains 100x faster than Ring-AllReduce on 1,000 GPUs."
+      },
+      "answer": "B",
+      "explanation": "In Parameter Server architectures, network bandwidth at the parameter server scales linearly with worker count $O(N)$, causing severe saturation. In Ring-AllReduce (Baidu/Horovod algorithm), each node only communicates with its immediate neighbors in a ring, transferring a constant volume of data $2 \\frac{N-1}{N} M$ that asymptotically approaches $2M$, scaling efficiently to thousands of nodes."
+    },
+    {
+      "id": "D3-Q09",
+      "question": "In Horovod, why must the learning rate typically be scaled proportionally to the number of distributed workers (`hvd.size()`)?",
+      "options": {
+        "A": "Because CPU clock speed increases proportionally with node count.",
+        "B": "Because distributed data parallelism increases the effective global batch size by a factor of `hvd.size()`, requiring a proportionally larger learning rate (Linear Scaling Rule) to maintain gradient descent step dynamics.",
+        "C": "Because Horovod divides the model parameters by `hvd.size()`.",
+        "D": "Because Slurm will reject jobs with small learning rates."
+      },
+      "answer": "B",
+      "explanation": "According to the Linear Scaling Rule (Goyal et al., 2017), when training with $K$ workers, the effective batch size is $K \\times B$. To ensure the stochastic gradient step covers equivalent parameter distance relative to single-worker training, the base learning rate must be scaled by $K$ (accompanied by learning rate warmup)."
+    },
+    {
+      "id": "D3-Q10",
+      "question": "In a Horovod distributed training script, which rank is traditionally designated to save model checkpoints and log training metrics to disk to prevent file corruption?",
+      "options": {
+        "A": "Rank 0 (`hvd.rank() == 0`)",
+        "B": "All ranks simultaneously",
+        "C": "The last rank (`hvd.rank() == hvd.size() - 1`)",
+        "D": "Rank -1"
+      },
+      "answer": "A",
+      "explanation": "Rank 0 is the master rank. If all ranks attempt to write checkpoint files to the same shared parallel file system path simultaneously, file lock collisions and race conditions will corrupt the checkpoint. Guarding disk I/O with `if hvd.rank() == 0:` ensures only one process writes to disk."
+    },
+    {
+      "id": "D3-Q11",
+      "question": "What is the purpose of Horovod's `hvd.BroadcastGlobalVariablesCallback(0)` callback in TensorFlow/Keras?",
+      "options": {
+        "A": "It broadcasts the model architecture to student smartphones.",
+        "B": "It broadcasts initial random weights and optimizer states from Rank 0 to all other worker ranks at epoch 0, ensuring all workers start with identical model parameters.",
+        "C": "It prints the learning rate on the terminal.",
+        "D": "It deletes previous model checkpoints."
+      },
+      "answer": "B",
+      "explanation": "If each worker initializes its weights randomly, their gradients will be calculated from different starting points, preventing convergence. `BroadcastGlobalVariablesCallback(0)` synchronizes the exact initial weights from Rank 0 across all workers before training begins."
+    },
+    {
+      "id": "D3-Q12",
+      "question": "In Habana Gaudi (Gaudi 2 / Gaudi 3) deep learning processors, what dedicated on-chip networking hardware replaces standard PCIe network cards?",
+      "options": {
+        "A": "Standard USB 2.0 ports.",
+        "B": "24 integrated 100-Gigabit Ethernet (RoCE v2) ports embedded directly on each Gaudi silicon die for all-to-all scale-out without external host NICs.",
+        "C": "VGA video output cables.",
+        "D": "Wi-Fi antennas."
+      },
+      "answer": "B",
+      "explanation": "Habana Gaudi silicon integrates twenty-four 100GbE RoCE v2 (RDMA over Converged Ethernet) ports directly on-chip. This enables direct chip-to-chip interconnectivity across accelerators and racks without traversing host PCIe buses or requiring expensive external NICs."
+    },
+    {
+      "id": "D3-Q13",
+      "question": "What are the primary compute engines inside Habana Gaudi processors responsible for tensor contractions?",
+      "options": {
+        "A": "Matrix Multiplication Engines (MME) paired with Tensor Processing Cores (TPC).",
+        "B": "Sound Blaster audio processors.",
+        "C": "x86 scalar arithmetic units.",
+        "D": "Floppy disk controllers."
+      },
+      "answer": "A",
+      "explanation": "Habana Gaudi features specialized Matrix Multiplication Engines (MME) tailored for massive GEMM operations and programmable VLIW Tensor Processing Cores (TPC) for element-wise and non-linear tensor activations."
+    },
+    {
+      "id": "D3-Q14",
+      "question": "When loading training datasets in a distributed Horovod pipeline, what method ensures that each worker receives a unique partition of the training samples?",
+      "options": {
+        "A": "dataset.shard(num_shards=hvd.size(), index=hvd.rank())",
+        "B": "dataset.delete()",
+        "C": "dataset.repeat(100)",
+        "D": "dataset.shuffle_all_ranks()"
+      },
+      "answer": "A",
+      "explanation": "`dataset.shard(num_shards=hvd.size(), index=hvd.rank())` divides the dataset into `hvd.size()` equal parts and assigns partition `hvd.rank()` to the local worker, preventing redundant duplicate training."
+    },
+    {
+      "id": "D3-Q15",
+      "question": "What Slurm command displays real-time status of all active, pending, and running jobs across the cluster?",
+      "options": {
+        "A": "squeue",
+        "B": "scancel",
+        "C": "scontrol reboot",
+        "D": "top"
+      },
+      "answer": "A",
+      "explanation": "`squeue` queries the Slurm controller daemon, displaying active jobs, Job IDs, partitions, job names, user accounts, current execution states (RUNNING, PENDING, COMPLETING), elapsed runtimes, and allocated nodes."
+    },
+    {
+      "id": "D3-Q16",
+      "question": "What Slurm command is used to terminate a running or queued job with Job ID 12345?",
+      "options": {
+        "A": "scancel 12345",
+        "B": "sbatch --delete 12345",
+        "C": "srun --kill 12345",
+        "D": "slurm exit 12345"
+      },
+      "answer": "A",
+      "explanation": "`scancel <job_id>` signals `slurmctld` to abort the specified job, sending `SIGTERM` followed by `SIGKILL` to running processes and releasing allocated compute nodes back to the cluster pool."
+    },
+    {
+      "id": "D3-Q17",
+      "question": "In Slurm cluster scheduling, what does the state 'PD' (PENDING) with reason 'Priority' signify?",
+      "options": {
+        "A": "The job failed with a syntax error.",
+        "B": "The job is waiting in the scheduling queue because higher-priority jobs are ahead of it in the multifactor priority queue.",
+        "C": "The compute nodes are currently powered off.",
+        "D": "The user forgot to submit their password."
+      },
+      "answer": "B",
+      "explanation": "In Slurm's multifactor priority plugin, jobs receive a composite priority based on job age, fair-share allocation, partition, and resource requests. 'Resources' or 'Priority' indicates the job is queued waiting for its turn or for required nodes to become free."
+    },
+    {
+      "id": "D3-Q18",
+      "question": "What precision format uses 1 sign bit, 8 exponent bits, and 7 mantissa bits, matching the dynamic range of FP32 while requiring only 16 bits of memory storage?",
+      "options": {
+        "A": "FP16 (IEEE half precision)",
+        "B": "Bfloat16 (Brain Floating Point)",
+        "C": "INT8",
+        "D": "TF32"
+      },
+      "answer": "B",
+      "explanation": "Bfloat16 allocates 8 bits to the exponent (identical to FP32), giving it the same dynamic range as FP32 and preventing underflow/overflow during deep learning backpropagation, while reducing memory bandwidth consumption by 50%."
+    },
+    {
+      "id": "D3-Q19",
+      "question": "How does Intel AMX (Advanced Matrix Extensions) accelerate Bfloat16 matrix multiplication in 4th/5th Gen Intel Xeon processors?",
+      "options": {
+        "A": "By calculating matrices on an external USB graphics card.",
+        "B": "By loading matrices into 2D tile registers (TMM) and executing hardware matrix multiplication in the Tile Matrix Multiply (TMUL) unit in a single instruction.",
+        "C": "By converting all floats into integers.",
+        "D": "By offloading matrix calculations to the network switch."
+      },
+      "answer": "B",
+      "explanation": "Intel AMX introduces 2D tile registers (TMM0-TMM7) capable of holding sub-matrices. The TMUL hardware accelerator computes matrix product operations (e.g. $C += A \\times B$) directly on BF16 or INT8 tiles, executing over 1000 operations per cycle."
+    },
+    {
+      "id": "D3-Q20",
+      "question": "What is the role of Horovod's Tensor Fusion buffer in distributed deep learning?",
+      "options": {
+        "A": "It fuses multiple small gradient tensors into a single contiguous ring-AllReduce buffer to maximize network throughput and minimize communication latency.",
+        "B": "It fuses the GPU silicon to prevent overheating.",
+        "C": "It compresses training images into JPEG format.",
+        "D": "It deletes redundant layers from the neural network."
+      },
+      "answer": "A",
+      "explanation": "Transmitting thousands of tiny gradient tensors across the network incurs excessive latency overhead per message. Horovod's Tensor Fusion batches small gradients into a configurable ring buffer (e.g. 64 MB) before invoking AllReduce, maximizing network saturation."
+    },
+    {
+      "id": "D3-Q21",
+      "question": "Which Slurm command allows an engineer to request an interactive bash shell session on a compute node for real-time debugging?",
+      "options": {
+        "A": "salloc --nodes=1 --cpus-per-task=8 --pty bash (or srun --pty bash)",
+        "B": "sbatch debug.sh",
+        "C": "ssh root@supercomputer",
+        "D": "scontrol restart"
+      },
+      "answer": "A",
+      "explanation": "`salloc` (or `srun --pty bash`) requests an interactive allocation from Slurm. Once resources are assigned, Slurm connects standard input/output directly to a terminal shell on the compute node, enabling interactive profiling and debugging."
+    },
+    {
+      "id": "D3-Q22",
+      "question": "What memory allocator is widely used in high-performance TensorFlow deployments on Intel Xeon servers to eliminate multi-threaded heap contention compared to default glibc malloc?",
+      "options": {
+        "A": "tcmalloc (Thread-Caching Malloc) or jemalloc",
+        "B": "DOS mem.exe",
+        "C": "Windows Pagefile allocator",
+        "D": "None; dynamic memory is prohibited."
+      },
+      "answer": "A",
+      "explanation": "Standard glibc malloc uses global locks that suffer severe lock contention when hundreds of threads concurrently allocate tensor buffers. Google's `tcmalloc` or `jemalloc` implement per-thread memory caches, providing lock-free allocations and eliminating memory fragmentation."
+    },
+    {
+      "id": "D3-Q23",
+      "question": "What does the Slurm directive `#SBATCH --time=02:00:00` specify?",
+      "options": {
+        "A": "The job must start exactly at 2:00 AM.",
+        "B": "The maximum wall-clock time limit for the job (2 hours); if execution exceeds this limit, Slurm terminates the job.",
+        "C": "The job will take 2 seconds to run.",
+        "D": "The job repeats every 2 hours indefinitely."
+      },
+      "answer": "B",
+      "explanation": "`--time=HH:MM:SS` sets the maximum walltime limit for the job. Accurate walltime estimates help Slurm's backfill scheduler slot smaller jobs into scheduling gaps, improving overall cluster utilization."
+    },
+    {
+      "id": "D3-Q24",
+      "question": "What is the primary benefit of operator fusion (e.g., fusing Convolution + BiasAdd + ReLU) in deep learning frameworks optimized with oneDNN?",
+      "options": {
+        "A": "It converts 2D convolutions into 1D convolutions.",
+        "B": "It keeps intermediate tensor activation data in ultra-fast L1/L2 CPU cache memory, eliminating round-trip writes and reads to slow main DRAM.",
+        "C": "It reduces the number of training labels.",
+        "D": "It trains the model without backpropagation."
+      },
+      "answer": "B",
+      "explanation": "In standard execution, Convolution writes its output to main DRAM, BiasAdd reads it back and writes to DRAM, and ReLU reads and writes to DRAM. Operator fusion combines these three operations into a single kernel loop, keeping intermediate values in registers/L1 cache and eliminating DRAM memory bandwidth bottlenecks."
+    },
+    {
+      "id": "D3-Q25",
+      "question": "What does `sinfo` command display on an HPC cluster?",
+      "options": {
+        "A": "The system sound volume.",
+        "B": "Summary of cluster partitions, node availability, socket states (idle, alloc, down), and node limits.",
+        "C": "The system clock time.",
+        "D": "List of installed Python packages."
+      },
+      "answer": "B",
+      "explanation": "`sinfo` queries the Slurm cluster partition and node tables, displaying partition names, default states, node counts, and the current operational states of nodes (idle, allocated, completing, drained, or down)."
+    }
+  ],
+  "Day-04_Distributed_Slurm_VTune_Profiling_MCQs.md": [
+    {
+      "id": "D4-Q01",
+      "question": "What is the Top-Down Microarchitecture Analysis Method (TMAM) implemented in Intel VTune Profiler?",
+      "options": {
+        "A": "A method to organize project source code directories.",
+        "B": "A hierarchical diagnostic methodology based on CPU Performance Monitoring Unit (PMU) counters that categorizes processor execution pipelines into Retiring, Bad Speculation, Front-End Bound, and Back-End Bound.",
+        "C": "A top-down management style for software companies.",
+        "D": "A network routing protocol for Wi-Fi routers."
+      },
+      "answer": "B",
+      "explanation": "TMAM (developed by Ahmad Yasin at Intel) classifies CPU execution pipeline slot bottlenecks into four primary top-level categories: Front-End Bound, Bad Speculation, Back-End Bound, and Retiring. This allows performance engineers to identify exactly why CPU cycles are stalled."
+    },
+    {
+      "id": "D4-Q02",
+      "question": "In Intel VTune Profiler TMAM analysis, what does a high 'Back-End Bound' metric (>40%) indicate?",
+      "options": {
+        "A": "The CPU is waiting for instructions to be fetched and decoded.",
+        "B": "The CPU pipeline has successfully retired all instructions.",
+        "C": "The processor is stalled waiting for data memory access (Memory Bound: L1/L2/L3 cache misses, DRAM latency) or execution port contention (Core Bound).",
+        "D": "The network cable is disconnected."
+      },
+      "answer": "C",
+      "explanation": "Back-End Bound indicates that execution units are stalled waiting for data from the memory hierarchy (Memory Bound) or because execution units/divider pipelines are saturated (Core Bound)."
+    },
+    {
+      "id": "D4-Q03",
+      "question": "In VTune, what does a high 'Bad Speculation' metric indicate?",
+      "options": {
+        "A": "The engineer made a poor financial investment in stock markets.",
+        "B": "CPU execution slots were wasted computing instructions along branch paths that were incorrectly predicted by branch predictors and subsequently flushed.",
+        "C": "The hard drive has corrupted sectors.",
+        "D": "The power supply voltage is fluctuating."
+      },
+      "answer": "B",
+      "explanation": "Bad Speculation measures pipeline slots wasted due to branch mispredictions. When a conditional branch is mispredicted, all speculative work in the out-of-order execution pipeline must be cancelled and flushed, wasting CPU cycles and energy."
+    },
+    {
+      "id": "D4-Q04",
+      "question": "What CPU hardware mechanism is sampled by Intel VTune Profiler to measure hardware events without modifying application source code?",
+      "options": {
+        "A": "Performance Monitoring Unit (PMU) hardware event counters embedded in silicon cores.",
+        "B": "Motherboard audio microphone.",
+        "C": "GPU HDMI display output.",
+        "D": "Power supply fan tachometer."
+      },
+      "answer": "A",
+      "explanation": "Modern Intel processors include dedicated hardware Performance Monitoring Unit (PMU) registers that count low-level microarchitectural events (CPU_CLK_UNHALTED, INST_RETIRED, MEM_LOAD_RETIRED.L3_MISS) with near-zero overhead."
+    },
+    {
+      "id": "D4-Q05",
+      "question": "What is the command-line syntax to run an Intel VTune Hotspots analysis on a Python distributed training script?",
+      "options": {
+        "A": "vtune -collect hotspots -result-dir ./vtune_out -- python train.py",
+        "B": "vtune --delete train.py",
+        "C": "python vtune train.py",
+        "D": "perf format ./vtune_out"
+      },
+      "answer": "A",
+      "explanation": "`vtune -collect hotspots -result-dir ./vtune_out -- <command>` launches the VTune sampling collector to profile function execution times, call stacks, and CPU hotspots, outputting the results into the specified directory."
+    },
+    {
+      "id": "D4-Q06",
+      "question": "In distributed HPC scaling analysis, how is Parallel Scaling Efficiency ($E$) calculated when scaling from 1 node to $N$ nodes?",
+      "options": {
+        "A": "$E = \\frac{Speedup(N)}{N} = \\frac{T_1}{N \\times T_N} \\times 100\\%$",
+        "B": "$E = N \\times T_1$",
+        "C": "$E = T_N - T_1$",
+        "D": "$E = \\frac{N}{T_N}$"
+      },
+      "answer": "A",
+      "explanation": "Scaling efficiency measures how effectively an application exploits additional compute nodes. Ideal linear scaling yields $E = 100\\%$. If 4 nodes take 30 seconds compared to 100 seconds on 1 node, $Speedup = 100/30 = 3.33$, so $E = 3.33 / 4 = 83.3\\%$."
+    },
+    {
+      "id": "D4-Q07",
+      "question": "What is the primary cause of parallel scaling efficiency degradation as an HPC cluster scales from 8 nodes to 128 nodes in distributed deep learning?",
+      "options": {
+        "A": "Communication overhead (AllReduce latency, network synchronization, and barrier wait times) beginning to exceed local compute time.",
+        "B": "The CPU runs out of memory registers.",
+        "C": "Python interpreter files wear out.",
+        "D": "InfiniBand cables become warm."
+      },
+      "answer": "A",
+      "explanation": "As worker count scales, local computation per node decreases (in strong scaling), while inter-node communication volume and synchronization latency (network jitter, ring latency, stragglers) increase, degrading overall efficiency."
+    },
+    {
+      "id": "D4-Q08",
+      "question": "What is Intel Trace Analyzer and Collector (ITAC) used for in an HPC cluster environment?",
+      "options": {
+        "A": "Visualizing and profiling MPI communication patterns, identifying load imbalances, message serialization, and MPI wait bottlenecks across cluster nodes.",
+        "B": "Tracking student attendance in computer labs.",
+        "C": "Monitoring room humidity and temperature.",
+        "D": "Scanning for malware."
+      },
+      "answer": "A",
+      "explanation": "ITAC instruments MPI applications to generate trace files displaying exact timelines of MPI function calls (`MPI_Waitall`, `MPI_Bcast`, `MPI_Allreduce`), helping engineers visualize communication imbalances across cluster nodes."
+    },
+    {
+      "id": "D4-Q09",
+      "question": "In VTune Memory Access Analysis, what metric flags that an application is stalling due to accessing DRAM on a remote socket across UPI links?",
+      "options": {
+        "A": "Remote DRAM Access / Cross-Socket Traffic percentage",
+        "B": "CPU Fan RPM",
+        "C": "L1 Cache Hit Rate = 100%",
+        "D": "DRAM Power Off"
+      },
+      "answer": "A",
+      "explanation": "VTune's Memory Access analysis queries PMU counters tracking remote vs local NUMA node DRAM loads (`OCR.DEMAND_DATA_RD.REMOTE_DRAM`), flagging applications suffering from improper thread pinning or memory affinity."
+    },
+    {
+      "id": "D4-Q10",
+      "question": "What is a 'Flame Graph' in performance profiling and VTune analysis?",
+      "options": {
+        "A": "A thermal heatmap of computer CPU temperature.",
+        "B": "A visual representation of hierarchical call stacks where the x-axis represents the proportion of CPU time spent in each function and the y-axis represents stack depth.",
+        "C": "A fire warning indicator in server rooms.",
+        "D": "A graph of electrical voltage spikes."
+      },
+      "answer": "B",
+      "explanation": "Flame Graphs (invented by Brendan Gregg) visualize profiled call stacks. The width of each rectangular box is proportional to the total time spent executing that function (and its children), making bottlenecks instantly recognizable."
+    },
+    {
+      "id": "D4-Q11",
+      "question": "What command-line tool is used to generate a text summary report of an existing VTune analysis result without opening the graphical GUI?",
+      "options": {
+        "A": "vtune -report summary -result-dir ./vtune_out",
+        "B": "cat ./vtune_out/report.txt",
+        "C": "echo vtune",
+        "D": "vtune --format-disk"
+      },
+      "answer": "A",
+      "explanation": "`vtune -report <report_type> -result-dir <dir>` parses raw collected database files and prints formatted text tables of top hotspot functions, CPU utilization, and microarchitecture breakdown directly to the terminal."
+    },
+    {
+      "id": "D4-Q12",
+      "question": "In VTune Threading Analysis, what does high 'Lock Contention' indicate in a multi-threaded C++/Python application?",
+      "options": {
+        "A": "Worker threads spend excessive time blocked waiting for shared mutexes or locks to be released by other threads, serializing parallel execution.",
+        "B": "The computer chassis padlock is locked.",
+        "C": "The user is locked out of their Linux account.",
+        "D": "The CPU frequency is locked to maximum."
+      },
+      "answer": "A",
+      "explanation": "High Lock Contention indicates that threads are serialized at synchronization points (e.g., pthread mutexes, OpenMP critical sections, or Python's GIL), causing cores to waste cycles waiting instead of performing work."
+    },
+    {
+      "id": "D4-Q13",
+      "question": "What is the Roofline Model used for in high-performance computing performance engineering?",
+      "options": {
+        "A": "Measuring the structural roof integrity of a data center building.",
+        "B": "A 2D visual performance model relating an application's Operational Intensity (FLOPs/Byte) to hardware peak compute performance and peak memory bandwidth, revealing whether an algorithm is compute-bound or memory-bound.",
+        "C": "Calculating solar panel electrical output.",
+        "D": "Estimating network switch rack height."
+      },
+      "answer": "B",
+      "explanation": "The Roofline Model plots computational performance (GFLOP/s) against operational intensity (FLOPs per byte of DRAM traffic). The horizontal ceiling represents peak compute throughput, while the sloped boundary represents peak memory bandwidth, showing developers the exact performance headroom available."
+    },
+    {
+      "id": "D4-Q14",
+      "question": "If an application's operational intensity falls to the left of the Roofline knee point, what type of optimization will yield the greatest performance improvement?",
+      "options": {
+        "A": "Adding more floating-point compute units.",
+        "B": "Memory access optimizations (cache blocking, loop tiling, data layout transformation from Array of Structures to Structure of Arrays) to reduce DRAM memory bandwidth pressure.",
+        "C": "Increasing CPU clock frequency only.",
+        "D": "Rewriting the code in Python."
+      },
+      "answer": "B",
+      "explanation": "Workloads to the left of the Roofline knee are memory-bandwidth bound. Adding more compute units has zero effect because execution units are starved for data. Optimizing cache reuse and data layout directly moves the application closer to peak hardware throughput."
+    },
+    {
+      "id": "D4-Q15",
+      "question": "What is the impact of SIMD vector register spilling to the stack on CPU execution performance?",
+      "options": {
+        "A": "It speeds up matrix multiplications by 10x.",
+        "B": "It severely degrades performance because vector values that should reside in fast ZMM registers are repeatedly saved and reloaded from L1 cache/memory, increasing instruction count and latency.",
+        "C": "It reduces memory usage to zero.",
+        "D": "It disables hyperthreading."
+      },
+      "answer": "B",
+      "explanation": "Register spilling occurs when an inner loop requires more vector registers than the 32 physical ZMM registers available in AVX-512. The compiler must emit stack push/pop instructions, saturating execution ports with load/store operations."
+    },
+    {
+      "id": "D4-Q16",
+      "question": "What is the primary benefit of Loop Tiling (Cache Blocking) in high-performance numerical matrix multiplication?",
+      "options": {
+        "A": "It partitions large matrices into smaller sub-blocks that fit entirely within L1 or L2 CPU cache memory, enabling massive data reuse and eliminating slow DRAM accesses.",
+        "B": "It displays graphics tiles on computer screens.",
+        "C": "It removes loops from the code entirely.",
+        "D": "It saves disk space."
+      },
+      "answer": "A",
+      "explanation": "For large matrices ($N > 2048$), naive triple loops access memory with stride $N$, causing L1/L2 cache evictions on every iteration. Loop tiling divides matrices into $B \\times B$ blocks sized to fit inside cache, ensuring each data element is reused multiple times before eviction."
+    },
+    {
+      "id": "D4-Q17",
+      "question": "In distributed Slurm training, what is the role of the environment variable `SLURM_PROCID`?",
+      "options": {
+        "A": "It represents the global MPI rank of the current task process across all nodes in the job allocation.",
+        "B": "It is the student's admission roll number.",
+        "C": "It is the password for the database.",
+        "D": "It represents the processor voltage."
+      },
+      "answer": "A",
+      "explanation": "`SLURM_PROCID` is exported by Slurm to each spawned task process, indicating its global rank ($0$ to $N-1$). Distributed frameworks read this variable to configure MPI rank assignments and communication topologies."
+    },
+    {
+      "id": "D4-Q18",
+      "question": "What is 'Straggler Effect' in synchronous distributed deep learning across a 64-node cluster?",
+      "options": {
+        "A": "A single slow or throttled compute node delays the entire cluster at the AllReduce synchronization barrier, reducing overall training throughput to match the slowest node.",
+        "B": "Nodes running out of disk space.",
+        "C": "Nodes receiving conflicting IP addresses.",
+        "D": "A virus spreading across Ethernet cables."
+      },
+      "answer": "A",
+      "explanation": "Synchronous Ring-AllReduce requires all nodes to participate in every barrier synchronization step. If one node experiences thermal throttling, OS background interrupts, or bad memory channels, all other 63 nodes sit completely idle waiting for it to arrive at the barrier."
+    },
+    {
+      "id": "D4-Q19",
+      "question": "What VTune analysis type is specifically designed to identify SIMD vectorization efficiency and whether loops are scalar or vectorized with AVX-512?",
+      "options": {
+        "A": "HPC Performance Characterization / Vectorization Analysis",
+        "B": "Audio Waveform Analysis",
+        "C": "Disk Defragmenter",
+        "D": "Web Browser Profiler"
+      },
+      "answer": "A",
+      "explanation": "VTune's HPC Performance Characterization analysis measures SIMD Vectorization Intensity, calculating what percentage of floating-point operations were vectorized with AVX-512 vs AVX2 vs scalar instructions."
+    },
+    {
+      "id": "D4-Q20",
+      "question": "What does a high Instruction-Per-Cycle (IPC) metric (e.g. IPC > 2.5) typically indicate in CPU execution analysis?",
+      "options": {
+        "A": "The processor pipeline is executing instructions efficiently with minimal memory or branch stalls.",
+        "B": "The CPU is overheating.",
+        "C": "The application has crashed.",
+        "D": "The network connection is slow."
+      },
+      "answer": "A",
+      "explanation": "IPC measures superscalar throughput. High IPC (>2.0 on modern Intel architectures) indicates that out-of-order execution units are retiring multiple instructions per clock cycle with excellent cache hit rates and predictable branch patterns."
+    },
+    {
+      "id": "D4-Q21",
+      "question": "In Slurm, what does the command `sbatch --dependency=afterok:12345 pipeline.slurm` accomplish?",
+      "options": {
+        "A": "It submits `pipeline.slurm` to run only after job 12345 completes successfully with exit code 0.",
+        "B": "It cancels job 12345.",
+        "C": "It runs both jobs simultaneously on the same core.",
+        "D": "It deletes job 12345's output files."
+      },
+      "answer": "A",
+      "explanation": "Slurm job dependencies allow chaining complex multi-stage workflows (e.g. data preprocessing -> distributed training -> model profiling -> evaluation). `--dependency=afterok:<job_id>` holds the downstream job until the prerequisite completes cleanly."
+    },
+    {
+      "id": "D4-Q22",
+      "question": "What is the primary difference between Strong Scaling and Weak Scaling benchmarks in high-performance computing?",
+      "options": {
+        "A": "Strong scaling keeps total problem size constant while increasing core count; Weak scaling increases problem size proportionally to core count, keeping work per core constant.",
+        "B": "Strong scaling uses C++; weak scaling uses Python.",
+        "C": "Strong scaling is for hardware; weak scaling is for software.",
+        "D": "There is no difference."
+      },
+      "answer": "A",
+      "explanation": "Strong scaling tests how quickly a fixed problem can be solved by adding processors (governed by Amdahl's Law). Weak scaling tests how large a problem can be solved in the same amount of time as compute power expands (governed by Gustafson's Law)."
+    },
+    {
+      "id": "D4-Q23",
+      "question": "What does Intel Inspector detect in parallel C/C++ HPC codes?",
+      "options": {
+        "A": "Memory leaks, uninitialized memory accesses, buffer overflows, and multi-threaded data races.",
+        "B": "Grammatical errors in code comments.",
+        "C": "The author's identity.",
+        "D": "Internet connection speed."
+      },
+      "answer": "A",
+      "explanation": "Intel Inspector is a memory and threading error debugger. It dynamically instruments compiled binaries to detect data races, deadlocks, illegal memory accesses, and memory leaks without requiring special compiler flags."
+    },
+    {
+      "id": "D4-Q24",
+      "question": "Why is Structure of Arrays (SoA) layout generally superior to Array of Structures (AoS) for SIMD vectorization in HPC applications?",
+      "options": {
+        "A": "SoA stores contiguous values of identical fields adjacent in memory, allowing SIMD vector units to execute aligned unit-stride loads without expensive gather/scatter instructions.",
+        "B": "SoA reduces file size on disk.",
+        "C": "AoS requires more RAM.",
+        "D": "SoA is supported only by Python."
+      },
+      "answer": "A",
+      "explanation": "In AoS (`struct { float x, y, z; } points[N]`), reading all `x` values requires strided memory loads with stride 3, which vector units cannot load in a single contiguous read. In SoA (`struct { float x[N], y[N], z[N]; }`), elements of `x` reside in contiguous memory, allowing single-instruction aligned 512-bit vector loads (`_mm512_load_ps`)."
+    },
+    {
+      "id": "D4-Q25",
+      "question": "What Linux tool allows an engineer to inspect real-time PCIe bandwidth utilization and link generation speeds (e.g. PCIe Gen 5 x16) on an HPC accelerator node?",
+      "options": {
+        "A": "lspci -vvv",
+        "B": "ping localhost",
+        "C": "free -m",
+        "D": "uname -a"
+      },
+      "answer": "A",
+      "explanation": "`lspci -vvv` queries the PCI configuration space, displaying link capabilities and status (e.g. `LnkCap: Port #0, Speed 32GT/s, Width x16` and `LnkSta: Speed 32GT/s (PCIe Gen 5), Width x16`), verifying that accelerators operate at full bus bandwidth."
+    }
+  ],
+  "Day-05_GenAI_LLMs_Gaudi_OpenVINO_MCQs.md": [
+    {
+      "id": "D5-Q01",
+      "question": "In Large Language Model (LLM) inference, what are the two fundamentally distinct computational phases, and what hardware resource bounds each phase?",
+      "options": {
+        "A": "Compilation phase and Linking phase.",
+        "B": "Prefill Phase (Prompt processing), which is compute-bound and GEMM-heavy; and Decode Phase (Token generation), which is memory-bandwidth bound and autoregressive.",
+        "C": "Training phase and Validation phase.",
+        "D": "Download phase and Upload phase."
+      },
+      "answer": "B",
+      "explanation": "During the Prefill Phase, all input prompt tokens are processed simultaneously in parallel, making it compute-bound (saturating matrix multiplication units). During the Decode Phase, tokens are generated one-by-one autoregressively; each new token requires loading the entire multi-gigabyte model weights and KV-cache from memory, making throughput bound strictly by memory bandwidth (TB/s)."
+    },
+    {
+      "id": "D5-Q02",
+      "question": "Why is the memory bandwidth (TB/s) of a processor the primary limiting factor for LLM autoregressive token generation speed (Tokens/Second) during the decode phase?",
+      "options": {
+        "A": "Because token generation requires continuous internet queries.",
+        "B": "Because generating each single token requires streaming the full model weights (e.g. 16 GB for FP16 8B model) from DRAM into execution registers, yielding an Arithmetic Intensity of ~1 FLOP/Byte.",
+        "C": "Because CPUs cannot store strings in cache.",
+        "D": "Because transformers use recursion."
+      },
+      "answer": "B",
+      "explanation": "In autoregressive decoding with batch size 1, computing each token requires reading every parameter in the model from DRAM. For an 8-billion parameter model in 16-bit precision (16 GB), generating 1 token requires loading 16 GB of data. If memory bandwidth is 100 GB/s, maximum theoretical speed is capped at $100 / 16 \\approx 6.25$ tokens/sec, regardless of peak TFLOPs."
+    },
+    {
+      "id": "D5-Q03",
+      "question": "What is the purpose of Key-Value (KV) Caching in transformer decoder inference?",
+      "options": {
+        "A": "It saves user passwords in browser cache.",
+        "B": "It stores previously computed Key and Value attention projection tensors across past tokens in memory, avoiding redundant re-computation of past keys/values at every step of generation.",
+        "C": "It compresses the vocabulary dictionary.",
+        "D": "It deletes past tokens to save RAM."
+      },
+      "answer": "B",
+      "explanation": "Without KV caching, generating token $t$ would require recomputing self-attention across all previous tokens $0$ through $t-1$, resulting in $O(T^2)$ computational complexity per token and $O(T^3)$ total generation cost. KV caching stores past keys and values, reducing per-token computation to $O(T)$."
+    },
+    {
+      "id": "D5-Q04",
+      "question": "What is OpenVINO Toolkit and what is its primary architecture for high-performance AI deployment?",
+      "options": {
+        "A": "A Python web development framework like Django.",
+        "B": "An open-source toolkit for optimizing and deploying deep learning models across Intel hardware (Xeon CPUs, Intel GPUs, NPUs), comprising Model Optimizer, runtime plugins, and graph execution optimizations.",
+        "C": "A replacement for the Linux operating system.",
+        "D": "A database for storing audio files."
+      },
+      "answer": "B",
+      "explanation": "Intel OpenVINO (Open Visual Inference and Neural Network Optimization) is a high-performance inference engine. It converts models from PyTorch, ONNX, and TensorFlow into an Intermediate Representation (IR), applies layer fusion and quantization, and executes them with target-specific hardware plugins."
+    },
+    {
+      "id": "D5-Q05",
+      "question": "What is INT4 Weight-Only Quantization (WOQ) in LLM inference optimization, and why does it drastically increase token generation throughput?",
+      "options": {
+        "A": "It converts model weights from 16-bit floats to 4-bit integers while performing activations in float, reducing memory footprint and memory bandwidth traffic by 75%.",
+        "B": "It deletes 75% of the transformer layers.",
+        "C": "It trains the model from scratch on 4 images.",
+        "D": "It converts text tokens into 4-letter words."
+      },
+      "answer": "A",
+      "explanation": "Because autoregressive decoding is memory-bandwidth bound, quantizing model weights from FP16 (16 bits) to INT4 (4 bits) reduces memory bandwidth consumption by 4x. The weights are unpacked to floating point on-the-fly in registers/cache, delivering near-linear throughput increases with minimal perplexity degradation."
+    },
+    {
+      "id": "D5-Q06",
+      "question": "What package from Hugging Face integrates Intel OpenVINO directly into the `transformers` library, enabling 1-line model optimization?",
+      "options": {
+        "A": "optimum-intel[openvino]",
+        "B": "scikit-learn",
+        "C": "pandas-ai",
+        "D": "intel-office"
+      },
+      "answer": "A",
+      "explanation": "`optimum-intel` is the extension of Hugging Face Optimum for Intel hardware. Developers can import `OVModelForCausalLM` directly instead of `AutoModelForCausalLM`, automatically utilizing OpenVINO's optimized C++ runtime engine."
+    },
+    {
+      "id": "D5-Q07",
+      "question": "What is Intel NNCF (Neural Network Compression Framework)?",
+      "options": {
+        "A": "A tool to zip files into .tar.gz archives.",
+        "B": "A comprehensive Python framework for advanced post-training quantization (PTQ), filter pruning, and quantization-aware training (QAT) supporting OpenVINO and PyTorch.",
+        "C": "A graphical design tool for neural network diagrams.",
+        "D": "A network cable tester."
+      },
+      "answer": "B",
+      "explanation": "Intel NNCF provides state-of-the-art compression algorithms for deep learning models. It supports 8-bit quantization, 4-bit weight-only quantization (AWQ, GPTQ recipes), structured sparsity, and accuracy-aware tuning with minimal accuracy loss."
+    },
+    {
+      "id": "D5-Q08",
+      "question": "In Parameter-Efficient Fine-Tuning (PEFT) using LoRA (Low-Rank Adaptation), how are model weight updates represented mathematically?",
+      "options": {
+        "A": "$W = W_0 + B \\cdot A$, where $W_0$ is frozen, and $B \\in \\mathbb{R}^{d \\times r}$, $A \\in \\mathbb{R}^{r \\times k}$ are low-rank trainable matrices with rank $r \\ll \\min(d, k)$.",
+        "B": "$W = W_0 / 2$",
+        "C": "$W = W_0 \\times 0$",
+        "D": "$W = A + B + C + D$"
+      },
+      "answer": "A",
+      "explanation": "LoRA freezes the pre-trained weight matrix $W_0$ and decomposes the weight update $\\Delta W$ into two low-rank matrices: $B$ and $A$. For $d=4096$ and rank $r=16$, parameters drop from $4096 \\times 4096 \\approx 16.7\\text{M}$ to $2 \\times 4096 \\times 16 \\approx 131\\text{K}$ (a 99.2% reduction in trainable parameters)."
+    },
+    {
+      "id": "D5-Q09",
+      "question": "What is QLoRA, and how does it advance LoRA fine-tuning for resource-constrained HPC nodes?",
+      "options": {
+        "A": "It fine-tunes LLMs using quantum computing qubits.",
+        "B": "It quantizes the base pre-trained model to 4-bit NormalFloat (NF4) precision, adds double quantization, and uses paged optimizers, allowing fine-tuning of 65B parameter models on modest memory allocations.",
+        "C": "It removes all attention layers from the model.",
+        "D": "It replaces Python code with QBasic."
+      },
+      "answer": "B",
+      "explanation": "QLoRA (Dettmers et al., 2023) quantizes frozen weights to an information-theoretically optimal 4-bit NormalFloat (NF4) format, backpropagates gradients through the 4-bit weights into 16-bit LoRA adapter matrices, and uses paged optimizers to prevent memory spikes."
+    },
+    {
+      "id": "D5-Q10",
+      "question": "What is the primary memory bandwidth of Habana Gaudi 2 accelerators, and how does it compare to standard DDR5 server memory?",
+      "options": {
+        "A": "2.45 TB/s using on-chip HBM2e memory, approximately 8x to 10x faster than dual-socket DDR5 server memory channels (~250-300 GB/s).",
+        "B": "50 MB/s, slower than DDR5.",
+        "C": "100 Gbps Ethernet speed.",
+        "D": "Identical to DDR5."
+      },
+      "answer": "A",
+      "explanation": "Habana Gaudi 2 features 96 GB of HBM2e delivering 2.45 TB/s of aggregate memory bandwidth (Gaudi 3 expands to 128 GB HBM2e at 3.7 TB/s). This massive memory bandwidth makes it exceptionally fast for LLM training and token generation compared to host DDR5 memory."
+    },
+    {
+      "id": "D5-Q11",
+      "question": "What is FlashAttention, and why is it a milestone optimization for transformer architectures on HPC accelerators?",
+      "options": {
+        "A": "An Adobe Flash animation player for browser AI.",
+        "B": "An exact attention algorithm that reorders computation using tiling to compute softmax without writing the intermediate $N \\times N$ attention matrix to high-latency HBM, reducing memory reads/writes by orders of magnitude.",
+        "C": "An algorithm that skips calculating attention weights.",
+        "D": "A camera flash controller."
+      },
+      "answer": "B",
+      "explanation": "Standard self-attention materializes an $N \\times N$ attention matrix in memory, which requires $O(N^2)$ memory reads and writes. FlashAttention uses online softmax tiling in fast SRAM / L1 cache to compute exact attention without writing the $N \\times N$ intermediate matrix to HBM, dramatically speeding up long-context processing."
+    },
+    {
+      "id": "D5-Q12",
+      "question": "What is the primary metric used to evaluate LLM inference latency from the perspective of an interactive end-user?",
+      "options": {
+        "A": "Time-To-First-Token (TTFT) and Inter-Token Latency (ITL / Tokens per second).",
+        "B": "Hard drive rotation speed.",
+        "C": "Monitor refresh rate in Hertz.",
+        "D": "File download speed."
+      },
+      "answer": "A",
+      "explanation": "TTFT measures responsiveness (the time from submitting the prompt to the appearance of the very first token, dominated by the prefill phase). ITL measures generation fluency (the time between consecutive tokens during the decode phase)."
+    },
+    {
+      "id": "D5-Q13",
+      "question": "In DeepSpeed distributed training, what is the ZeRO (Zero Redundancy Optimizer) memory optimization strategy?",
+      "options": {
+        "A": "ZeRO partitions optimizer states (Stage 1), gradients (Stage 2), and model parameters (Stage 3) across data-parallel processes, eliminating redundant memory replication without incurring model-parallel complexity.",
+        "B": "ZeRO sets all model weights to zero to save RAM.",
+        "C": "ZeRO disables backpropagation.",
+        "D": "ZeRO runs training on zero computers."
+      },
+      "answer": "A",
+      "explanation": "In standard Data Parallelism, every worker holds a duplicate copy of optimizer states, gradients, and model parameters. DeepSpeed ZeRO partitions these memory components across the data-parallel ranks, reducing per-device memory consumption linearly with rank count."
+    },
+    {
+      "id": "D5-Q14",
+      "question": "What library provides native integration for training and fine-tuning Hugging Face transformer models on Habana Gaudi accelerators?",
+      "options": {
+        "A": "optimum-habana",
+        "B": "habana-driver-gui",
+        "C": "keras-mobile",
+        "D": "openvino-phone"
+      },
+      "answer": "A",
+      "explanation": "`optimum-habana` connects Hugging Face libraries (`transformers`, `diffusers`, `peft`) with Intel Habana SynapseAI software stack, providing Gaudi-optimized PyTorch execution with minimal code changes."
+    },
+    {
+      "id": "D5-Q15",
+      "question": "In OpenVINO runtime, what is the role of the `core.compile_model(model, 'CPU')` method?",
+      "options": {
+        "A": "It converts the model into a PDF document.",
+        "B": "It compiles the intermediate network graph into an executable device-specific binary pipeline optimized for the host CPU's instruction set (AVX-512, AMX, thread scheduling).",
+        "C": "It uploads the model to an online repository.",
+        "D": "It deletes the model from RAM."
+      },
+      "answer": "B",
+      "explanation": "`compile_model` translates OpenVINO's device-agnostic OpenVINO IR graph into an executable pipeline for the selected hardware target ('CPU', 'GPU', 'NPU'), allocating execution memory pools and optimizing kernel scheduling."
+    },
+    {
+      "id": "D5-Q16",
+      "question": "What is Grouped-Query Attention (GQA), used in models like Llama 3 and Mistral, and how does it optimize HPC memory consumption?",
+      "options": {
+        "A": "It shares a single Key and Value head across multiple Query heads, drastically reducing the memory footprint of the KV-cache during inference while retaining multi-head attention expressive capacity.",
+        "B": "It queries Google Search during inference.",
+        "C": "It removes query vectors from attention.",
+        "D": "It runs queries in alphabetical order."
+      },
+      "answer": "A",
+      "explanation": "Multi-Head Attention (MHA) maintains independent Key and Value heads for every Query head, resulting in massive KV-cache memory usage. GQA groups query heads to share a smaller number of Key/Value heads (e.g. 8 KV heads for 32 Query heads), reducing KV-cache size by 4x and speeding up decode throughput."
+    },
+    {
+      "id": "D5-Q17",
+      "question": "What is the difference between Symmetric and Asymmetric quantization in neural network compression?",
+      "options": {
+        "A": "Symmetric quantization constrains the zero-point to exactly 0 (scale only), which simplifies hardware integer multiplication units; Asymmetric quantization includes a non-zero offset (scale and zero-point), which better fits skewed non-negative activation distributions.",
+        "B": "Symmetric is for text; Asymmetric is for audio.",
+        "C": "Symmetric requires GPUs; Asymmetric requires CPUs.",
+        "D": "There is no difference."
+      },
+      "answer": "A",
+      "explanation": "Symmetric quantization maps floating point range $[-M, M]$ symmetrically to $[-128, 127]$ with zero-point $Z=0$. Asymmetric quantization maps $[\\min, \\max]$ to $[0, 255]$ with an explicit zero-point offset $Z$, which improves precision for skewed activation distributions (like ReLU/GELU) at the cost of slight hardware overhead."
+    },
+    {
+      "id": "D5-Q18",
+      "question": "In deploying high-concurrency LLM inference services, what is PagedAttention (as implemented in vLLM)?",
+      "options": {
+        "A": "An attention mechanism inspired by OS virtual memory paging that allocates KV-cache memory in non-contiguous physical memory blocks, eliminating internal and external memory fragmentation.",
+        "B": "A mechanism that prints LLM responses on physical paper pages.",
+        "C": "A web browser paging extension.",
+        "D": "A tool to paginate HTML documents."
+      },
+      "answer": "A",
+      "explanation": "Standard LLM serving pre-allocates contiguous memory for maximum possible sequence lengths (e.g. 2048 tokens), resulting in 60-80% memory waste from fragmentation. PagedAttention partitions the KV-cache into fixed-size pages managed via a page table, allowing near-100% memory utilization and higher request batching concurrency."
+    },
+    {
+      "id": "D5-Q19",
+      "question": "What is the role of Intel AMX (Advanced Matrix Extensions) in accelerating LLM fine-tuning on 4th Gen Intel Xeon Scalable processors?",
+      "options": {
+        "A": "It accelerates Bfloat16 forward and backward matrix multiplications directly in core tile registers, enabling multi-node CPU clusters to fine-tune 7B/13B parameter models without discrete GPUs.",
+        "B": "It compresses text datasets.",
+        "C": "It controls cooling fan speeds.",
+        "D": "It acts as a graphical user interface."
+      },
+      "answer": "A",
+      "explanation": "With AMX hardware tile engines, Sapphire Rapids Xeon cores deliver up to 2 TFLOPs of BF16 compute per core. Multi-socket cluster nodes can perform distributed LoRA fine-tuning of 7B parameter models using existing enterprise CPU servers without requiring scarce discrete GPUs."
+    },
+    {
+      "id": "D5-Q20",
+      "question": "How does KV-cache quantization (e.g. quantizing KV-cache from FP16 to INT8 or INT4) enhance LLM serving capacity?",
+      "options": {
+        "A": "It halves or quarters the memory required per token in the KV-cache, allowing the server to handle 2x to 4x larger concurrent batch sizes and much longer context windows within the same DRAM capacity.",
+        "B": "It makes the model output 100% accurate.",
+        "C": "It deletes past conversation history.",
+        "D": "It removes the need for RAM entirely."
+      },
+      "answer": "A",
+      "explanation": "As context lengths expand to 32k or 128k tokens, the KV-cache memory easily dwarfs the base model weights. Quantizing the KV-cache to INT8/INT4 reduces per-token memory footprint by 50-75%, expanding the concurrent request capacity of the server."
+    },
+    {
+      "id": "D5-Q21",
+      "question": "When serving an OpenVINO-optimized LLM via a REST API, why is FastAPI with an asynchronous event loop (`async def`) preferred over synchronous Flask?",
+      "options": {
+        "A": "FastAPI is written in C++.",
+        "B": "FastAPI handles non-blocking asynchronous I/O and streaming token generation over Server-Sent Events (SSE) concurrently across thousands of client requests without spawning a blocking OS thread per connection.",
+        "C": "Flask cannot return JSON data.",
+        "D": "FastAPI requires no CPU resources."
+      },
+      "answer": "B",
+      "explanation": "FastAPI built on Starlette and `uvicorn` uses Python's asynchronous event loop (`asyncio`). It can stream generated tokens back to HTTP clients as they are produced (via `StreamingResponse` and SSE) across thousands of concurrent connections with minimal memory overhead."
+    },
+    {
+      "id": "D5-Q22",
+      "question": "In LLM token generation, what does the 'temperature' sampling parameter control?",
+      "options": {
+        "A": "The physical Celsius temperature of the CPU heatsink.",
+        "B": "It scales the raw logit scores before the softmax operation ($logits / T$), where lower temperature ($T \\to 0$) makes the probability distribution sharper (greedy, deterministic) and higher temperature ($T > 1$) flattens it (more diverse, creative outputs).",
+        "C": "The ambient temperature in the server room.",
+        "D": "The speed of the computer cooling fan."
+      },
+      "answer": "B",
+      "explanation": "Temperature $T$ adjusts the entropy of the probability distribution: $P(y_i) = \\frac{\\exp(z_i / T)}{\\sum_j \\exp(z_j / T)}$. As $T \\to 0$, it approaches an argmax greedy choice. At higher values of $T$, lower-probability tokens have an increased chance of selection."
+    },
+    {
+      "id": "D5-Q23",
+      "question": "What is the primary difference between Top-k sampling and Top-p (Nucleus) sampling in LLM generation?",
+      "options": {
+        "A": "Top-k restricts sampling to a fixed number $k$ of highest-probability tokens; Top-p dynamically samples from the smallest set of tokens whose cumulative probability exceeds threshold $p$.",
+        "B": "Top-k is for English; Top-p is for Python code.",
+        "C": "Top-k uses sorting; Top-p uses hashing.",
+        "D": "There is no difference."
+      },
+      "answer": "A",
+      "explanation": "Top-k sets a fixed pool size $k$ regardless of the probability mass. Nucleus (Top-p) sampling dynamically expands or contracts the candidate pool based on model confidence: when confidence is high, the pool contains only 1 or 2 tokens; when confidence is low, the pool widens automatically."
+    },
+    {
+      "id": "D5-Q24",
+      "question": "What open format is used by OpenVINO to store model topologies and weights in its Intermediate Representation (IR)?",
+      "options": {
+        "A": "A `.xml` file describing the graph architecture and execution topology, paired with a `.bin` file storing binary tensor weights.",
+        "B": "A `.zip` archive containing Python files.",
+        "C": "An `.mp4` video file.",
+        "D": "A `.csv` spreadsheet."
+      },
+      "answer": "A",
+      "explanation": "OpenVINO IR separates graph topology from binary weights: the `.xml` file defines the neural network architecture, layer connectivity, and tensor shapes in XML format, while the `.bin` file stores the raw binary weights and biases."
+    },
+    {
+      "id": "D5-Q25",
+      "question": "In a capstone B.Tech project presentation, what key architectural advantage should students emphasize when choosing an Intel oneAPI / OpenVINO deployment over a proprietary CUDA stack?",
+      "options": {
+        "A": "Open cross-architecture portability across multi-vendor CPUs, integrated GPUs, discrete GPUs, and AI accelerators, avoiding expensive vendor lock-in while leveraging ubiquitous enterprise server hardware.",
+        "B": "CUDA does not support Python.",
+        "C": "Intel oneAPI makes computers immune to hardware failures.",
+        "D": "OpenVINO requires zero RAM."
+      },
+      "answer": "A",
+      "explanation": "Proprietary stacks like CUDA lock enterprise software to a single hardware vendor. Intel oneAPI and OpenVINO adhere to open industry standards (SYCL, Level Zero), allowing models to compile and execute across diverse multi-vendor hardware (Intel CPUs, Intel GPUs, AMD chips, ARM, and accelerators), protecting software investments and repurposing existing server infrastructure."
+    }
+  ]
+}

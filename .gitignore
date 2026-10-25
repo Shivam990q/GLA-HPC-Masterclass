@@ -1,0 +1,14 @@
+# Ignore heavy binary presentations, large datasets, and local caches
+*.pptx
+*.zip
+*.tar.gz
+*.iso
+*.npz
+HPC_Master_Curriculum/OFFLINE_PENDRIVE_TOOLKIT/03_BENCHMARK_DATASETS/
+.vscode/
+graphify-out/
+workspace_manifest.csv
+__pycache__/
+*.pyc
+.system_generated/
+scratch/

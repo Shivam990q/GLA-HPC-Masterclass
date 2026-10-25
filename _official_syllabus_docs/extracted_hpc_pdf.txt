@@ -1,0 +1,73 @@
+=== PAGE 1 ===
+ 
+High Performance Computing – A practical approach 
+ 
+ Pedagogy: 
+ Concept → System Understanding → Hands-On: Each day introduces core HPC concepts 
+followed by practical execution on Linux, oneAPI, GPUs, and cluster environments. 
+ Industry-Grade Tools: Training uses Intel oneAPI, AI Analytics Toolkit, TensorFlow-MKL, 
+Horovod, VTune, Slurm, and OpenVINO—mirroring real HPC workflows. 
+ Practical, Cluster-Based Learning: Learners run ML/DL workloads on HPC nodes, submit 
+jobs with Slurm, and analyze hardware performance. 
+ Performance & Optimization Focus: Emphasis on parallel computing, distributed training, 
+profiling, and hardware-aware optimization. 
+ Project-Oriented: Daily labs build toward end-to-end AI workflows—from ML processing 
+to distributed training and LLM optimization on HPC hardware. 
+ Learning Outcomes: 
+HPC & Linux Foundations 
+ Understand HPC architectures, Intel Xeon/GPU/accelerator ecosystems, and secure remote access 
+(SSH). 
+ Navigate Linux environments, automate tasks with shell scripting, and use oneAPI toolkits. 
+Optimized ML Workflows 
+ Build and run parallelized ML models using Intel-optimized NumPy, Pandas, and Scikit-learn. 
+ Leverage Intel AI Analytics Toolkit for accelerated traditional ML workflows. 
+Deep Learning on HPC 
+ Train TensorFlow models optimized with oneDNN/MKL on Xeon CPUs and Intel GPUs. 
+ Submit, manage, and scale DL jobs using Slurm and distributed frameworks like Horovod. 
+Distributed AI & Performance Engineering 
+ Perform distributed TensorFlow training across nodes. 
+ Use Intel VTune to profile compute-intensive workloads and optimize performance. 
+Generative AI & LLMs on HPC 
+ Deploy and fine-tune LLMs using Intel HPC hardware (Gaudi, Xeon). 
+ Optimize inference with OpenVINO for real-world generative AI applications. 
+ 
+ 
+ 
+1 
+
+
+=== PAGE 2 ===
+ 
+ 
+ 
+Day 1: Fundamentals of HPC, Linux & Shell Scripting 
+ Introduction to HPC, 
+ Intel HPC architecture (Xeon, GPUs, AI accelerators); 
+ Linux basics: File system, commands, environment setup; 
+ Shell scripting for automation; 
+ Secured Shell 
+ Intel oneAPI toolkit 
+ Introduction to Intel HPC Toolkit 
+ 
+Day 2: Traditional ML using Intel OneAPI 
+ Parallel Computing 
+ OpenMP for multithreading, MPI for distributed systems,  
+ Data decomposition and synchronization 
+ Using Intel AI Analytics Toolkit (Optimized Scikit-learn, Pandas, NumPy); 
+ Intel Extension for Scikit-learn for optimized ML algorithms; 
+Day 3: Deep Learning on HPC with TensorFlow, Slurm & GPUs 
+ ML workflows on HPC systems, Optimized libraries 
+ Introduction to hardware-aware ML optimization 
+ Intel-optimized TensorFlow (tensorflow-mkl, oneDNN); 
+ Running DL models on Intel GPUs (Xeon, Habana Gaudi); 
+ Slurm job scheduling for Deep Learning (batch jobs, resource allocation); 
+ Training Tensorflow with Horovod 
+ Distributed training using Horovod 
+Day 4: Distributed AI Training & Profiling Optimization 
+ Distributed TensorFlow training with Slurm; 
+ Profiling & debugging with Intel Vtune 
+Day 5: Generative AI & LLMs on Intel HPC 
+ Introduction to Generative AI & LLMs on HPC 
+ Intel hardware for LLMs (Xeon, Habana Gaudi); 
+ Optimizing LLM inference with OpenVINO Toolkit; 
+ Fine-tuning LLMs on HPC 

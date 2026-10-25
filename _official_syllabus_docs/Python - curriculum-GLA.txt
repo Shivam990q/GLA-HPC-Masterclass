@@ -1,0 +1,166 @@
+--- Page 1 ---
+ 
+                                     Python Programming– A Practical Approach 
+ 
+➢ Pedagogy:  
+ 
+• Problem-Based Learning 
+• Demonstration and Live Coding 
+• Collaborative Learning. 
+• Hands-On Experiential Learning 
+ 
+➢  Learning outcome: 
+ 
+• Create and work with Python classes, objects, attributes, and methods. 
+• Implement event handling and GUI components 
+• Develop CRUD-based REST APIs using Python. 
+• Perform basic hyperparameter tuning. 
+• Develop an AI-powered resume screening solution. 
+ 
+ 
+Detailed Content: 
+ 
+Day 1 – OOPS using python 
+ 
+Topics 
+ 
+Forenoon Session 
+• Defining classes, instances, attributes vs methods 
+• Instance vs class attributes,   init  , self-keyword 
+• Encapsulation: private/protected attributes (name mangling, convention) 
+• Data hiding and validation inside classes. 
+ 
+Afternoon Session 
+• Inheritance and subclassing (super(), method overriding 
+• Polymorphism (duck typing, method overriding, abstract interfaces) 
+• Multiple inheritance, mix-ins, method resolution order (MRO), and how 
+to use super() correctly in complex hierarchies. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+--- Page 2 ---
+ 
+ 
+ 
+ 
+                      Day 2 – GUI Programming with Python 
+                            Topics 
+ 
+Forenoon Session 
+• Introduction to GUI frameworks 
+• GUI frameworks: Tkinter, PyQt, Kivy 
+• Event-driven programming 
+ 
+Afternoon Session 
+• Creating multi-threaded GUI apps 
+• Integrating GUI with databases and APIs 
+• Packaging and distributing desktop applications 
+ 
+                           Hands-On Exercises: 
+                           Build a basic GUI calculator using Tkinter. 
+                             Create a file manager with PyQt to browse, rename, and delete files.  
+                             Develop a to-do list app with SQLite database integration. 
+ 
+                          Capstone Project: 
+                          Desktop Inventory Management System – A full-fledged inventory app with search, add, delete, and  
+                            exportfunctionalities, using PyQt and SQLite. 
+ 
+ 
+ 
+ 
+                          Day3- Advanced Web Development with Python (Fast API & Flask) 
+ 
+    Forenoon Session 
+• Introduction to Web Services 
+• Web frameworks: Flask vs. Fast API 
+• RESTful API development 
+ 
+      Afternoon Session 
+• Authentication & security (JWT, OAuth) 
+• WebSockets for real-time applications 
+• Asynchronous APIs with Fast API 
+ 
+                           Hands-On Exercises: 
+ 
+Create a CRUD API with Fast API to manage user data. Implement JWT 
+authentication in a Flask web app. 
+Build a real-time chat application using WebSocket’s in Fast API. 
+ 
+                             Capstone Project: 
+                   AI-Powered Resume Screening API – A Python-based REST API that receives resumes,  
+                     extracts  key skills, and scores candidates using an AI model. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+--- Page 3 ---
+ 
+ 
+Day 4 – Machine Learning Pipeline Foundations 
+ 
+Topics 
+ 
+Forenoon Session 
+• Build, evaluate and serialize an ML model 
+• Data loading and exploration using Pandas and NumPy. 
+• Preprocessing and feature engineering (handling missing values, encoding categorical 
+variables, scaling 
+or transformation). 
+ 
+Afternoon Session 
+• Model selection: pick a simple supervised learner (e.g. logistic regression, decision tree, 
+random forest,or a basic neural network if time allows). 
+• Train / test split, cross-validation, evaluation metrics, hyperparameter tuning. 
+• Serialize the trained model and preprocessing pipeline into a file 
+ 
+ 
+Day 5- Machine earning & AI Automation with Python 
+ 
+Forenoon Session 
+• Introduction to AI Automation 
+• Automating ML workflows with Python 
+• Training and deploying ML models 
+ 
+Afternoon Session 
+• AI-based automation (chatbots, recommendation systems) 
+• Using TensorFlow, PyTorch, and Scikit-learn 
+• Deploying AI models using Flask or Fast API 
+ 
+Hands-On Exercises: 
+Train a spam detection model and deploy it as an API. 
+Develop a real-time chatbot using NLP and OpenAI’s GPT 
+API. Build an AI-powered resume screener for job 
+applications. 
+ 
+Capstone Project: 
+ 
+AI-Powered Customer Support Chatbot – A Python-based chatbot that uses NLP and deep 
+learning to provide automated customer support. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
