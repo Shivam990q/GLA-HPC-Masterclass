@@ -239,7 +239,7 @@ EOF
 
 # 3. Compile and execute across 4 simulated cluster processes
 mpicxx -O3 mpi_collective_reduction.cpp -o ~/hpc_day02/bin/mpi_reduction
-mpirun --allow-run-as-root -n 4 ~/hpc_day02/bin/mpi_reduction
+mpirun --allow-run-as-root --oversubscribe -n 4 ~/hpc_day02/bin/mpi_reduction
 ```
 
 ---
