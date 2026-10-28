@@ -8,6 +8,18 @@
 
 ## 📌 PART 1: 1-Page Student Command Cheat Sheet
 
+> [!TIP]
+> ### ⚡ 2-MINUTE INSTANT-RECALL MASTERY BOX (80-90% IMMEDIATE KNOWLEDGE)
+> * **HPC Core Physics:** Aggregates compute nodes across high-speed interconnects to bypass single-machine RAM bandwidth bottlenecks (Memory Wall).
+> * **Hardware Triad:** Intel Xeon (Host Orchestration & FP64 math) + Intel GPU Max (Dense Matrix Parallelism) + Habana Gaudi (Tensor TPCs & On-Die 24x 100GbE RoCE).
+> * **Linux Golden Rule:** Everything is a file starting at root `/`. Paths are Absolute (`/path`) or Relative (`./path`).
+> * **Top 5 Life-Saving Commands:**
+>   1. `lscpu | grep -E 'Model name|avx512|amx'` (Inspect CPU model & vector/matrix engines)
+>   2. `mkdir -p ~/project/{src,bin,logs}` (Create complete clean directory tree in 1 command)
+>   3. `chmod +x script.sh` (Add executable permission bit; fixes `Permission denied`)
+>   4. `ssh-keygen -t ed25519 -N ""` (Generate modern high-security elliptic curve SSH key)
+>   5. `source /opt/intel/oneapi/setvars.sh` (Initialize Intel oneAPI environment, `$PATH`, and compilers)
+
 ### 1. Navigation & Inspection
 | Command | What It Does | Example |
 | :--- | :--- | :--- |

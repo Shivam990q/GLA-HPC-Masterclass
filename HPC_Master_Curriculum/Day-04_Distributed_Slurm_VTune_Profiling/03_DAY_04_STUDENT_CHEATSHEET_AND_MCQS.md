@@ -7,6 +7,18 @@
 
 ## 📌 PART 1: 1-Page Student Command & VTune Cheat Sheet
 
+> [!TIP]
+> ### ⚡ 2-MINUTE INSTANT-RECALL MASTERY BOX (80-90% IMMEDIATE KNOWLEDGE)
+> * **VTune Profiling Axiom:** Hardware PMU counters record silicon events without altering source code. Hotspots identify *where* CPU spends time; TMAM reveals *why*.
+> * **The 4 TMAM Pipeline Buckets:** Retiring (Good work, target >30%), Bad Speculation (Branch mispredicts, target <10%), Frontend Bound (Fetch/decode stalls, target <15%), Backend Bound (Memory/DRAM stalls, target <20%).
+> * **The Roofline Model:** Compares Arithmetic Intensity ($\text{FLOPs/Byte}$) against hardware Memory Bandwidth ceiling vs Compute Peak ceiling.
+> * **Top 5 Life-Saving Code Snippets:**
+>   1. `vtune -collect hotspots -r ./r_hot -- ./app` (Run Hotspots analysis to find top time-sink functions)
+>   2. `vtune -collect uarch-exploration -r ./r_tmam -- ./app` (Run TMAM to identify pipeline stalls and memory bounds)
+>   3. `vtune -report summary -r ./r_hot` (Generate high-level CLI executive summary of CPI and elapsed time)
+>   4. `sudo sysctl -w kernel.perf_event_paranoid=0` (Enable non-root PMU performance counter access on Linux)
+>   5. `Arithmetic Intensity = Total FLOPs / Total DRAM Bytes Transferred` (Determine if code is memory-bound or compute-bound)
+
 ### 1. Intel VTune Profiler CLI Quick Reference
 | Command | Analysis Type | Primary Target |
 | :--- | :--- | :--- |

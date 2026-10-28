@@ -8,6 +8,18 @@
 
 ## 📌 PART 1: 1-Page Student Command & Silicon Cheat Sheet
 
+> [!TIP]
+> ### ⚡ 2-MINUTE INSTANT-RECALL MASTERY BOX (80-90% IMMEDIATE KNOWLEDGE)
+> * **LLM Generation Physics:** Prefill phase is Compute-Bound (processes entire prompt matrix); Decode phase is Memory-Bandwidth Bound (loads all 7B weights to emit 1 token).
+> * **Silicon Roles:** Intel Xeon AMX (built-in CPU matrix tiles for low-cost inference) vs Habana Gaudi (24 TPCs + on-die 24x 100GbE RoCE for massive distributed training).
+> * **OpenVINO INT4 Advantage:** Compressing weights from FP16 to INT4 cuts memory traffic by ~72%, doubling tokens/second on standard servers!
+> * **Top 5 Life-Saving Code Snippets:**
+>   1. `ov_model = ov.convert_model(model, example_input=inputs)` (Compile PyTorch model to OpenVINO Intermediate Representation)
+>   2. `compressed = nncf.compress_weights(ov_model, mode=nncf.CompressWeightsMode.INT4_ASYM)` (Apply asymmetric INT4 weight quantization)
+>   3. `ov.save_model(compressed, "model_int4.xml")` (Serialize optimized model into `.xml` graph structure + `.bin` weights)
+>   4. `LoRA Forward Pass: h = W_0*x + (alpha/r)*B*A*x` (Freeze >99% base model weights and train only rank-r adapter matrices)
+>   5. `TTFT (Time-To-First-Token)` & `TPS (Tokens-Per-Second)` (The two golden SLA metrics for enterprise AI serving)
+
 ### 1. Silicon Architecture Comparison
 | Hardware Platform | Core Microarchitecture | Primary Strength | Ideal Workload |
 | :--- | :--- | :--- | :--- |

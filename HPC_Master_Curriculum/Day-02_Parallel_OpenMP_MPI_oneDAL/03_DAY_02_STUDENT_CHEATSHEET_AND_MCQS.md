@@ -7,6 +7,18 @@
 
 ## 📌 PART 1: 1-Page Student Command & Pragma Cheat Sheet
 
+> [!TIP]
+> ### ⚡ 2-MINUTE INSTANT-RECALL MASTERY BOX (80-90% IMMEDIATE KNOWLEDGE)
+> * **Amdahl's Speedup Ceiling:** $\text{Speedup} = \frac{1}{(1 - P) + \frac{P}{N}}$. If 10% is serial ($1 - P = 0.10$), max possible speedup is $10\times$ even with infinite cores!
+> * **OpenMP vs MPI Rule:** OpenMP runs inside 1 server (threads share RAM); MPI runs across separate servers (ranks pass network messages).
+> * **False Sharing Elimination:** Never let adjacent threads write to adjacent array indices on the same 64-byte cache line; pad with `alignas(64)` for 4x-8x speedup.
+> * **Top 5 Life-Saving Code Snippets:**
+>   1. `#pragma omp parallel for reduction(+:total)` (Safely parallelize loop accumulation with zero lock overhead)
+>   2. `export OMP_NUM_THREADS=8` (Control active OpenMP worker thread count from shell)
+>   3. `mpicxx -O3 app.cpp -o app && mpirun -np 4 ./app` (Compile and launch 4 distributed MPI processes)
+>   4. `MPI_Reduce(&local, &global, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD)` (Aggregate partial sums into Rank 0)
+>   5. `from sklearnex import patch_sklearn; patch_sklearn()` (Accelerate Scikit-learn by 15x-35x using Intel oneDAL)
+
 ### 1. OpenMP Directives (Intra-Node Shared Memory)
 | Directive | What It Does | Example |
 | :--- | :--- | :--- |

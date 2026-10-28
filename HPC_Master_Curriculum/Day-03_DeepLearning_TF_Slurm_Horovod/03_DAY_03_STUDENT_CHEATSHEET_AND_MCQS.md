@@ -7,6 +7,18 @@
 
 ## 📌 PART 1: 1-Page Student Command & Slurm Cheat Sheet
 
+> [!TIP]
+> ### ⚡ 2-MINUTE INSTANT-RECALL MASTERY BOX (80-90% IMMEDIATE KNOWLEDGE)
+> * **oneDNN Operator Fusion:** Fuses `Conv2D + BatchNorm + ReLU` inside CPU cache, eliminating intermediate DRAM memory traffic (2x-3.5x speedup).
+> * **Slurm Architecture:** `slurmctld` (controller on login node) schedules jobs to `slurmd` (worker daemons on compute nodes) using `#SBATCH` directives.
+> * **Ring-AllReduce Scaling:** Decentralized ring communication sends $2 \cdot \frac{N - 1}{N} \cdot S$ bytes per worker, eliminating central Parameter Server network bottlenecks.
+> * **Top 5 Life-Saving Code Snippets:**
+>   1. `export TF_ENABLE_ONEDNN_OPTS=1` (Force-enable Intel oneDNN hardware operator acceleration)
+>   2. `sbatch --partition=gpu-intel --nodes=2 job.sh` (Submit distributed batch training job to Slurm queue)
+>   3. `squeue -u $USER && scancel <job_id>` (Monitor active jobs and kill runaway processes)
+>   4. `hvd.init() && opt = hvd.DistributedOptimizer(opt)` (Wrap TensorFlow optimizer for multi-worker ring synchronization)
+>   5. `hvd.callbacks.BroadcastGlobalVariablesHook(0)` (Synchronize initial weights from Rank 0 to all workers to prevent deadlock)
+
 ### 1. Essential Slurm Commands
 | Command | What It Does | Example |
 | :--- | :--- | :--- |
