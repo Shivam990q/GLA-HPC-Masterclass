@@ -34,10 +34,14 @@ HPC_Master_Curriculum/
 │   └── 📁 quizzes_and_assessments/                   (Pre-Assessment, In-Class Checkpoints & Post-Assessment MCQs, Excel, CSV)
 │
 ├── 📁 Day-02_Parallel_OpenMP_MPI_oneDAL/             [DAY 2: PARALLEL COMPUTING]
-│   ├── 01_DAY_02_3_HOUR_MASTER_TRAINER_PLAYBOOK.md   (Exact 180-Min Script, OpenMP Pragmas, oneDAL)
+│   ├── 00_DAY_02_MASTER_TERMINOLOGY_AND_CONCEPT_GLOSSARY.md
+│   ├── 01_DAY_02_6_HOUR_MASTER_TRAINER_PLAYBOOK.md   (Complete 6-Hour Script, OpenMP Pragmas, oneDAL)
 │   ├── 02_DAY_02_HANDS_ON_LAB_AND_COMMANDS.md        (Step-by-Step OpenMP C++ & sklearnex Benchmarks)
-│   ├── 03_DAY_02_STUDENT_CHEATSHEET_AND_MCQS.md     (1-Page Cheat Sheet + 25 Evaluated MCQs)
-│   └── 📁 code/                                      (Flat directory: omp_multithreading.cpp, intel_scikit_speedup.py)
+│   ├── 03_DAY_02_STUDENT_CHEATSHEET_AND_MCQS.md     (Cheat Sheet + Evaluated MCQs)
+│   ├── 04_DAY_02_COMPLETE_TOPIC_BY_TOPIC_STUDY_GUIDE.md
+│   ├── 05_DAY_02_ARROW_WORKFLOWS_AND_TOPIC_TREES.md
+│   ├── 📁 lab_activities/                            (Interactive Colab Lab & Standalone code/)
+│   └── 📁 quizzes_and_assessments/                   (Pre-Assessment, In-Class Checkpoints & Post-Assessment MCQs, Excel, CSV)
 │
 ├── 📁 Day-03_DeepLearning_TF_Slurm_Horovod/          [DAY 3: DEEP LEARNING & SLURM]
 │   ├── 01_DAY_03_3_HOUR_MASTER_TRAINER_PLAYBOOK.md   (Exact 180-Min Script, oneDNN, Slurm, Horovod)
