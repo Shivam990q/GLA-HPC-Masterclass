@@ -50,11 +50,12 @@ HPC_Master_Curriculum/
 │   ├── 📁 lab_activities/                            (Interactive Colab Lab & Standalone code/)
 │   └── 📁 quizzes_and_assessments/                   (Pre-Assessment, In-Class Checkpoints & Post-Assessment MCQs, Excel, CSV)
 │
-├── 📁 Day-04_Distributed_Slurm_VTune_Profiling/      [DAY 4: HOROVOD & VTUNE]
-│   ├── 01_DAY_04_3_HOUR_MASTER_TRAINER_PLAYBOOK.md   (Exact 180-Min Script, Socket Pinning, VTune TMAM)
+├── 📁 Day-04_Distributed_Slurm_VTune_Profiling/      [DAY 4: DISTRIBUTED SLURM & VTUNE PROFILING]
+│   ├── 01_DAY_04_6_HOUR_MASTER_TRAINER_PLAYBOOK.md   (Complete 6-Hour Script, Top-Down TMAM & Slurm Scaling)
 │   ├── 02_DAY_04_HANDS_ON_LAB_AND_COMMANDS.md        (Step-by-Step VTune CLI Profiling & Diagnostics)
-│   ├── 03_DAY_04_STUDENT_CHEATSHEET_AND_MCQS.md     (1-Page Cheat Sheet + 25 Evaluated MCQs)
-│   └── 📁 code/                                      (Flat directory: run_vtune_analysis.sh, cpu_bottleneck_demo.py)
+│   ├── 03_DAY_04_STUDENT_CHEATSHEET_AND_MCQS.md     (Cheat Sheet + Evaluated MCQs)
+│   ├── 📁 lab_activities/                            (Interactive Colab Lab & Standalone code/)
+│   └── 📁 quizzes_and_assessments/                   (Pre-Assessment, In-Class Checkpoints & Post-Assessment MCQs, Excel, CSV)
 │
 ├── 📁 Day-05_GenAI_LLMs_Gaudi_OpenVINO/              [SHIVAM EXPERT LEAD - DAY 5 CAPSTONE]
 │   ├── 01_DAY_05_3_HOUR_MASTER_TRAINER_PLAYBOOK.md   (Exact 180-Min Script, Xeon AMX vs Gaudi, OpenVINO INT4)

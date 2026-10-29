@@ -1,7 +1,7 @@
 # 💻 DAY 4: MASTER HANDS-ON LAB & COMMANDS RUNBOOK
 ## Distributed AI Training & Profiling Optimization with Intel VTune
 **Course Code:** `GLA-HPC-BCSG701` | **Track:** Intel & NEC Supercomputing Alliance  
-**Lead Trainer:** Shivam Gupta | **Target Session:** Day 4 (Strictly 3 Hours / 180 Minutes)  
+**Lead Trainer:** Shivam Gupta | **Target Session:** Day 4 (6-Hour Masterclass: Morning Theory + Afternoon Server Lab)  
 **Primary Reference:** [`Intel & NEC - High Performance Computing.pdf` (Page 2)](file:///c:/Users/Rose/Videos/GLA%20Trainings/_official_syllabus_docs/Intel%20%26%20NEC%20-%20High%20Performance%20Computing.pdf)
 
 ---
