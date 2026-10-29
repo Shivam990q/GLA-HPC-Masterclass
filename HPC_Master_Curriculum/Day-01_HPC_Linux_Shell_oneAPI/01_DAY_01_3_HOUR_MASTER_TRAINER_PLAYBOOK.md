@@ -354,10 +354,10 @@ The official curriculum specifies **strictly 7 topics for Day 1**:
   > Now look at the projector: I will demonstrate copying the public key to a remote server's `~/.ssh/authorized_keys` and logging in passwordless.
   > In Stage 6, we initialize Intel oneAPI: `source /opt/intel/oneapi/setvars.sh` and run `sycl-ls` to inspect all detected CPU and GPU execution targets!"
 
-### [04:00 - 04:30] Phase 5: Student 25 MCQs Assessment & 22-Point Checklist Sign-Off
+### [04:00 - 04:30] Phase 5: Student 50 MCQs Assessment & 22-Point Checklist Sign-Off
 - **Trainer Activity:**
-  1. Open [`03_DAY_01_STUDENT_CHEATSHEET_AND_MCQS.md`](file:///c:/Users/Rose/Videos/GLA%20Trainings/HPC_Master_Curriculum/Day-01_HPC_Linux_Shell_oneAPI/03_DAY_01_STUDENT_CHEATSHEET_AND_MCQS.md).
-  2. Project the 25 Evaluated MCQs. Have students write down their answers or submit via the interactive evaluation quiz.
+  1. Open [`GLA_University_Day_01_Pre_Assessment_50_MCQs.xlsx`](file:///c:/Users/Rose/Videos/GLA%20Trainings/HPC_Master_Curriculum/Day-01_HPC_Linux_Shell_oneAPI/GLA_University_Day_01_Pre_Assessment_50_MCQs.xlsx) and [`03_DAY_01_STUDENT_CHEATSHEET_AND_MCQS.md`](file:///c:/Users/Rose/Videos/GLA%20Trainings/HPC_Master_Curriculum/Day-01_HPC_Linux_Shell_oneAPI/03_DAY_01_STUDENT_CHEATSHEET_AND_MCQS.md).
+  2. Project or administer the 50 Evaluated Pre/In-Class MCQs. Have students submit their responses.
   3. Walk through the 22-point Day 1 Mastery Checklist. Verify that every student checks all 22 boxes.
   4. **Day 2 Preview Announcement:**
      > "Congratulations on completing Day 1! You have utilized 100% of today's 6 hours. You understand HPC architecture, Linux systems, Shell scripts, SSH security, and the Intel oneAPI foundation.
@@ -374,4 +374,42 @@ The official curriculum specifies **strictly 7 topics for Day 1**:
 | `cd: No such file or directory` | Used relative path from wrong folder | Run `pwd` first, then use absolute path `cd ~/hpc_workspace` |
 | `icpx: command not found` | oneAPI environment not sourced | Run `source /opt/intel/oneapi/setvars.sh` |
 | Colab disconnected / kernel died | Memory exceeded in background | Restart runtime (`Runtime -> Restart session`) and re-run cell |
+
+---
+
+## 🧠 6. The Shivam SEED Pedagogical & Dot-Connecting Blueprint
+### "Kanthasth Concept Engineering" — How to Make Concepts Live Permanently in Students' Minds
+
+#### A. The Pre-Assessment 40%–60% Baseline Calibration
+* **The Cognitive Principle:** If a 7th-semester CSE student scores 85%+ on a pre-assessment, they dismiss the workshop as trivial ("hume sab aata hai"). If they score under 20%, they suffer learned helplessness ("ye hamare bas ka nahi hai").
+* **The Sweet Spot (40% - 60%):** 
+  - ~25 questions test subjects they already passed (OS, Computer Architecture, Bash, SSH). They feel capable and respected.
+  - ~15 questions test Day 1 applied concepts (Amdahl's law math, SYCL work-group division, umask octal calculation). They see the practical relevance.
+  - ~10 questions test enterprise Intel silicon (AMX tile register capacity, Gaudi 2 RoCE fabric, NUMA penalties). They experience the exact gap in their knowledge, igniting genuine curiosity for the 6-hour lecture!
+
+#### B. The In-Class MCQ Socratic Flow (Connecting the Dots)
+Do NOT treat MCQs as a detached final exam. Use them interactively throughout the 6 hours:
+```
+[ Pose Challenge Question ] ──► [ Student Thinks & Commits ] ──► [ Reveal Physical Mechanism ] ──► [ Connect to Next Concept ]
+```
+* **Example Dot-Connecting Chain:**
+  1. *Dot 1:* Ask Q05 (Amdahl's Law Speedup limit). *Why can't we speed up infinitely by adding 1000 cores?* (Answer: Serial fraction limits max speedup to 5x).
+  2. *Dot 2:* Connect to Hardware: *So how does Intel speed up the parallel part without burning wattage?* (Answer: AVX-512 vectorization and AMX 2D Matrix Tiles).
+  3. *Dot 3:* Connect to OS: *Why does this run on Linux servers instead of Windows?* (Answer: VFS, zero-GUI overhead, deterministic process scheduling, signals).
+  4. *Dot 4:* Connect to Automation: *Why do we write Shell scripts?* (Answer: Reproducible batch job execution without human error).
+  5. *Dot 5:* Connect to Access: *Why SSH keypairs?* (Answer: Passwordless cluster communication across compute nodes).
+  6. *Dot 6:* Connect to oneAPI: *Why SYCL?* (Answer: Single-source C++ code running seamlessly across Xeon CPU, Data Center GPU, and Gaudi AI accelerators).
+
+#### C. Dual-Lab Architecture: Google Colab + Dedicated Linux Servers/VMs
+* **Google Colab:** Used for interactive, rapid prototyping, Jupyter visualizations, and instant execution without environment crashes.
+* **Dedicated Linux Servers/VMs (e.g., IDC / Intel Developer Cloud):** Used for genuine terminal experience — running `lscpu`, inspecting hardware registers, configuring `~/.ssh/authorized_keys`, and sourcing `oneapi-vars.sh`.
+
+#### D. Strict 6-Hour Syllabus Boundary Discipline
+* Stick rigorously to the 7 Day-1 topics from `Intel & NEC - High Performance Computing.pdf` (Page 2).
+* Never allow discussions to wander into Day 2 (OpenMP/MPI distributed algorithms), Day 3 (Horovod / Deep Learning), Day 4 (Slurm sbatch scripts / VTune profiling), or Day 5 (GenAI / OpenVINO).
+* This protects both trainer bandwidth and student cognitive load, guaranteeing that every student masters Day 1 completely before moving forward.
+
+#### E. Twin Invariant: Business Excellence + Student Welfare
+* **Institutional / Business Excellence (GLA University & Edulateral):** Impeccable formatting, zero syntax errors, professional 7-column Excel sheets, and clean pedagogical alignment.
+* **Student Welfare & Empowerment:** Practical, interview-grade knowledge that prepares students to answer real HPC engineering questions in campus recruitment drives and technical placements.
 
