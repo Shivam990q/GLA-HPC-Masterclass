@@ -15,12 +15,12 @@
 - (C) Input/Output Operations Per Second (IOPS) on NVMe storage
 - (D) Instructions Per Cycle (IPC) on integer ALU workloads
 
-#### Q02. [Foundational] Under Flynn's classical taxonomy of computer architectures, modern High Performance Computing clusters comprising multi-core CPUs and distributed compute nodes are predominantly categorized as:
+#### Q02. [Numerical] A dual-socket HPC compute node is equipped with two 32-core Intel Xeon processors running at a base clock frequency of 2.0 GHz. If each core can execute 32 double-precision floating-point operations per cycle using AVX-512 vector units, what is the theoretical peak double-precision compute performance (Rpeak) of the node?
 
-- (A) Single Instruction, Single Data (SISD)
-- (B) Single Instruction, Multiple Data (SIMD)
-- (C) Multiple Instruction, Single Data (MISD)
-- (D) Multiple Instruction, Multiple Data (MIMD)
+- (A) 1.024 TFLOPS
+- (B) 2.048 TFLOPS
+- (C) 8.192 TFLOPS
+- (D) 4.096 TFLOPS
 
 #### Q03. [Conceptual] In modern computer architecture and high-performance system design, what fundamental architectural bottleneck is termed the 'Memory Wall'?
 
@@ -73,12 +73,12 @@
 - (C) Intel Gen9 Graphics
 - (D) Intel Xe-HPC (High Performance Computing)
 
-#### Q10. [Technical] How do Habana Gaudi 2/3 AI accelerators optimize inter-node scale-out communications for massive distributed LLM training clusters compared to typical PCIe accelerators?
+#### Q10. [Numerical] A Habana Gaudi 2 AI accelerator card integrates 24 dedicated 100 Gigabit Ethernet (100GbE) RoCE v2 ports directly on the silicon for scale-out inter-chip communication. What is the total aggregate networking throughput provided per accelerator in Gigabytes per second (GB/s)?
 
-- (A) By integrating multiple 100 Gigabit Ethernet (RoCE v2) ports directly onto the accelerator silicon, bypassing external host PCIe NIC bottlenecks
-- (B) By routing all inter-chip communications through legacy SATA storage controllers
-- (C) By relying exclusively on external USB-C hub adapters
-- (D) By requiring all network packets to be inspected synchronously by the CPU BIOS
+- (A) 100 GB/s
+- (B) 200 GB/s
+- (C) 600 GB/s
+- (D) 300 GB/s
 
 #### Q11. [Numerical] A dual-socket 4th Gen Intel Xeon Scalable server (Sapphire Rapids) features 8 DDR5 memory channels per socket operating at DDR5-4800 (4800 MT/s). Given a standard 64-bit (8-byte) bus width per channel, what is the theoretical peak aggregate memory bandwidth of the dual-socket system?
 
@@ -101,12 +101,12 @@
 - (C) Dynamic Mode, Static Mode, and Swap Mode
 - (D) Synchronous Mode, Asynchronous Mode, and Dual-Channel Mode
 
-#### Q14. [Technical] When comparing Intel AVX-512 with Intel AMX on 4th Gen Xeon CPUs for INT8 matrix multiplication, why does AMX achieve up to an 8x throughput boost per clock cycle?
+#### Q14. [Numerical] On a 4th Gen Xeon core, AVX-512 VNNI computes up to 256 INT8 operations per cycle, while the Intel AMX TMUL accelerator computes up to 2048 INT8 operations per cycle. By what factor (speedup ratio) does AMX outperform AVX-512 in raw INT8 matrix multiply throughput per clock cycle?
 
-- (A) AMX features the Tile Matrix Multiply (TMUL) unit which computes up to 2048 INT8 operations per cycle on 2D tiles, whereas AVX-512 operates on 1D 512-bit vector registers
-- (B) AMX quadruples the operating clock frequency of the CPU to over 15 GHz
-- (C) AMX executes instructions exclusively inside the GPU framebuffer
-- (D) AVX-512 cannot process integer operations, while AMX only processes integers
+- (A) 8x throughput boost
+- (B) 4x throughput boost
+- (C) 2x throughput boost
+- (D) 16x throughput boost
 
 ## 🔷 Module 3: Linux Basics & VFS
 
@@ -134,16 +134,16 @@
 #### Q18. [Numerical] If a Linux user's shell session has an active 'umask' setting of 027, what will be the default octal permissions assigned to a newly created directory (base 777) and a newly created regular text file (base 666) respectively?
 
 - (A) Directory: 755 ('rwxr-xr-x'), File: 644 ('rw-r--r--')
-- (B) Directory: 750 ('rwxr-x---'), File: 640 ('rw-r-----')
+- (B) Directory: 700 ('rwx------'), File: 600 ('rw-------')
 - (C) Directory: 770 ('rwxrwx---'), File: 660 ('rw-rw----')
-- (D) Directory: 700 ('rwx------'), File: 600 ('rw-------')
+- (D) Directory: 750 ('rwxr-x---'), File: 640 ('rw-r-----')
 
-#### Q19. [Scenario] Why are HPC cluster users strictly instructed not to write massive, high-throughput simulation output checkpoints into their '$HOME' directory?
+#### Q19. [Numerical] In a Linux ext4 filesystem configured with the standard 4096-byte (4 KB) allocation block size, if a simulation outputs a configuration file of exactly 10,000 bytes, how many filesystem blocks are allocated on disk and how much internal fragmentation (slack space) is unused in the final block?
 
-- (A) '$HOME' is typically mounted over a shared, quota-limited network filesystem (NFS) that experiences high latency under heavy I/O, whereas parallel filesystems like '/scratch' (Lustre/GPFS) are optimized for high-bandwidth parallel I/O
-- (B) '$HOME' is deleted automatically every time a user logs out of the cluster
-- (C) '$HOME' does not allow binary executable files to be created or executed
-- (D) '$HOME' cannot store files larger than 1 Megabyte due to kernel locks
+- (A) 2 blocks allocated, 0 bytes slack space
+- (B) 3 blocks allocated, 2288 bytes slack space
+- (C) 4 blocks allocated, 6384 bytes slack space
+- (D) 1 block allocated, 5904 bytes slack space
 
 #### Q20. [Technical] What is the fundamental architectural distinction between the virtual filesystems '/proc' and '/sys' in the Linux kernel?
 
@@ -175,12 +175,12 @@
 - (C) '|'
 - (D) '>>'
 
-#### Q24. [Technical] What does the special parameter '$?' represent in a Bash shell session immediately following the completion of a program?
+#### Q24. [Numerical] In a Bash automation script, what integer result is printed to the terminal when executing the arithmetic evaluation command: 'echo $(( (15 % 4) + (2 ** 5) - (12 / 3) ))'?
 
-- (A) The Process ID (PID) of the currently running shell process
-- (B) The numeric exit status code of the most recently executed foreground pipeline (where 0 indicates success)
-- (C) The total count of command-line arguments passed to the script
-- (D) The total wall-clock runtime of the previous command in milliseconds
+- (A) 27
+- (B) 42
+- (C) 35
+- (D) 31
 
 #### Q25. [Technical] In production HPC automation scripts, what is the effect of placing the directive 'set -e' at the beginning of the script?
 
@@ -189,12 +189,12 @@
 - (C) The shell ignores all syntax errors and proceeds execution
 - (D) The shell allocates maximum GPU memory to all child processes
 
-#### Q26. [Technical] In Bash shell scripting, which syntax correctly redirects both Standard Output (stdout, file descriptor 1) and Standard Error (stderr, file descriptor 2) to a log file named 'simulation.log'?
+#### Q26. [Numerical] An HPC batch simulation job terminates unexpectedly. In the shell, checking 'echo $?' yields an exit code of 137. By standard Linux convention, a process killed by an external operating system signal returns '128 + Signal Number'. Which Linux signal terminated the process?
 
-- (A) ./sim_engine 2> simulation.log 1>&2
-- (B) ./sim_engine | simulation.log
-- (C) ./sim_engine > simulation.log 2>&1
-- (D) ./sim_engine 1>&2 >> simulation.log
+- (A) Signal 1 (SIGHUP)
+- (B) Signal 2 (SIGINT)
+- (C) Signal 9 (SIGKILL / Out-Of-Memory Killer)
+- (D) Signal 15 (SIGTERM)
 
 #### Q27. [Scenario] A student writes an automation pipeline: "cat input.dat | grep 'CRITICAL_METRIC' | awk '{print $2}' > output.txt". The input file 'input.dat' does not exist, yet the bash script continues execution and reports exit status '$? = 0'. Why did this silent failure occur, and how should it be prevented?
 
@@ -226,12 +226,12 @@
 - (C) '/etc/ssh/ssh_config'
 - (D) '~/.bashrc'
 
-#### Q31. [Technical] Which modern elliptic-curve public-key algorithm is widely recommended for SSH keys due to its high computational efficiency, compact 256-bit key length, and strong resistance to timing and side-channel attacks?
+#### Q31. [Numerical] Modern HPC clusters recommend 256-bit Ed25519 elliptic-curve SSH keys, which offer equivalent cryptographic security strength to classic 3072-bit RSA keys. By what factor (ratio) is the Ed25519 key size smaller than the equivalent RSA key size?
 
-- (A) DES (Data Encryption Standard)
-- (B) Ed25519 (Edwards-curve Digital Signature Algorithm)
-- (C) MD5 (Message Digest 5)
-- (D) RC4 (Rivest Cipher 4)
+- (A) 4x smaller
+- (B) 8x smaller
+- (C) 12x smaller
+- (D) 24x smaller
 
 #### Q32. [Scenario] A user generates an Ed25519 key pair and copies the private key to a new workstation. When running 'ssh -i ~/.ssh/id_ed25519 user@hpc.gla.ac.in', the connection immediately terminates with: 'Permissions 0777 for id_ed25519 are too open'. Which exact command resolves this error?
 
@@ -240,12 +240,12 @@
 - (C) 'chown root ~/.ssh/id_ed25519'
 - (D) 'rm -f ~/.ssh/known_hosts'
 
-#### Q33. [Technical] Which command transfers a local dataset 'hpc_input.tar.gz' to a remote cluster user account at 'login.gla.ac.in' under the directory '/scratch/data/'?
+#### Q33. [Numerical] A research student transfers a 45 Gigabyte (GB) raw simulation dataset from a local workstation to the cluster storage over a dedicated 1 Gigabit per second (1 Gbps) Ethernet link using 'scp'. Assuming 100% link utilization without protocol overhead, what is the theoretical minimum transfer time in seconds?
 
-- (A) ssh hpc_input.tar.gz user@login.gla.ac.in:/scratch/data/
-- (B) cp -remote hpc_input.tar.gz user@login.gla.ac.in:/scratch/data/
-- (C) sftp-push hpc_input.tar.gz login.gla.ac.in
-- (D) scp hpc_input.tar.gz user@login.gla.ac.in:/scratch/data/
+- (A) 45 seconds
+- (B) 90 seconds
+- (C) 180 seconds
+- (D) 360 seconds
 
 #### Q34. [Scenario] What critical security vulnerability is introduced when an administrator or user enables SSH Agent Forwarding ('ssh -A') when connecting to an untrusted intermediate bastion host?
 
@@ -284,12 +284,12 @@
 - (C) SYCL (Single-source C++ heterogeneous programming standard)
 - (D) Vulkan GLSL
 
-#### Q39. [Technical] In the Intel oneAPI software stack, what is the role of Intel Level Zero?
+#### Q39. [Numerical] In a SYCL kernel execution, a 1-dimensional computational domain of global size 2048 work-items is launched with a work-group size specified as 'sycl::range<1>(256)'. How many independent work-groups will the SYCL runtime schedule across the hardware compute units?
 
-- (A) A high-level visual graph designer for web applications
-- (B) A low-level, direct-to-metal hardware abstraction interface providing fine-grained control over accelerator memory, device discovery, kernel submission, and telemetry
-- (C) An audio processing subsystem for desktop sound cards
-- (D) A database query optimization engine
+- (A) 4 work-groups
+- (B) 8 work-groups
+- (C) 16 work-groups
+- (D) 32 work-groups
 
 #### Q40. [Technical] In SYCL Unified Shared Memory (USM), what is the key functional difference between 'malloc_device' and 'malloc_host' memory allocations?
 
@@ -298,12 +298,12 @@
 - (C) 'malloc_device' is limited to 1 Megabyte, while 'malloc_host' is unlimited
 - (D) 'malloc_host' cannot be read by accelerator GPUs
 
-#### Q41. [Technical] In SYCL Unified Shared Memory (USM), how does 'malloc_shared' simplify heterogeneous programming compared to explicit buffer/accessor memory management?
+#### Q41. [Numerical] A developer allocates a 2D square matrix of dimension 2048 x 2048 containing double-precision floating-point numbers ('sizeof(double) = 8 bytes') using 'sycl::malloc_shared'. How many Megabytes (MB) of memory does this single allocation request?
 
-- (A) It broadcasts memory across all nodes in a cluster using InfiniBand
-- (B) It converts all double-precision floating-point numbers into 8-bit integers
-- (C) It provides a unified pointer accessible by both CPU and GPU, with the SYCL runtime automatically managing page migration on demand between host and device memory
-- (D) It disables data caching to enforce synchronous disk access
+- (A) 8 MB
+- (B) 16 MB
+- (C) 32 MB
+- (D) 64 MB
 
 #### Q42. [Scenario] When creating a SYCL command queue, what operational difference exists between an in-order queue ('sycl::property::queue::in_order') and the default out-of-order queue?
 
@@ -335,12 +335,12 @@
 - (C) It instructs the compiler to generate SIMD vector instructions targeting the highest instruction set supported by the compilation host CPU (e.g., AVX-512)
 - (D) It disables all loop unrolling and optimization to prioritize compilation speed
 
-#### Q46. [Technical] In a multi-node distributed HPC cluster, which component in the Intel HPC Toolkit provides the optimized implementation of the MPI-3 / MPI-4 standard for inter-node communication?
+#### Q46. [Numerical] An Intel MPI simulation is submitted across 4 cluster compute nodes with the execution command: 'mpirun -n 64 -ppn 16 ./simulation_app'. How many total MPI ranks (processes) are spawned in total, and how many MPI ranks execute per physical node?
 
-- (A) Intel Integrated Performance Primitives (IPP)
-- (B) Intel Distribution for Python
-- (C) Intel VTune Profiler
-- (D) Intel MPI Library
+- (A) 16 total ranks, 4 ranks per node
+- (B) 32 total ranks, 8 ranks per node
+- (C) 128 total ranks, 32 ranks per node
+- (D) 64 total ranks, 16 ranks per node
 
 #### Q47. [Scenario] Which diagnostic analysis tool included in the Intel HPC Toolkit is designed to detect dynamic memory corruption, memory leaks, uninitialized memory accesses, and threading data races without needing specialized recompilation?
 
@@ -356,12 +356,12 @@
 - (C) nice -n -20 ./simulation_app
 - (D) nohup ./simulation_app &
 
-#### Q49. [Technical] When compiling numerical linear algebra algorithms with 'icx' / 'icpx', what is the consequence of specifying the floating-point optimization flag '-fp-model=fast=2' compared to '-fp-model=precise'?
+#### Q49. [Numerical] Hardware profiling on a dual-socket Intel Xeon server indicates that local NUMA memory read access on Socket 0 takes 75 nanoseconds (ns), while accessing remote memory attached to Socket 1 across the Intel UPI interconnect takes 135 nanoseconds (ns). What is the percentage increase in memory access latency incurred by the remote NUMA access?
 
-- (A) '-fp-model=fast=2' converts all double-precision numbers to 8-bit integers
-- (B) '-fp-model=precise' disables all CPU vector registers and forces scalar emulation
-- (C) '-fp-model=fast=2' enables aggressive floating-point algebraic reordering and fused multiply-adds (FMA) that maximize compute throughput at the expense of strict IEEE 754 numerical bitwise reproducibility
-- (D) '-fp-model=fast=2' only functions on ARM processors
+- (A) 20% increase
+- (B) 45% increase
+- (C) 80% increase
+- (D) 150% increase
 
 #### Q50. [Technical] What is the architectural role of the Open Fabrics Interfaces (OFI / Libfabric) provider layer underneath the Intel MPI Library in high-performance computing clusters?
 
