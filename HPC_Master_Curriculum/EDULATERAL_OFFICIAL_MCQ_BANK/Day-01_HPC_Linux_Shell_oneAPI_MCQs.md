@@ -1,12 +1,350 @@
-# 🏢 Edulateral Foundation — Official Evaluative Assessment Bank
-### Day 1: Fundamentals of HPC, Linux, Shell Scripting & Hardware Architectures
-**Target Audience**: GLA University 7th Semester B.Tech Computer Science & Engineering  
-**Lead Trainer**: Shivam Gupta | **Evaluation Mode**: Objective Technical MCQ Assessment  
-**Total Questions**: 25 Questions | **Time Limit**: 45 Minutes  
+# 🏢 GLA UNIVERSITY — OFFICIAL 50-MCQ PRE-ASSESSMENT BANK
+## High Performance Computing & Heterogeneous AI Systems (GLA-HPC-BCSG701)
+### Day 1 Workshop Entrance & Diagnostic Pre-Assessment
+**Course Code:** GLA-HPC-BCSG701 | **Track:** Intel & NEC Supercomputing Alliance × Edulateral Foundation
+**Target Audience:** 7th-Semester B.Tech Computer Science & IT Students (60 Students)
+**Lead Trainer:** Shivam Gupta | **Assessment Coordinator:** Pedina Sreeja (GLA University)
+**Total Questions:** Exactly 50 Multiple Choice Questions | **Duration:** 60 Minutes | **Evaluation:** +1 Mark for Correct, 0 for Unattempted
+**Official Reference:** `Intel & NEC - High Performance Computing.pdf` (Page 2)
 
 ---
 
-### Question 01: D1-Q01
+## 📌 Structure of the 50-MCQ Pre-Assessment
+- **Section A (Questions 01 – 25):** Core HPC Principles, Intel Silicon Triad (Xeon/GPU/Gaudi), Linux VFS Navigation, Shell Automation & SSH Security.
+- **Section B (Questions 26 – 50):** Advanced Supercomputing Architecture, Dennard Scaling & Amdahl's Law, NUMA Topology, Cache Coherence, InfiniBand Fabric & Intel oneAPI/SYCL Compilers.
+
+---
+
+## 🔷 Section A: Foundational Concepts & Operational Linux (Q01 - Q25)
+
+### Question 01 (D1-Q01)
+**What does HPC stand for?**
+
+- **(A)** High Performance Computing
+- **(B)** Heavy Processing Cluster
+- **(C)** Hardware Parallel Control
+- **(D)** Heterogeneous Processor Core
+
+> **Correct Answer**: **(A)**  
+> **Technical Explanation**: High Performance Computing refers to aggregating computing power to solve complex engineering and scientific problems.
+
+---
+
+### Question 02 (D1-Q02)
+**Which architectural limitation primarily prevents standard consumer laptops from training 70-Billion parameter LLMs?**
+
+- **(A)** Operating system GUI overhead
+- **(B)** Memory Wall (limited DDR channels, capacity & bandwidth)
+- **(C)** Slower SSD read speeds only
+- **(D)** Absence of Python 3.12
+
+> **Correct Answer**: **(B)**  
+> **Technical Explanation**: Consumer laptops typically have 2 memory channels (~60-80 GB/s bandwidth), whereas enterprise Xeon nodes have 8 to 16 channels exceeding 600 GB/s bandwidth.
+
+---
+
+### Question 03 (D1-Q03)
+**In an HPC cluster topology, what is the role of the Head / Login Node?**
+
+- **(A)** Running heavy 50-hour model training jobs directly
+- **(B)** Providing a secure access gateway for editing code, compiling, and submitting batch jobs
+- **(C)** Acting as a high-voltage power transformer
+- **(D)** Storing long-term tape archives only
+
+> **Correct Answer**: **(B)**  
+> **Technical Explanation**: The login node is shared by all users to prepare scripts and interact with the batch scheduler; heavy jobs must run on worker nodes.
+
+---
+
+### Question 04 (D1-Q04)
+**Which Intel silicon engine is purpose-built with integrated 24x 100GbE RoCE networking for large-scale Deep Learning training?**
+
+- **(A)** Intel Core i9-14900K
+- **(B)** Intel Xeon Platinum 8480+
+- **(C)** Habana Gaudi 2 / Gaudi 3
+- **(D)** Intel Arc A770
+
+> **Correct Answer**: **(C)**  
+> **Technical Explanation**: Habana Gaudi accelerators feature integrated RoCE RDMA network ports directly on-die to eliminate external networking bottlenecks during distributed training.
+
+---
+
+### Question 05 (D1-Q05)
+**What hardware feature in 4th/5th Gen Intel Xeon Scalable processors provides on-die matrix multiplication acceleration?**
+
+- **(A)** Hyper-Threading
+- **(B)** Intel AMX (Advanced Matrix Extensions)
+- **(C)** QuickPath Interconnect
+- **(D)** Turbo Boost 2.0
+
+> **Correct Answer**: **(B)**  
+> **Technical Explanation**: Intel AMX introduces dedicated hardware tile registers (TMUL) for accelerating BF16 and INT8 matrix math directly on the CPU.
+
+---
+
+### Question 06 (D1-Q06)
+**What does an absolute path in Linux always start with?**
+
+- **(A)** `~` (Tilde)
+- **(B)** `.` (Dot)
+- **(C)** `/` (Forward slash / Root)
+- **(D)** `C:\`
+
+> **Correct Answer**: **(C)**  
+> **Technical Explanation**: An absolute path begins at the root of the filesystem hierarchy (`/`).
+
+---
+
+### Question 07 (D1-Q07)
+**Which command lists all files including hidden dotfiles with detailed permissions and human-readable file sizes?**
+
+- **(A)** `dir /a`
+- **(B)** `ls -la`
+- **(C)** `show -all`
+- **(D)** `list -files`
+
+> **Correct Answer**: **(B)**  
+> **Technical Explanation**: In `ls -la`, `-l` enables long listing, `-a` includes all hidden files, and `-h` makes file sizes human-readable.
+
+---
+
+### Question 08 (D1-Q08)
+**What happens when a user deletes a file with `rm file.txt` on a remote Linux server?**
+
+- **(A)** It moves to the Windows Recycle Bin
+- **(B)** It is moved to `/tmp/recycle` and can be restored for 30 days
+- **(C)** It is permanently unlinked immediately without confirmation
+- **(D)** The server prompts the administrator for an OTP
+
+> **Correct Answer**: **(C)**  
+> **Technical Explanation**: Standard Linux `rm` unlinks the inode immediately; there is no default recycle bin on terminal sessions.
+
+---
+
+### Question 09 (D1-Q09)
+**How do you correctly assign a string to a variable in Bash?**
+
+- **(A)** `CLUSTER = "GLA_HPC"`
+- **(B)** `set CLUSTER = "GLA_HPC"`
+- **(C)** `CLUSTER="GLA_HPC"`
+- **(D)** `var CLUSTER := "GLA_HPC"`
+
+> **Correct Answer**: **(C)**  
+> **Technical Explanation**: Bash does not allow spaces around the `=` assignment operator.
+
+---
+
+### Question 10 (D1-Q10)
+**What is line 1 of an automated Bash script called (`#!/bin/bash`)?**
+
+- **(A)** Hashpipe
+- **(B)** Shebang
+- **(C)** Preprocessor Directive
+- **(D)** Interpreter Header
+
+> **Correct Answer**: **(B)**  
+> **Technical Explanation**: `#!` is called the Shebang, instructing the OS loader which interpreter binary to invoke.
+
+---
+
+### Question 11 (D1-Q11)
+**Which permission command must be run before executing a newly created script via `./automate.sh`?**
+
+- **(A)** `chmod +x automate.sh`
+- **(B)** `chown root automate.sh`
+- **(C)** `chmod 444 automate.sh`
+- **(D)** `attrib +r automate.sh`
+
+> **Correct Answer**: **(A)**  
+> **Technical Explanation**: Newly created files lack execute permission by default; `chmod +x` enables the executable bit.
+
+---
+
+### Question 12 (D1-Q12)
+**In shell scripting, what does `command >> output.log` do?**
+
+- **(A)** Overwrites `output.log` with the command output
+- **(B)** Appends command output to the end of `output.log`
+- **(C)** Deletes `output.log` if an error occurs
+- **(D)** Redirects standard input from `output.log`
+
+> **Correct Answer**: **(B)**  
+> **Technical Explanation**: `>` overwrites a file, while `>>` appends to the existing file.
+
+---
+
+### Question 13 (D1-Q13)
+**What is the default network port used by the Secure Shell (SSH) protocol?**
+
+- **(A)** 21
+- **(B)** 22
+- **(C)** 80
+- **(D)** 443
+
+> **Correct Answer**: **(B)**  
+> **Technical Explanation**: SSH runs on standard TCP port 22.
+
+---
+
+### Question 14 (D1-Q14)
+**Which asymmetric algorithm is modern industry best-practice for SSH key generation?**
+
+- **(A)** DES
+- **(B)** MD5
+- **(C)** Ed25519
+- **(D)** SHA-1
+
+> **Correct Answer**: **(C)**  
+> **Technical Explanation**: Ed25519 (Edwards-curve Digital Signature Algorithm) offers superior security and performance over legacy RSA and DSA.
+
+---
+
+### Question 15 (D1-Q15)
+**Where must a student's public SSH key be placed on a remote Linux server to allow passwordless login?**
+
+- **(A)** `/etc/ssh/ssh_config`
+- **(B)** `~/.ssh/authorized_keys`
+- **(C)** `/var/log/secure`
+- **(D)** `~/public_keys.txt`
+
+> **Correct Answer**: **(B)**  
+> **Technical Explanation**: The OpenSSH daemon checks `~/.ssh/authorized_keys` for recognized client public keys.
+
+---
+
+### Question 16 (D1-Q16)
+**What is the fundamental vision behind the Intel oneAPI programming model?**
+
+- **(A)** Rewriting all software in Python
+- **(B)** Single-source cross-architecture programming (CPU, GPU, FPGA) without proprietary lock-in
+- **(C)** Restricting software to run exclusively on Intel Core i5 laptops
+- **(D)** Eliminating the C++ language
+
+> **Correct Answer**: **(B)**  
+> **Technical Explanation**: oneAPI is an open, standards-based unified programming model built on SYCL to target heterogeneous architectures.
+
+---
+
+### Question 17 (D1-Q17)
+**What standard language extension is used by oneAPI for heterogeneous parallel computing?**
+
+- **(A)** CUDA C
+- **(B)** SYCL (Standard C++)
+- **(C)** Visual Basic
+- **(D)** JavaScript
+
+> **Correct Answer**: **(B)**  
+> **Technical Explanation**: SYCL is the Khronos open standard for heterogeneous computing in standard ISO C++.
+
+---
+
+### Question 18 (D1-Q18)
+**Which script initializes the Intel oneAPI environment variables (`$PATH`, `$LD_LIBRARY_PATH`)?**
+
+- **(A)** `source /etc/profile`
+- **(B)** `source /opt/intel/oneapi/setvars.sh`
+- **(C)** `bash install_oneapi.sh`
+- **(D)** `init_intel.cmd`
+
+> **Correct Answer**: **(B)**  
+> **Technical Explanation**: `setvars.sh` sets all necessary compiler, library, and tool paths for the active shell session.
+
+---
+
+### Question 19 (D1-Q19)
+**What is the name of the LLVM-based Intel oneAPI C++ Compiler?**
+
+- **(A)** `gcc`
+- **(B)** `clang++`
+- **(C)** `icpx`
+- **(D)** `msvc`
+
+> **Correct Answer**: **(C)**  
+> **Technical Explanation**: `icpx` is the modern LLVM-based Intel C++ Compiler supporting DPC++, SYCL, and OpenMP.
+
+---
+
+### Question 20 (D1-Q20)
+**What is the primary role of the Intel oneMKL library in the oneAPI Base Toolkit?**
+
+- **(A)** Parsing HTML web pages
+- **(B)** High-performance math kernels (BLAS, LAPACK, FFT) optimized for AVX-512 and AMX
+- **(C)** Managing network firewalls
+- **(D)** Rendering 3D video game animations
+
+> **Correct Answer**: **(B)**  
+> **Technical Explanation**: Intel oneMKL (Math Kernel Library) provides heavily optimized linear algebra, FFT, and vector math routines.
+
+---
+
+### Question 21 (D1-Q21)
+**Which tool in the Intel HPC Toolkit is used to detect memory leaks and thread race conditions in parallel applications?**
+
+- **(A)** Intel Inspector
+- **(B)** GDB
+- **(C)** Valgrind only
+- **(D)** Wireshark
+
+> **Correct Answer**: **(A)**  
+> **Technical Explanation**: Intel Inspector is a memory and thread error debugger for C, C++, and Fortran applications.
+
+---
+
+### Question 22 (D1-Q22)
+**Which library in the Intel HPC Toolkit enables multi-node message passing across cluster networks?**
+
+- **(A)** Intel oneDNN
+- **(B)** Intel MPI Library
+- **(C)** Intel oneDAL
+- **(D)** Intel DPC++
+
+> **Correct Answer**: **(B)**  
+> **Technical Explanation**: Intel MPI implements the MPI-3.1 standard optimized for low-latency cluster interconnects.
+
+---
+
+### Question 23 (D1-Q23)
+**What command displays the exit status code of the immediately preceding command in Bash?**
+
+- **(A)** `echo $STATUS`
+- **(B)** `echo $?`
+- **(C)** `return`
+- **(D)** `check`
+
+> **Correct Answer**: **(B)**  
+> **Technical Explanation**: `$?` stores the exit code of the last executed command (0 = Success, non-zero = Failure).
+
+---
+
+### Question 24 (D1-Q24)
+**In Linux, what does the `$PATH` environment variable represent?**
+
+- **(A)** The filepath of the current text document
+- **(B)** A colon-separated list of directories searched by the shell to find executable binaries
+- **(C)** The user's home folder location
+- **(D)** The network IP route to the internet
+
+> **Correct Answer**: **(B)**  
+> **Technical Explanation**: When a command name is typed, the shell searches directories listed in `$PATH` in order.
+
+---
+
+### Question 25 (D1-Q25)
+**Which of the following topics belongs STRICTLY to Day 2 and should NOT be executed on Day 1?**
+
+- **(A)** Linux Filesystem Navigation
+- **(B)** Shell Scripting Automation
+- **(C)** OpenMP multithreading & MPI distributed computing
+- **(D)** Intel oneAPI environment sourcing
+
+> **Correct Answer**: **(C)**  
+> **Technical Explanation**: OpenMP, MPI, and oneDAL Machine Learning are scheduled for Day 2 as per the official curriculum.
+
+---
+
+## 🔷 Section B: Advanced Supercomputer & Silicon Architecture (Q26 - Q50)
+
+### Question 26 (D1-Q26)
 **Why did Dennard scaling breakdown around 2005, forcing processor manufacturers to transition from increasing single-core clock frequencies to multi-core and heterogeneous architectures?**
 
 - **(A)** Sub-threshold leakage current and static power dissipation grew exponentially at sub-90nm process nodes, causing thermal runaway.
@@ -19,7 +357,7 @@
 
 ---
 
-### Question 02: D1-Q02
+### Question 27 (D1-Q27)
 **According to Amdahl's Law, if 90% of an HPC application's execution time is parallelizable and 10% is strictly sequential, what is the theoretical maximum speedup limit as the number of parallel processor cores approaches infinity?**
 
 - **(A)** 90x
@@ -32,7 +370,7 @@
 
 ---
 
-### Question 03: D1-Q03
+### Question 28 (D1-Q28)
 **How does Gustafson's Law fundamentally differ from Amdahl's Law in evaluating the scalability of high-performance computing clusters?**
 
 - **(A)** Gustafson's Law assumes a fixed problem size, whereas Amdahl's Law scales the problem size with core count.
@@ -45,7 +383,7 @@
 
 ---
 
-### Question 04: D1-Q04
+### Question 29 (D1-Q29)
 **In a dual-socket 4th Gen Intel Xeon Scalable (Sapphire Rapids) server, what interconnect fabric facilitates cache-coherent inter-socket communication, and what is its typical latency penalty relative to local DRAM access?**
 
 - **(A)** PCIe Gen 3 bus; ~20ns penalty.
@@ -58,7 +396,7 @@
 
 ---
 
-### Question 05: D1-Q05
+### Question 30 (D1-Q30)
 **What is the register width and single-precision IEEE 754 floating-point capacity of Intel AVX-512 vector units?**
 
 - **(A)** 256 bits, processing 8 FP32 values per instruction.
@@ -71,7 +409,7 @@
 
 ---
 
-### Question 06: D1-Q06
+### Question 31 (D1-Q31)
 **What architectural engine was introduced in 4th Gen Intel Xeon Scalable (Sapphire Rapids) to accelerate deep learning tensor matrix multiplications in hardware?**
 
 - **(A)** Intel AMX (Advanced Matrix Extensions) with 2D tile registers (TMM) and TMUL matrix multiplication units.
@@ -84,7 +422,7 @@
 
 ---
 
-### Question 07: D1-Q07
+### Question 32 (D1-Q32)
 **In the NEC SX-Aurora TSUBASA supercomputing architecture, what role does the Intel Xeon processor play relative to the NEC Vector Engine (VE)?**
 
 - **(A)** The Intel Xeon acts as the Vector Host (VH), running the Linux OS, managing storage/Lustre I/O, and job dispatching, while the NEC VE PCIe card executes ultra-wide vector computations.
@@ -97,7 +435,7 @@
 
 ---
 
-### Question 08: D1-Q08
+### Question 33 (D1-Q33)
 **What is the peak memory bandwidth of the NEC SX-Aurora TSUBASA Type 20B Vector Engine, and what memory technology enables it?**
 
 - **(A)** 128 GB/s using standard DDR4 memory.
@@ -110,7 +448,7 @@
 
 ---
 
-### Question 09: D1-Q09
+### Question 34 (D1-Q34)
 **In an HPC Linux cluster, what is the functional difference between `/home` and `/scratch` parallel file systems?**
 
 - **(A)** `/home` is backed by high-throughput parallel Lustre storage for high IOPS, while `/scratch` is a slow USB stick.
@@ -123,7 +461,7 @@
 
 ---
 
-### Question 10: D1-Q10
+### Question 35 (D1-Q35)
 **Why is the bash directive `set -euo pipefail` considered mandatory for professional HPC job automation scripts?**
 
 - **(A)** It automatically compiles Python scripts into C++ binaries before execution.
@@ -136,7 +474,7 @@
 
 ---
 
-### Question 11: D1-Q11
+### Question 36 (D1-Q36)
 **Which elliptic-curve algorithm is the modern enterprise standard for HPC passwordless SSH keys, replacing legacy RSA 2048/4096-bit keys due to superior security and cryptographic handshake speed?**
 
 - **(A)** DES
@@ -149,7 +487,7 @@
 
 ---
 
-### Question 12: D1-Q12
+### Question 37 (D1-Q37)
 **In OpenSSH configuration (`~/.ssh/config`), what does the directive `ControlMaster auto` combined with `ControlPath` achieve in an HPC cluster environment?**
 
 - **(A)** It allows normal users to gain root privileges on compute nodes.
@@ -162,7 +500,7 @@
 
 ---
 
-### Question 13: D1-Q13
+### Question 38 (D1-Q38)
 **What is the primary role of Lmod / Environment Modules (`module load`, `module purge`) on production HPC clusters?**
 
 - **(A)** It installs Linux kernel drivers directly into motherboard BIOS.
@@ -175,7 +513,7 @@
 
 ---
 
-### Question 14: D1-Q14
+### Question 39 (D1-Q39)
 **What is the core distinction between the Intel oneAPI Base Toolkit and the Intel oneAPI HPC Toolkit?**
 
 - **(A)** Base Toolkit is for Microsoft Office; HPC Toolkit is for Linux kernels.
@@ -188,7 +526,7 @@
 
 ---
 
-### Question 15: D1-Q15
+### Question 40 (D1-Q40)
 **What command-line tool is used in modern Linux kernels to inspect NUMA node assignments, socket CPU affinity, and distance matrices between CPU sockets and memory controllers?**
 
 - **(A)** numactl --hardware
@@ -201,7 +539,7 @@
 
 ---
 
-### Question 16: D1-Q16
+### Question 41 (D1-Q41)
 **What does a NUMA distance value of '21' relative to a local distance of '10' indicate in `numactl -H` output?**
 
 - **(A)** The remote memory has 21 GB of capacity.
@@ -214,7 +552,7 @@
 
 ---
 
-### Question 17: D1-Q17
+### Question 42 (D1-Q42)
 **What flag must be passed to the Intel oneAPI C/C++ compiler (`icx`) to instruct it to generate optimized AVX-512 vector instructions targeting Intel 4th Gen Xeon Scalable processors?**
 
 - **(A)** -O0 -mno-simd
@@ -227,7 +565,7 @@
 
 ---
 
-### Question 18: D1-Q18
+### Question 43 (D1-Q43)
 **In Linux cluster administration, what virtual filesystem exposes real-time hardware status such as CPU temperature, frequency scaling governors, and memory sub-timings?**
 
 - **(A)** /sys and /proc
@@ -240,7 +578,7 @@
 
 ---
 
-### Question 19: D1-Q19
+### Question 44 (D1-Q44)
 **What does the Linux command `lscpu -C` display?**
 
 - **(A)** Computer cost breakdown.
@@ -253,7 +591,7 @@
 
 ---
 
-### Question 20: D1-Q20
+### Question 45 (D1-Q45)
 **In modern heterogeneous HPC clusters, what is the role of Intel Level Zero API?**
 
 - **(A)** A low-level direct-to-metal hardware abstraction interface for Intel GPUs and AI accelerators, providing fine-grained device control below the SYCL layer.
@@ -266,7 +604,7 @@
 
 ---
 
-### Question 21: D1-Q21
+### Question 46 (D1-Q46)
 **What is the key technological feature of InfiniBand NDR networking in top-tier HPC clusters?**
 
 - **(A)** 400 Gbps per-port throughput with sub-microsecond latency and hardware-offloaded RDMA (Remote Direct Memory Access).
@@ -279,7 +617,7 @@
 
 ---
 
-### Question 22: D1-Q22
+### Question 47 (D1-Q47)
 **What is a Fat-Tree network topology in supercomputer cluster design?**
 
 - **(A)** A tree topology where tree branches grow thicker (more aggregated bandwidth) toward the root, guaranteeing full bisection non-blocking bandwidth across all compute racks.
@@ -292,7 +630,7 @@
 
 ---
 
-### Question 23: D1-Q23
+### Question 48 (D1-Q48)
 **What Linux tool allows an engineer to pin a process to a specific NUMA node and enforce that memory allocations only occur from that node's local memory controllers?**
 
 - **(A)** numactl --cpunodebind=0 --membind=0 ./app
@@ -305,7 +643,7 @@
 
 ---
 
-### Question 24: D1-Q24
+### Question 49 (D1-Q49)
 **What does SYCL represent within the Intel oneAPI programming ecosystem?**
 
 - **(A)** An open standard, single-source C++ programming model governed by Khronos Group for heterogeneous computing across CPUs, GPUs, FPGAs, and AI accelerators.
@@ -318,7 +656,7 @@
 
 ---
 
-### Question 25: D1-Q25
+### Question 50 (D1-Q50)
 **When configuring passwordless SSH keys for an HPC cluster, why must the permissions of `~/.ssh` and `~/.ssh/authorized_keys` strictly be set to `700` and `600` respectively?**
 
 - **(A)** Because SSH daemons enforce strict permission checks and will refuse authentication if the directory or keys are writable by group or other users for security.
@@ -330,3 +668,33 @@
 > **Technical Explanation**: The OpenSSH daemon enforces `StrictModes yes` by default. If `~/.ssh` has permissions looser than `700` or `authorized_keys` looser than `600`, other local users could tamper with the keys, causing OpenSSH to silently reject authentication.
 
 ---
+
+## 📊 MASTER 50-QUESTION EVALUATION & ANSWER KEY GRID
+
+| Q# | Key | Question Topic | Q# | Key | Question Topic |
+|:---:|:---:|:---|:---:|:---:|:---|
+| **Q01** | **A** | HPC Definition & Fundamentals | **Q26** | **A** | Dennard Scaling Breakdown & Power Wall |
+| **Q02** | **B** | Memory Wall & LLM Laptop Bottlenecks | **Q27** | **B** | Amdahl's Law Speedup Boundary Calculation |
+| **Q03** | **B** | Head / Login Node Role vs Compute Nodes | **Q28** | **B** | Gustafson's Law Scaled Speedup Model |
+| **Q04** | **C** | Habana Gaudi On-Die RoCE Architecture | **Q29** | **B** | Xeon Dual-Socket UPI Bus & Memory Channels |
+| **Q05** | **B** | Intel Xeon Sapphire Rapids AMX Acceleration | **Q30** | **B** | AVX-512 Register Width & FLOPS Throughput |
+| **Q06** | **C** | Linux VFS Root Directory & Paths | **Q31** | **A** | Intel AMX Hardware Tile Registers (`tmm0-7`) |
+| **Q07** | **B** | Linux `ls -la` Hidden Dotfiles & Permissions | **Q32** | **A** | NEC SX-Aurora TSUBASA Vector Engine |
+| **Q08** | **C** | Linux `rm` Permanent Deletion Semantics | **Q33** | **B** | NEC SX-Aurora HBM2 Memory Bandwidth |
+| **Q09** | **C** | Bash Variable Assignment Syntax | **Q34** | **B** | Linux `/home` vs High-Throughput `/scratch` |
+| **Q10** | **B** | Bash Script Shebang (`#!/bin/bash`) | **Q35** | **B** | Defensive Shell Scripting (`set -euo pipefail`) |
+| **Q11** | **A** | Linux `chmod +x` Script Execution Rights | **Q36** | **B** | Ed25519 Elliptic-Curve SSH Security |
+| **Q12** | **B** | Shell Redirection (`>` vs `>>`) | **Q37** | **B** | SSH Multiplexing (`ControlMaster`) |
+| **Q13** | **B** | SSH Port 22 & Protocol Architecture | **Q38** | **B** | Lmod / Environment Modules Management |
+| **Q14** | **C** | Asymmetric SSH Keys (`ed25519` vs RSA) | **Q39** | **B** | oneAPI Base Toolkit vs HPC Toolkit |
+| **Q15** | **B** | Remote Server `~/.ssh/authorized_keys` | **Q40** | **A** | Linux NUMA Architecture Inspection (`numactl`) |
+| **Q16** | **B** | Intel oneAPI Cross-Architecture Vision | **Q41** | **B** | NUMA Distance Matrix & Interconnect Latency |
+| **Q17** | **B** | Khronos SYCL Single-Source C++ Standard | **Q42** | **B** | Intel `icx -xHost` Architectural Vectorization |
+| **Q18** | **B** | oneAPI Environment Sourcing (`setvars.sh`) | **Q43** | **A** | Linux `/proc` Virtual Kernel Telemetry |
+| **Q19** | **C** | Intel oneAPI DPC++/C++ Compiler (`icpx`) | **Q44** | **B** | Hardware Core Topology Inspection (`lscpu -C`) |
+| **Q20** | **B** | Intel oneMKL High-Performance Math Kernels | **Q45** | **A** | Intel Level Zero Direct Hardware Driver API |
+| **Q21** | **A** | Intel Inspector Memory/Thread Debugger | **Q46** | **A** | InfiniBand NDR 400Gb/s Interconnect Fabrics |
+| **Q22** | **B** | Intel MPI Multi-Node Message Passing | **Q47** | **A** | Supercomputer Fat-Tree Network Topology |
+| **Q23** | **B** | Shell Exit Status Check (`$?`) | **Q48** | **A** | Hardware Thread Pinning (`numactl --membind`) |
+| **Q24** | **B** | Linux Environment `$PATH` Resolution | **Q49** | **A** | Khronos SYCL Standard Governance |
+| **Q25** | **C** | Curriculum Scope Boundary Discipline | **Q50** | **A** | SSH Security Permission Discipline (`700`/`600`) |
