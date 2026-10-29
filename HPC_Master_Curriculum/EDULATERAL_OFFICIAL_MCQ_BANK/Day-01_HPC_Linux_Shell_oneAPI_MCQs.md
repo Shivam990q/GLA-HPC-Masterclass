@@ -2,699 +2,711 @@
 ## High Performance Computing & Heterogeneous AI Systems (GLA-HPC-BCSG701)
 ### Day 1 Workshop Entrance & Diagnostic Pre-Assessment
 **Course Code:** GLA-HPC-BCSG701 | **Track:** Intel & NEC Supercomputing Alliance × Edulateral Foundation
-**Target Audience:** 7th-Semester B.Tech Computer Science & IT Students (60 Students)
+**Target Audience:** 7th-Semester B.Tech Computer Science & Engineering Students (60 Students)
 **Lead Trainer:** Shivam Gupta | **Assessment Coordinator:** Pedina Sreeja (GLA University)
 **Total Questions:** Exactly 50 Multiple Choice Questions | **Duration:** 60 Minutes | **Evaluation:** +1 Mark for Correct, 0 for Unattempted
-**Official Reference:** `Intel & NEC - High Performance Computing.pdf` (Page 2)
+**Official Reference:** `Intel & NEC - High Performance Computing.pdf` (Page 2 — Day 1 Syllabus)
 
 ---
 
-## 📌 Structure of the 50-MCQ Pre-Assessment
-- **Section A (Questions 01 – 25):** Core HPC Principles, Intel Silicon Triad (Xeon/GPU/Gaudi), Linux VFS Navigation, Shell Automation & SSH Security.
-- **Section B (Questions 26 – 50):** Advanced Supercomputing Architecture, Dennard Scaling & Amdahl's Law, NUMA Topology, Cache Coherence, InfiniBand Fabric & Intel oneAPI/SYCL Compilers.
+## 📌 Assessment Design & Pedagogical Gradation
+Designed specifically for 7th-semester engineering undergraduates transitioning from classical computing to supercomputing architecture. The 50 questions span all 7 modules of Day 1 with a calibrated difficulty progression:
+- **Easy (Foundational — 14 Questions, 28%):** Core definitions, standard terminology, essential commands, and basic acronyms.
+- **Medium (Applied & Technical — 21 Questions, 42%):** Real-world scenarios, command options, numerical calculations (Amdahl's law, octal permissions), and subsystem mechanisms.
+- **Hard (Architectural & Systems Rigor — 15 Questions, 30%):** Deep silicon architecture (AMX TMUL, HBM operating modes), Linux kernel VFS internals, compiler vectorization, and NUMA memory affinity.
 
 ---
 
-## 🔷 Section A: Foundational Concepts & Operational Linux (Q01 - Q25)
+## 🔷 Module 1: Introduction to HPC
 
-### Question 01 (D1-Q01)
-**What does HPC stand for?**
+### Question 01 | [Easy] — HPC Performance Metrics & TOP500
+**Which performance metric is the primary benchmark utilized to evaluate and rank the world's most powerful supercomputers on the official TOP500 list?**
 
-- **(A)** High Performance Computing
-- **(B)** Heavy Processing Cluster
-- **(C)** Hardware Parallel Control
-- **(D)** Heterogeneous Processor Core
+- **(A)** Clock frequency measured in Gigahertz (GHz)
+- **(B)** Floating-point Operations Per Second (FLOPS) achieved on High Performance LINPACK (HPL)
+- **(C)** Input/Output Operations Per Second (IOPS) on NVMe storage
+- **(D)** Instructions Per Cycle (IPC) on integer ALU workloads
 
-> **Correct Answer**: **(A)**  
-> **Technical Explanation**: High Performance Computing refers to aggregating computing power to solve complex engineering and scientific problems.
-
----
-
-### Question 02 (D1-Q02)
-**Which architectural limitation primarily prevents standard consumer laptops from training 70-Billion parameter LLMs?**
-
-- **(A)** Operating system GUI overhead
-- **(B)** Memory Wall (limited DDR channels, capacity & bandwidth)
-- **(C)** Slower SSD read speeds only
-- **(D)** Absence of Python 3.12
-
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: Consumer laptops typically have 2 memory channels (~60-80 GB/s bandwidth), whereas enterprise Xeon nodes have 8 to 16 channels exceeding 600 GB/s bandwidth.
+> **Correct Answer**: **(B)** `Floating-point Operations Per Second (FLOPS) achieved on High Performance LINPACK (HPL)`  
+> **Technical Explanation**: The TOP500 supercomputing ranking measures the maximum sustained floating-point execution rate (Rmax in FLOPS), benchmarked using High Performance LINPACK (HPL) solving a dense system of linear equations.
 
 ---
 
-### Question 03 (D1-Q03)
-**In an HPC cluster topology, what is the role of the Head / Login Node?**
+### Question 02 | [Easy] — Flynn's Taxonomy of Computer Architecture
+**Under Flynn's classical taxonomy of computer architectures, modern High Performance Computing clusters comprising multi-core CPUs and distributed compute nodes are predominantly categorized as:**
 
-- **(A)** Running heavy 50-hour model training jobs directly
-- **(B)** Providing a secure access gateway for editing code, compiling, and submitting batch jobs
-- **(C)** Acting as a high-voltage power transformer
-- **(D)** Storing long-term tape archives only
+- **(A)** Single Instruction, Single Data (SISD)
+- **(B)** Single Instruction, Multiple Data (SIMD)
+- **(C)** Multiple Instruction, Single Data (MISD)
+- **(D)** Multiple Instruction, Multiple Data (MIMD)
 
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: The login node is shared by all users to prepare scripts and interact with the batch scheduler; heavy jobs must run on worker nodes.
-
----
-
-### Question 04 (D1-Q04)
-**Which Intel silicon engine is purpose-built with integrated 24x 100GbE RoCE networking for large-scale Deep Learning training?**
-
-- **(A)** Intel Core i9-14900K
-- **(B)** Intel Xeon Platinum 8480+
-- **(C)** Habana Gaudi 2 / Gaudi 3
-- **(D)** Intel Arc A770
-
-> **Correct Answer**: **(C)**  
-> **Technical Explanation**: Habana Gaudi accelerators feature integrated RoCE RDMA network ports directly on-die to eliminate external networking bottlenecks during distributed training.
+> **Correct Answer**: **(D)** `Multiple Instruction, Multiple Data (MIMD)`  
+> **Technical Explanation**: Modern HPC clusters consist of autonomous compute nodes executing independent instruction streams on independent datasets, making them MIMD systems (which may internally leverage SIMD vectorization at the core level).
 
 ---
 
-### Question 05 (D1-Q05)
-**What hardware feature in 4th/5th Gen Intel Xeon Scalable processors provides on-die matrix multiplication acceleration?**
+### Question 03 | [Medium] — The Memory Wall Bottleneck
+**In modern computer architecture and high-performance system design, what fundamental architectural bottleneck is termed the 'Memory Wall'?**
 
-- **(A)** Hyper-Threading
-- **(B)** Intel AMX (Advanced Matrix Extensions)
-- **(C)** QuickPath Interconnect
-- **(D)** Turbo Boost 2.0
+- **(A)** The physical DRAM capacity limit imposed by 64-bit operating systems
+- **(B)** The growing performance disparity where CPU processing speed grows far faster than main memory (DRAM) bandwidth and access latency
+- **(C)** The maximum number of DIMM slots physically permitted on an ATX motherboard
+- **(D)** The file size limit imposed by 32-bit legacy file systems
 
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: Intel AMX introduces dedicated hardware tile registers (TMUL) for accelerating BF16 and INT8 matrix math directly on the CPU.
-
----
-
-### Question 06 (D1-Q06)
-**What does an absolute path in Linux always start with?**
-
-- **(A)** `~` (Tilde)
-- **(B)** `.` (Dot)
-- **(C)** `/` (Forward slash / Root)
-- **(D)** `C:\`
-
-> **Correct Answer**: **(C)**  
-> **Technical Explanation**: An absolute path begins at the root of the filesystem hierarchy (`/`).
+> **Correct Answer**: **(B)** `The growing performance disparity where CPU processing speed grows far faster than main memory (DRAM) bandwidth and access latency`  
+> **Technical Explanation**: The Memory Wall refers to the widening divergence between processor compute throughput (which has scaled rapidly via multi-core and vectorization) and DRAM access latency/bandwidth, causing cores to spend significant cycles stalled waiting for data.
 
 ---
 
-### Question 07 (D1-Q07)
-**Which command lists all files including hidden dotfiles with detailed permissions and human-readable file sizes?**
+### Question 04 | [Medium] — HPC Node Roles: Login vs Compute Nodes
+**In a production HPC cluster environment, what is the crucial operational distinction between a Login (Head) Node and Compute Nodes?**
 
-- **(A)** `dir /a`
-- **(B)** `ls -la`
-- **(C)** `show -all`
-- **(D)** `list -files`
+- **(A)** Login nodes run heavy distributed deep learning training, while Compute nodes only manage user home directories
+- **(B)** Login nodes are dedicated to user authentication, code compilation, and job submission, while Compute nodes are reserved exclusively for parallel workload execution managed by a scheduler
+- **(C)** Login nodes contain all cluster GPUs, whereas Compute nodes feature only single-core CPUs
+- **(D)** Compute nodes allow direct interactive shell access to all users, whereas Login nodes refuse SSH connections
 
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: In `ls -la`, `-l` enables long listing, `-a` includes all hidden files, and `-h` makes file sizes human-readable.
-
----
-
-### Question 08 (D1-Q08)
-**What happens when a user deletes a file with `rm file.txt` on a remote Linux server?**
-
-- **(A)** It moves to the Windows Recycle Bin
-- **(B)** It is moved to `/tmp/recycle` and can be restored for 30 days
-- **(C)** It is permanently unlinked immediately without confirmation
-- **(D)** The server prompts the administrator for an OTP
-
-> **Correct Answer**: **(C)**  
-> **Technical Explanation**: Standard Linux `rm` unlinks the inode immediately; there is no default recycle bin on terminal sessions.
+> **Correct Answer**: **(B)** `Login nodes are dedicated to user authentication, code compilation, and job submission, while Compute nodes are reserved exclusively for parallel workload execution managed by a scheduler`  
+> **Technical Explanation**: Login nodes provide access for code editing, compiling, and submitting batch jobs to Slurm, while Compute nodes are isolated worker resources where heavy parallel simulations execute without interactive contention.
 
 ---
 
-### Question 09 (D1-Q09)
-**How do you correctly assign a string to a variable in Bash?**
+### Question 05 | [Medium] — Amdahl's Law Speedup Calculation
+**According to Amdahl's Law, if an algorithm contains 20% strictly sequential (non-parallelizable) operations and 80% perfectly parallelizable operations, what is the theoretical maximum speedup limit on an infinite number of processor cores?**
 
-- **(A)** `CLUSTER = "GLA_HPC"`
-- **(B)** `set CLUSTER = "GLA_HPC"`
-- **(C)** `CLUSTER="GLA_HPC"`
-- **(D)** `var CLUSTER := "GLA_HPC"`
+- **(A)** 4x speedup
+- **(B)** 5x speedup
+- **(C)** 10x speedup
+- **(D)** Infinite speedup
 
-> **Correct Answer**: **(C)**  
-> **Technical Explanation**: Bash does not allow spaces around the `=` assignment operator.
-
----
-
-### Question 10 (D1-Q10)
-**What is line 1 of an automated Bash script called (`#!/bin/bash`)?**
-
-- **(A)** Hashpipe
-- **(B)** Shebang
-- **(C)** Preprocessor Directive
-- **(D)** Interpreter Header
-
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: `#!` is called the Shebang, instructing the OS loader which interpreter binary to invoke.
+> **Correct Answer**: **(B)** `5x speedup`  
+> **Technical Explanation**: Amdahl's Law defines Speedup S(N) = 1 / (s + p/N). As N approaches infinity, S_max = 1 / s = 1 / 0.20 = 5x maximum achievable speedup.
 
 ---
 
-### Question 11 (D1-Q11)
-**Which permission command must be run before executing a newly created script via `./automate.sh`?**
+### Question 06 | [Hard] — Scaling Models: Strong Scaling vs Weak Scaling
+**While Amdahl's Law evaluates 'Strong Scaling' by holding the total workload size fixed, what scaling model does Gustafson's Law introduce to more accurately evaluate real-world supercomputing applications?**
 
-- **(A)** `chmod +x automate.sh`
-- **(B)** `chown root automate.sh`
-- **(C)** `chmod 444 automate.sh`
-- **(D)** `attrib +r automate.sh`
+- **(A)** Weak Scaling: The problem size scales proportionally with the number of processors, maintaining a constant execution time
+- **(B)** Strong Scaling: The total problem size is halved each time processor count doubles
+- **(C)** Static Scaling: The execution time increases exponentially as nodes are added
+- **(D)** Negative Scaling: The communication overhead always exceeds computational gains
 
-> **Correct Answer**: **(A)**  
-> **Technical Explanation**: Newly created files lack execute permission by default; `chmod +x` enables the executable bit.
-
----
-
-### Question 12 (D1-Q12)
-**In shell scripting, what does `command >> output.log` do?**
-
-- **(A)** Overwrites `output.log` with the command output
-- **(B)** Appends command output to the end of `output.log`
-- **(C)** Deletes `output.log` if an error occurs
-- **(D)** Redirects standard input from `output.log`
-
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: `>` overwrites a file, while `>>` appends to the existing file.
+> **Correct Answer**: **(A)** `Weak Scaling: The problem size scales proportionally with the number of processors, maintaining a constant execution time`  
+> **Technical Explanation**: Gustafson's Law formalizes 'Weak Scaling,' recognizing that researchers exploit larger supercomputers not to solve the same tiny problem faster, but to solve massively larger grid resolutions and physical datasets within a practical, constant time window.
 
 ---
 
-### Question 13 (D1-Q13)
-**What is the default network port used by the Secure Shell (SSH) protocol?**
+### Question 07 | [Hard] — Supercomputing Benchmarks: HPL vs HPCG
+**Why was the High Performance Conjugate Gradients (HPCG) benchmark established as a companion to the traditional High Performance LINPACK (HPL) on the TOP500 list?**
 
-- **(A)** 21
-- **(B)** 22
-- **(C)** 80
-- **(D)** 443
+- **(A)** HPL measures dense linear algebra compute throughput (high compute-to-memory ratio), whereas HPCG stresses memory bandwidth, latency, and sparse, irregular memory access patterns common in modern scientific simulations
+- **(B)** HPL evaluates only CPU clock frequency, while HPCG evaluates GPU video memory display outputs
+- **(C)** HPCG is designed strictly for consumer laptops, while HPL is designed only for quantum computers
+- **(D)** HPL tests single-threaded Python scripts, while HPCG tests compiled C++ assembly
 
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: SSH runs on standard TCP port 22.
-
----
-
-### Question 14 (D1-Q14)
-**Which asymmetric algorithm is modern industry best-practice for SSH key generation?**
-
-- **(A)** DES
-- **(B)** MD5
-- **(C)** Ed25519
-- **(D)** SHA-1
-
-> **Correct Answer**: **(C)**  
-> **Technical Explanation**: Ed25519 (Edwards-curve Digital Signature Algorithm) offers superior security and performance over legacy RSA and DSA.
+> **Correct Answer**: **(A)** `HPL measures dense linear algebra compute throughput (high compute-to-memory ratio), whereas HPCG stresses memory bandwidth, latency, and sparse, irregular memory access patterns common in modern scientific simulations`  
+> **Technical Explanation**: HPL achieves 80-90% of theoretical peak FLOPS on dense matrix math. In contrast, HPCG exercises sparse matrix-vector multiplication, unstructured grids, and low compute-to-memory traffic, typically achieving under 5% peak FLOPS, accurately reflecting real-world simulation performance.
 
 ---
 
-### Question 15 (D1-Q15)
-**Where must a student's public SSH key be placed on a remote Linux server to allow passwordless login?**
+## 🔷 Module 2: Intel HPC Architecture
 
-- **(A)** `/etc/ssh/ssh_config`
-- **(B)** `~/.ssh/authorized_keys`
-- **(C)** `/var/log/secure`
-- **(D)** `~/public_keys.txt`
+### Question 08 | [Easy] — Intel AMX Hardware Accelerator
+**What dedicated hardware matrix acceleration engine introduced in 4th Gen Intel Xeon Scalable processors (Sapphire Rapids) delivers accelerated deep learning tensor computation directly on CPU cores?**
 
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: The OpenSSH daemon checks `~/.ssh/authorized_keys` for recognized client public keys.
+- **(A)** Intel Software Guard Extensions (Intel SGX)
+- **(B)** Intel QuickAssist Technology (Intel QAT)
+- **(C)** Intel Advanced Matrix Extensions (Intel AMX)
+- **(D)** Intel Dynamic Execution Engine (IDEE)
 
----
-
-### Question 16 (D1-Q16)
-**What is the fundamental vision behind the Intel oneAPI programming model?**
-
-- **(A)** Rewriting all software in Python
-- **(B)** Single-source cross-architecture programming (CPU, GPU, FPGA) without proprietary lock-in
-- **(C)** Restricting software to run exclusively on Intel Core i5 laptops
-- **(D)** Eliminating the C++ language
-
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: oneAPI is an open, standards-based unified programming model built on SYCL to target heterogeneous architectures.
+> **Correct Answer**: **(C)** `Intel Advanced Matrix Extensions (Intel AMX)`  
+> **Technical Explanation**: Intel AMX (Advanced Matrix Extensions) is a built-in silicon accelerator on 4th and 5th Gen Xeon Scalable CPUs that accelerates matrix multiplication operations for INT8 and BF16 deep learning training and inference.
 
 ---
 
-### Question 17 (D1-Q17)
-**What standard language extension is used by oneAPI for heterogeneous parallel computing?**
+### Question 09 | [Easy] — Intel Data Center GPU Max Microarchitecture
+**The Intel Data Center GPU Max Series (formerly codenamed Ponte Vecchio) engineered for exascale supercomputing and deep learning is built upon which GPU microarchitecture?**
 
-- **(A)** CUDA C
-- **(B)** SYCL (Standard C++)
-- **(C)** Visual Basic
-- **(D)** JavaScript
+- **(A)** Intel Xe-LP (Low Power)
+- **(B)** Intel Xe-HPG (High Performance Gaming)
+- **(C)** Intel Gen9 Graphics
+- **(D)** Intel Xe-HPC (High Performance Computing)
 
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: SYCL is the Khronos open standard for heterogeneous computing in standard ISO C++.
-
----
-
-### Question 18 (D1-Q18)
-**Which script initializes the Intel oneAPI environment variables (`$PATH`, `$LD_LIBRARY_PATH`)?**
-
-- **(A)** `source /etc/profile`
-- **(B)** `source /opt/intel/oneapi/setvars.sh`
-- **(C)** `bash install_oneapi.sh`
-- **(D)** `init_intel.cmd`
-
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: `setvars.sh` sets all necessary compiler, library, and tool paths for the active shell session.
+> **Correct Answer**: **(D)** `Intel Xe-HPC (High Performance Computing)`  
+> **Technical Explanation**: The Intel Data Center GPU Max Series is designed specifically for extreme supercomputing, HPC simulation, and AI training workloads using the Intel Xe-HPC microarchitecture.
 
 ---
 
-### Question 19 (D1-Q19)
-**What is the name of the LLVM-based Intel oneAPI C++ Compiler?**
+### Question 10 | [Medium] — Habana Gaudi Inter-Accelerator Fabric
+**How do Habana Gaudi 2/3 AI accelerators optimize inter-node scale-out communications for massive distributed LLM training clusters compared to typical PCIe accelerators?**
+
+- **(A)** By integrating multiple 100 Gigabit Ethernet (RoCE v2) ports directly onto the accelerator silicon, bypassing external host PCIe NIC bottlenecks
+- **(B)** By routing all inter-chip communications through legacy SATA storage controllers
+- **(C)** By relying exclusively on external USB-C hub adapters
+- **(D)** By requiring all network packets to be inspected synchronously by the CPU BIOS
+
+> **Correct Answer**: **(A)** `By integrating multiple 100 Gigabit Ethernet (RoCE v2) ports directly onto the accelerator silicon, bypassing external host PCIe NIC bottlenecks`  
+> **Technical Explanation**: Habana Gaudi processors integrate RDMA over Converged Ethernet (RoCE v2) directly on-die (24x 100GbE on Gaudi 2), enabling all-to-all accelerator scaling over standard Ethernet without costly external host NIC bottlenecks.
+
+---
+
+### Question 11 | [Medium] — Intel Dual-Socket Coherent Interconnect
+**In a dual-socket Intel Xeon Scalable server node, which high-speed, low-latency point-to-point coherent interconnect bus links the two CPU sockets together for cross-socket cache coherence and memory access?**
+
+- **(A)** Universal Serial Bus (USB 3.2)
+- **(B)** Intel Ultra Path Interconnect (Intel UPI)
+- **(C)** Front Side Bus (FSB 400MHz)
+- **(D)** Peripheral Component Interconnect (PCI 33MHz)
+
+> **Correct Answer**: **(B)** `Intel Ultra Path Interconnect (Intel UPI)`  
+> **Technical Explanation**: Intel UPI (Ultra Path Interconnect) provides point-to-point coherent links between processor sockets in multi-socket Intel Xeon systems, replacing the legacy QPI.
+
+---
+
+### Question 12 | [Medium] — Intel AMX 2D Tile Architecture
+**What architectural hardware registers does Intel AMX (Advanced Matrix Extensions) introduce to hold 2D sub-matrix tiles in the core execution units?**
+
+- **(A)** 8 two-dimensional tile registers named tmm0 through tmm7 (each up to 1KB in capacity)
+- **(B)** 32 vector registers named zmm0 through zmm31 (each 512 bits)
+- **(C)** 16 general-purpose 64-bit registers rax through r15
+- **(D)** 8 floating-point stack registers st(0) through st(7)
+
+> **Correct Answer**: **(A)** `8 two-dimensional tile registers named tmm0 through tmm7 (each up to 1KB in capacity)`  
+> **Technical Explanation**: AMX introduces a 2D tile architecture consisting of 8 tile registers (tmm0 to tmm7), each capable of holding up to 1024 bytes (1KB) in a 2D matrix configuration (up to 16 rows of 64 bytes).
+
+---
+
+### Question 13 | [Hard] — Intel Xeon CPU Max HBM Operating Modes
+**The Intel Xeon CPU Max Series (Sapphire Rapids with HBM2e) integrates up to 64GB of High Bandwidth Memory directly on-package. Which three memory operating modes can be configured via system BIOS?**
+
+- **(A)** Striped Mode, Mirror Mode, and Parity Mode
+- **(B)** HBM-only Mode, Flat Mode (1LM), and Cache Mode (2LM)
+- **(C)** Dynamic Mode, Static Mode, and Swap Mode
+- **(D)** Synchronous Mode, Asynchronous Mode, and Dual-Channel Mode
+
+> **Correct Answer**: **(B)** `HBM-only Mode, Flat Mode (1LM), and Cache Mode (2LM)`  
+> **Technical Explanation**: Xeon Max supports three memory modes: (1) HBM-only (runs with zero external DDR5), (2) Flat mode / 1LM (HBM and DDR5 exposed as distinct NUMA nodes), and (3) Cache mode / 2LM (HBM acts as a transparent hardware-managed L4 cache for standard DDR5 capacity).
+
+---
+
+### Question 14 | [Hard] — Intel AMX vs AVX-512 Throughput Analysis
+**When comparing Intel AVX-512 with Intel AMX on 4th Gen Xeon CPUs for INT8 matrix multiplication, why does AMX achieve up to an 8x throughput boost per clock cycle?**
+
+- **(A)** AMX features the Tile Matrix Multiply (TMUL) unit which computes up to 2048 INT8 operations per cycle on 2D tiles, whereas AVX-512 operates on 1D 512-bit vector registers
+- **(B)** AMX quadruples the operating clock frequency of the CPU to over 15 GHz
+- **(C)** AMX executes instructions exclusively inside the GPU framebuffer
+- **(D)** AVX-512 cannot process integer operations, while AMX only processes integers
+
+> **Correct Answer**: **(A)** `AMX features the Tile Matrix Multiply (TMUL) unit which computes up to 2048 INT8 operations per cycle on 2D tiles, whereas AVX-512 operates on 1D 512-bit vector registers`  
+> **Technical Explanation**: While AVX-512 operates on 1D vectors computing up to 256 INT8 MACs/cycle via VNNI, AMX's dedicated TMUL matrix engine operates on 2D tiles computing up to 2048 INT8 operations (or 1024 BF16 operations) per clock cycle per core.
+
+---
+
+## 🔷 Module 3: Linux Basics & VFS
+
+### Question 15 | [Easy] — Linux Unified Filesystem Root
+**In the Linux Virtual File System (VFS) hierarchy, what character designates the single root directory from which all directories, files, and mounted file systems originate?**
+
+- **(A)** Backslash (`\`)
+- **(B)** Tilde (`~`)
+- **(C)** Forward slash (`/`)
+- **(D)** Hash symbol (`#`)
+
+> **Correct Answer**: **(C)** `Forward slash (`/`)`  
+> **Technical Explanation**: In Unix/Linux, the single forward slash `/` represents the top-level root directory of the single hierarchical filesystem tree.
+
+---
+
+### Question 16 | [Easy] — Working Directory Navigation
+**Which standard Linux shell command outputs the absolute canonical pathname of the current active working directory?**
+
+- **(A)** `cd`
+- **(B)** `pwd`
+- **(C)** `whoami`
+- **(D)** `path`
+
+> **Correct Answer**: **(B)** ``pwd``  
+> **Technical Explanation**: `pwd` stands for 'Print Working Directory' and writes the full absolute pathname from root to the current directory.
+
+---
+
+### Question 17 | [Medium] — Octal Permission Calculation (chmod)
+**In the Linux octal permission model, what access rights does the command `chmod 750 dataset_dir/` grant to the file's owner, group members, and others respectively?**
+
+- **(A)** Owner: Read/Write/Execute (7), Group: Read/Execute (5), Others: No access (0)
+- **(B)** Owner: Read/Write (6), Group: Read/Write (6), Others: Execute (1)
+- **(C)** Owner: Read/Execute (5), Group: Read/Write (6), Others: Read (4)
+- **(D)** Owner: Full access (7), Group: Full access (7), Others: Read/Write (6)
+
+> **Correct Answer**: **(A)** `Owner: Read/Write/Execute (7), Group: Read/Execute (5), Others: No access (0)`  
+> **Technical Explanation**: Octal permissions: 7 = 4(r) + 2(w) + 1(x) = rwx; 5 = 4(r) + 1(x) = r-x; 0 = no permissions. Hence 750 gives owner rwx, group r-x, and others no access.
+
+---
+
+### Question 18 | [Medium] — Default File Permissions & umask
+**If a user's active shell environment has an active `umask` setting of `022`, what will be the default octal file permissions assigned to a newly created regular text file?**
+
+- **(A)** 755 (`-rwxr-xr-x`)
+- **(B)** 666 (`-rw-rw-rw-`)
+- **(C)** 644 (`-rw-r--r--`)
+- **(D)** 700 (`-rwx------`)
+
+> **Correct Answer**: **(C)** `644 (`-rw-r--r--`)`  
+> **Technical Explanation**: For regular files, the standard base permissions are 666 (`rw-rw-rw-`). Applying umask 022 gives 666 - 022 = 644 (`rw-r--r--`), stripping write permissions from group and others.
+
+---
+
+### Question 19 | [Medium] — HPC Storage Hierarchy: $HOME vs /scratch
+**Why are HPC cluster users strictly instructed not to write massive, high-throughput simulation output checkpoints into their `$HOME` directory?**
+
+- **(A)** `$HOME` is typically mounted over a shared, quota-limited network filesystem (NFS) that experiences high latency under heavy I/O, whereas parallel filesystems like `/scratch` (Lustre/GPFS) are optimized for high-bandwidth parallel I/O
+- **(B)** `$HOME` is deleted automatically every time a user logs out of the cluster
+- **(C)** `$HOME` does not allow binary executable files to be created or executed
+- **(D)** `$HOME` cannot store files larger than 1 Megabyte due to kernel locks
+
+> **Correct Answer**: **(A)** ``$HOME` is typically mounted over a shared, quota-limited network filesystem (NFS) that experiences high latency under heavy I/O, whereas parallel filesystems like `/scratch` (Lustre/GPFS) are optimized for high-bandwidth parallel I/O`  
+> **Technical Explanation**: In HPC architectures, `$HOME` is an NFS share meant for scripts and configuration. High-throughput parallel checkpoints must target high-speed parallel storage (such as Lustre, GPFS, or local NVMe `/scratch`) to prevent degrading cluster metadata servers.
+
+---
+
+### Question 20 | [Hard] — Virtual Filesystems: /proc vs /sys
+**What is the fundamental architectural distinction between the virtual filesystems `/proc` and `/sys` in the Linux kernel?**
+
+- **(A)** `/proc` provides a view of process execution state and kernel runtime statistics (procfs), while `/sys` exposes the kernel's unified device model, hardware buses, and driver topology (sysfs)
+- **(B)** `/proc` is stored permanently on an NVMe SSD, while `/sys` exists only in CPU cache
+- **(C)** `/proc` is read-only for root, while `/sys` can be modified by any unprivileged user
+- **(D)** `/proc` manages network routing tables, while `/sys` handles user password hashing
+
+> **Correct Answer**: **(A)** ``/proc` provides a view of process execution state and kernel runtime statistics (procfs), while `/sys` exposes the kernel's unified device model, hardware buses, and driver topology (sysfs)`  
+> **Technical Explanation**: `/proc` (procfs) exposes active process metadata and runtime kernel state (`/proc/cpuinfo`, `/proc/meminfo`), while `/sys` (sysfs) represents the structural hierarchy of physical devices, kernel objects, PCIe busses, and device drivers.
+
+---
+
+### Question 21 | [Hard] — Filesystem Inode & Deletion Semantics
+**When a user executes `rm -f large_dataset.bin` on a Linux filesystem, what happens to the underlying storage data blocks if another running application still holds an open file descriptor to that file?**
+
+- **(A)** The data blocks are immediately overwritten with zeros, causing the running application to crash with a segmentation fault
+- **(B)** The directory entry is unlinked immediately, but the inode and data blocks remain allocated and accessible to the running application until its file descriptor is closed
+- **(C)** The command fails with an 'I/O Resource Busy' error and terminates
+- **(D)** The file is automatically relocated to the `/tmp/swap` directory
+
+> **Correct Answer**: **(B)** `The directory entry is unlinked immediately, but the inode and data blocks remain allocated and accessible to the running application until its file descriptor is closed`  
+> **Technical Explanation**: In Linux VFS semantics, `rm` unlinks the directory pointer (reducing the inode's hard-link count). However, disk blocks are only marked free for reuse when the link count reaches zero AND all open file descriptors referencing that inode are closed.
+
+---
+
+## 🔷 Module 4: Shell Scripting
+
+### Question 22 | [Easy] — Shell Script Shebang Mechanism
+**In a Linux Bash automation script, what is the exact function of the initial line `#!/bin/bash` (commonly termed the Shebang)?**
+
+- **(A)** It elevates the script's execution privileges to root automatically
+- **(B)** It instructs the kernel's `execve` system call which interpreter binary to launch to parse and execute the script
+- **(C)** It compiles the script into an ELF binary executable before running
+- **(D)** It marks the entire script file as read-only
+
+> **Correct Answer**: **(B)** `It instructs the kernel's `execve` system call which interpreter binary to launch to parse and execute the script`  
+> **Technical Explanation**: The shebang `#!` is a 2-byte magic number (`0x23 0x21`) recognized by the Linux kernel loader to invoke the specified interpreter binary (`/bin/bash`) with the script file path as an argument.
+
+---
+
+### Question 23 | [Easy] — I/O Redirection Operators
+**Which shell redirection operator appends the Standard Output (stdout) of a command to the end of a specified destination file without overwriting its existing contents?**
+
+- **(A)** `>`
+- **(B)** `<`
+- **(C)** `|`
+- **(D)** `>>`
+
+> **Correct Answer**: **(D)** ``>>``  
+> **Technical Explanation**: `>>` opens the destination file in append mode (`O_APPEND`), adding output to the end of the file. `>` truncates and overwrites existing contents.
+
+---
+
+### Question 24 | [Medium] — Command Exit Status Parameter ($?)
+**What does the special parameter `$?` represent in a Bash shell session immediately following the completion of a program?**
+
+- **(A)** The Process ID (PID) of the currently running shell process
+- **(B)** The numeric exit status code of the most recently executed foreground pipeline (where 0 indicates success)
+- **(C)** The total count of command-line arguments passed to the script
+- **(D)** The total wall-clock runtime of the previous command in milliseconds
+
+> **Correct Answer**: **(B)** `The numeric exit status code of the most recently executed foreground pipeline (where 0 indicates success)`  
+> **Technical Explanation**: `$?` holds the decimal return status of the last executed foreground command. In standard POSIX conventions, 0 signals success, while any non-zero value (1–255) indicates an error.
+
+---
+
+### Question 25 | [Medium] — Defensive Shell Scripting (set -e)
+**In production HPC automation scripts, what is the effect of placing the directive `set -e` at the beginning of the script?**
+
+- **(A)** The shell will immediately exit if any command or pipeline returns a non-zero exit status, preventing cascading errors
+- **(B)** The shell prints every command to the terminal before executing it
+- **(C)** The shell ignores all syntax errors and proceeds execution
+- **(D)** The shell allocates maximum GPU memory to all child processes
+
+> **Correct Answer**: **(A)** `The shell will immediately exit if any command or pipeline returns a non-zero exit status, preventing cascading errors`  
+> **Technical Explanation**: `set -e` (or `set -o errexit`) ensures defensive execution by causing the shell script to abort immediately when a command fails, preventing silent cascading failures in automated batch workflows.
+
+---
+
+### Question 26 | [Medium] — Combined Redirection of stdout & stderr
+**In Bash shell scripting, which syntax correctly redirects both Standard Output (stdout, file descriptor 1) and Standard Error (stderr, file descriptor 2) to a log file named `simulation.log`?**
+
+- **(A)** `./sim_engine 2> simulation.log 1>&2`
+- **(B)** `./sim_engine | simulation.log`
+- **(C)** `./sim_engine > simulation.log 2>&1`
+- **(D)** `./sim_engine 1>&2 >> simulation.log`
+
+> **Correct Answer**: **(C)** ``./sim_engine > simulation.log 2>&1``  
+> **Technical Explanation**: `./sim_engine > simulation.log 2>&1` first redirects stdout (FD 1) to `simulation.log`, then redirects stderr (FD 2) to whatever FD 1 currently points to (`simulation.log`). (Modern bash also supports `./sim_engine &> simulation.log`).
+
+---
+
+### Question 27 | [Hard] — Pipeline Error Trapping (set -o pipefail)
+**In a piped command sequence such as `cat simulation.dat | grep 'CONVERGED' | wc -l`, why is the defensive flag `set -o pipefail` critical when `set -e` is already active?**
+
+- **(A)** By default, the exit status of a pipeline is determined solely by the LAST command (`wc -l`); `pipefail` ensures the pipeline returns the exit code of the last failing command if any step fails
+- **(B)** `set -e` crashes if any pipe is used, so `pipefail` is required to enable pipes
+- **(C)** `pipefail` increases the buffer size of the Unix pipe from 64KB to 1GB
+- **(D)** `pipefail` converts pipe operations into synchronous disk writes
+
+> **Correct Answer**: **(A)** `By default, the exit status of a pipeline is determined solely by the LAST command (`wc -l`); `pipefail` ensures the pipeline returns the exit code of the last failing command if any step fails`  
+> **Technical Explanation**: Without `pipefail`, if `grep` crashes or errors out, the pipeline still returns the exit status of `wc -l` (which is 0 / success), causing `set -e` to mistakenly treat the whole pipeline as successful. `set -o pipefail` fixes this critical silent bug.
+
+---
+
+### Question 28 | [Hard] — Modern [[ ... ]] vs POSIX [ ... ] Operators
+**What is an important technical advantage of using the modern Bash compound conditional construct `[[ ... ]]` over the traditional POSIX test operator `[ ... ]`?**
+
+- **(A)** `[ ... ]` is executed by the kernel, whereas `[[ ... ]]` runs in user space
+- **(B)** `[[ ... ]]` requires compiling the script with GCC before execution
+- **(C)** `[ ... ]` only supports floating-point comparisons, while `[[ ... ]]` supports integers
+- **(D)** `[[ ... ]]` is a shell keyword that prevents word splitting and pathname expansion on unquoted variable expansions and supports pattern matching with the `=~` regex operator
+
+> **Correct Answer**: **(D)** ``[[ ... ]]` is a shell keyword that prevents word splitting and pathname expansion on unquoted variable expansions and supports pattern matching with the `=~` regex operator`  
+> **Technical Explanation**: `[[ ... ]]` is built into Bash syntax (a keyword, not a built-in executable like `[`/`test`). It does not perform word splitting or glob expansion on unquoted variables, preventing syntax errors when variables are empty or contain spaces, and supports advanced regex matching (`=~`).
+
+---
+
+## 🔷 Module 5: Secured Shell (SSH)
+
+### Question 29 | [Easy] — Standard SSH Port
+**What is the standard IANA default network TCP port number on which the OpenSSH daemon (`sshd`) listens for incoming secure remote shell connections?**
+
+- **(A)** Port 80
+- **(B)** Port 443
+- **(C)** Port 22
+- **(D)** Port 8080
+
+> **Correct Answer**: **(C)** `Port 22`  
+> **Technical Explanation**: Standard IANA port assignment for the Secure Shell (SSH) protocol is TCP port 22.
+
+---
+
+### Question 30 | [Easy] — SSH Public Key Authentication File
+**When setting up passwordless public-key authentication to an HPC cluster login node, where must the user's PUBLIC key be appended on the remote server?**
+
+- **(A)** `~/.ssh/authorized_keys`
+- **(B)** `~/.ssh/known_hosts`
+- **(C)** `/etc/ssh/ssh_config`
+- **(D)** `~/.bashrc`
+
+> **Correct Answer**: **(A)** ``~/.ssh/authorized_keys``  
+> **Technical Explanation**: The OpenSSH server verifies incoming client key signatures against the public keys stored in the user's `~/.ssh/authorized_keys` file on the remote machine.
+
+---
+
+### Question 31 | [Medium] — Modern Asymmetric Cryptography: Ed25519
+**Which modern elliptic-curve public-key algorithm is widely recommended for SSH keys due to its high computational efficiency, compact 256-bit key length, and strong resistance to timing and side-channel attacks?**
+
+- **(A)** DES (Data Encryption Standard)
+- **(B)** Ed25519 (Edwards-curve Digital Signature Algorithm)
+- **(C)** MD5 (Message Digest 5)
+- **(D)** RC4 (Rivest Cipher 4)
+
+> **Correct Answer**: **(B)** `Ed25519 (Edwards-curve Digital Signature Algorithm)`  
+> **Technical Explanation**: Ed25519 uses the Twisted Edwards curve Curve25519. It provides ~128 bits of security with a 256-bit key length, faster signature verification, and immunity to cache-timing attacks compared to legacy RSA.
+
+---
+
+### Question 32 | [Medium] — SSH Private Key Permission Discipline
+**If a user accidentally executes `chmod 777 ~/.ssh/id_ed25519` on their private SSH key, what will happen when they attempt to connect to a remote server?**
+
+- **(A)** The SSH client will immediately abort the connection with an error warning that the private key permissions are too open
+- **(B)** The remote server will automatically format the user's home directory
+- **(C)** The SSH client will silently convert the key to a public key
+- **(D)** The connection will succeed with enhanced administrative speed
+
+> **Correct Answer**: **(A)** `The SSH client will immediately abort the connection with an error warning that the private key permissions are too open`  
+> **Technical Explanation**: OpenSSH enforces strict permission checks. If a private key file is readable by group or others (anything more permissive than `600` or `400`), it prints 'WARNING: UNPROTECTED PRIVATE KEY FILE!' and ignores the key.
+
+---
+
+### Question 33 | [Medium] — Secure Remote File Transfer (scp)
+**Which command transfers a local dataset `hpc_input.tar.gz` to a remote cluster user account at `login.gla.ac.in` under the directory `/scratch/data/`?**
+
+- **(A)** `ssh hpc_input.tar.gz user@login.gla.ac.in:/scratch/data/`
+- **(B)** `cp -remote hpc_input.tar.gz user@login.gla.ac.in:/scratch/data/`
+- **(C)** `sftp-push hpc_input.tar.gz login.gla.ac.in`
+- **(D)** `scp hpc_input.tar.gz user@login.gla.ac.in:/scratch/data/`
+
+> **Correct Answer**: **(D)** ``scp hpc_input.tar.gz user@login.gla.ac.in:/scratch/data/``  
+> **Technical Explanation**: `scp` (Secure Copy Protocol) uses SSH data transfer syntax: `scp [source] [user@host:destination_path]`.
+
+---
+
+### Question 34 | [Hard] — SSH Agent Forwarding Security Risks
+**What critical security vulnerability is introduced when an administrator or user enables SSH Agent Forwarding (`ssh -A`) when connecting to an untrusted intermediate bastion host?**
+
+- **(A)** Any user with root privileges on the intermediate host can access the forwarded SSH agent's Unix domain socket and authenticate to other remote servers as you without knowing your passphrase
+- **(B)** The intermediate host steals your raw private key file and saves it in `/etc/shadow`
+- **(C)** Agent forwarding permanently decrypts all data on your local laptop hard drive
+- **(D)** It exposes the client machine to denial-of-service via ICMP flood
+
+> **Correct Answer**: **(A)** `Any user with root privileges on the intermediate host can access the forwarded SSH agent's Unix domain socket and authenticate to other remote servers as you without knowing your passphrase`  
+> **Technical Explanation**: SSH Agent Forwarding passes a Unix domain socket (`$SSH_AUTH_SOCK`) to the remote host. Anyone with root access on that machine can hijack this socket to request signatures from your local key agent, authenticating as you to other machines. `ProxyJump` (`-J`) is the secure alternative.
+
+---
+
+### Question 35 | [Hard] — SSH Connection Multiplexing (ControlMaster)
+**In high-frequency automated HPC scripting environments, what is the architectural benefit of configuring SSH Connection Multiplexing using `ControlMaster` and `ControlPath`?**
+
+- **(A)** It automatically distributes a single SSH session across multiple physical Ethernet switches
+- **(B)** It encrypts SSH traffic twice with independent AES-256 ciphers
+- **(C)** It maintains a persistent master TCP socket connection, allowing subsequent SSH/SCP sessions to bypass public-key handshakes and authentication overhead
+- **(D)** It prevents compute nodes from communicating with each other
+
+> **Correct Answer**: **(C)** `It maintains a persistent master TCP socket connection, allowing subsequent SSH/SCP sessions to bypass public-key handshakes and authentication overhead`  
+> **Technical Explanation**: SSH multiplexing (`ControlMaster auto`) keeps an initial master connection open. Subsequent `ssh` or `scp` invocations communicate through a local control socket (`ControlPath`), reusing the established connection and reducing connection establishment time from ~500ms to ~5ms.
+
+---
+
+## 🔷 Module 6: Intel oneAPI Toolkit
+
+### Question 36 | [Easy] — oneAPI Cross-Architecture Vision
+**What is the primary industry objective of the Intel oneAPI programming model?**
+
+- **(A)** To replace the Linux operating system kernel with an Intel-proprietary microkernel
+- **(B)** To provide an open, cross-architecture, standards-based unified programming framework that abstracts software development across diverse CPUs, GPUs, FPGAs, and AI accelerators
+- **(C)** To restrict high-performance software development exclusively to Intel Core desktop processors
+- **(D)** To serve as a commercial subscription-only cloud database engine
+
+> **Correct Answer**: **(B)** `To provide an open, cross-architecture, standards-based unified programming framework that abstracts software development across diverse CPUs, GPUs, FPGAs, and AI accelerators`  
+> **Technical Explanation**: oneAPI is an open, cross-industry programming model designed to provide a unified development environment across heterogeneous compute architectures (CPUs, GPUs, FPGAs, and specialized AI hardware) without proprietary vendor lock-in.
+
+---
+
+### Question 37 | [Easy] — oneAPI Environment Sourcing (setvars.sh)
+**Which shell script must be sourced in an HPC Linux environment to set up the necessary PATH, LD_LIBRARY_PATH, and compiler variables for the Intel oneAPI toolkits?**
+
+- **(A)** `source /opt/intel/oneapi/setvars.sh`
+- **(B)** `bash /opt/intel/oneapi/init.sh`
+- **(C)** `exec start_oneapi`
+- **(D)** `python /opt/intel/run_toolkit.py`
+
+> **Correct Answer**: **(A)** ``source /opt/intel/oneapi/setvars.sh``  
+> **Technical Explanation**: Sourcing `/opt/intel/oneapi/setvars.sh` initializes all environment variables (compiler paths, library search paths, man pages) required to run oneAPI compilers and libraries in the current shell session.
+
+---
+
+### Question 38 | [Medium] — Khronos SYCL C++ Standard
+**Intel oneAPI DPC++ (Data Parallel C++) is based upon and actively contributes to which open industry standard maintained by the Khronos Group?**
+
+- **(A)** CUDA
+- **(B)** OpenMP
+- **(C)** SYCL (Single-source C++ heterogeneous programming standard)
+- **(D)** Vulkan GLSL
+
+> **Correct Answer**: **(C)** `SYCL (Single-source C++ heterogeneous programming standard)`  
+> **Technical Explanation**: Intel DPC++ is built upon the open Khronos SYCL standard, enabling single-source modern C++ code to execute across diverse accelerators from multiple hardware vendors.
+
+---
+
+### Question 39 | [Medium] — Intel Level Zero Driver Abstraction
+**In the Intel oneAPI software stack, what is the role of Intel Level Zero?**
+
+- **(A)** A high-level visual graph designer for web applications
+- **(B)** A low-level, direct-to-metal hardware abstraction interface providing fine-grained control over accelerator memory, device discovery, kernel submission, and telemetry
+- **(C)** An audio processing subsystem for desktop sound cards
+- **(D)** A database query optimization engine
+
+> **Correct Answer**: **(B)** `A low-level, direct-to-metal hardware abstraction interface providing fine-grained control over accelerator memory, device discovery, kernel submission, and telemetry`  
+> **Technical Explanation**: Intel Level Zero provides direct, low-latency, bare-metal hardware access to Intel GPUs and accelerators, serving as the foundational driver interface beneath high-level runtimes like SYCL and oneMKL.
+
+---
+
+### Question 40 | [Medium] — Unified Shared Memory: malloc_device vs malloc_host
+**In SYCL Unified Shared Memory (USM), what is the key functional difference between `malloc_device` and `malloc_host` memory allocations?**
+
+- **(A)** `malloc_device` allocates memory strictly in accelerator high-bandwidth memory (inaccessible directly by CPU pointers), whereas `malloc_host` allocates pinned host memory accessible by both CPU and GPU
+- **(B)** `malloc_device` allocates memory on hard disks, while `malloc_host` allocates memory on tape drives
+- **(C)** `malloc_device` is limited to 1 Megabyte, while `malloc_host` is unlimited
+- **(D)** `malloc_host` cannot be read by accelerator GPUs
+
+> **Correct Answer**: **(A)** ``malloc_device` allocates memory strictly in accelerator high-bandwidth memory (inaccessible directly by CPU pointers), whereas `malloc_host` allocates pinned host memory accessible by both CPU and GPU`  
+> **Technical Explanation**: `malloc_device` allocates memory resident on the target accelerator device (offering maximum GPU bandwidth, but CPU cannot dereference device pointers). `malloc_host` allocates pinned host memory accessible by both CPU and device across PCIe.
+
+---
+
+### Question 41 | [Hard] — Unified Shared Memory: malloc_shared Page Migration
+**In SYCL Unified Shared Memory (USM), how does `malloc_shared` simplify heterogeneous programming compared to explicit buffer/accessor memory management?**
+
+- **(A)** It broadcasts memory across all nodes in a cluster using InfiniBand
+- **(B)** It converts all double-precision floating-point numbers into 8-bit integers
+- **(C)** It provides a unified pointer accessible by both CPU and GPU, with the SYCL runtime automatically managing page migration on demand between host and device memory
+- **(D)** It disables data caching to enforce synchronous disk access
+
+> **Correct Answer**: **(C)** `It provides a unified pointer accessible by both CPU and GPU, with the SYCL runtime automatically managing page migration on demand between host and device memory`  
+> **Technical Explanation**: `sycl::malloc_shared` allocates memory accessible from both the host CPU and the target device using the same pointer address. The underlying driver/OS automatically migrates data pages across the interconnect on demand, removing the need for manual buffer copies.
+
+---
+
+### Question 42 | [Hard] — SYCL In-Order vs Out-of-Order Command Queues
+**When creating a SYCL command queue, what operational difference exists between an in-order queue (`sycl::property::queue::in_order`) and the default out-of-order queue?**
+
+- **(A)** An in-order queue can only run on single-core CPUs and cannot target GPUs
+- **(B)** Out-of-order queues automatically discard failed execution tasks without notification
+- **(C)** In-order queues disable all asynchronous memory transfers
+- **(D)** An in-order queue executes submitted command groups strictly in the sequential order they are submitted, whereas default out-of-order queues can execute commands concurrently unless explicit SYCL events/dependencies are declared
+
+> **Correct Answer**: **(D)** `An in-order queue executes submitted command groups strictly in the sequential order they are submitted, whereas default out-of-order queues can execute commands concurrently unless explicit SYCL events/dependencies are declared`  
+> **Technical Explanation**: By default, SYCL queues are out-of-order, allowing kernels to run concurrently or out of sequence unless directed by event dependencies (`depends_on`). Passing `sycl::property::queue::in_order` enforces FIFO sequential execution, simplifying debugging.
+
+---
+
+## 🔷 Module 7: Intel HPC Toolkit
+
+### Question 43 | [Easy] — Intel DPC++/C++ Compiler (icpx)
+**Which modern LLVM-based C++ compiler provided in the Intel HPC Toolkit is used to compile high-performance SYCL and modern C++ parallel applications?**
 
 - **(A)** `gcc`
-- **(B)** `clang++`
-- **(C)** `icpx`
-- **(D)** `msvc`
+- **(B)** `icpx`
+- **(C)** `javac`
+- **(D)** `cl.exe`
 
-> **Correct Answer**: **(C)**  
-> **Technical Explanation**: `icpx` is the modern LLVM-based Intel C++ Compiler supporting DPC++, SYCL, and OpenMP.
-
----
-
-### Question 20 (D1-Q20)
-**What is the primary role of the Intel oneMKL library in the oneAPI Base Toolkit?**
-
-- **(A)** Parsing HTML web pages
-- **(B)** High-performance math kernels (BLAS, LAPACK, FFT) optimized for AVX-512 and AMX
-- **(C)** Managing network firewalls
-- **(D)** Rendering 3D video game animations
-
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: Intel oneMKL (Math Kernel Library) provides heavily optimized linear algebra, FFT, and vector math routines.
+> **Correct Answer**: **(B)** ``icpx``  
+> **Technical Explanation**: In the Intel oneAPI HPC Toolkit, `icpx` is the Intel oneAPI DPC++/C++ compiler, built upon LLVM and providing advanced vectorization and SYCL heterogeneous compilation.
 
 ---
 
-### Question 21 (D1-Q21)
-**Which tool in the Intel HPC Toolkit is used to detect memory leaks and thread race conditions in parallel applications?**
+### Question 44 | [Easy] — Intel Modern Fortran Compiler (ifx)
+**Which high-performance Fortran compiler in the Intel HPC Toolkit is the modern LLVM-based replacement for the classic `ifort` compiler?**
+
+- **(A)** `ifx`
+- **(B)** `gfortran`
+- **(C)** `f90`
+- **(D)** `flang`
+
+> **Correct Answer**: **(A)** ``ifx``  
+> **Technical Explanation**: `ifx` is Intel's modern LLVM-based Fortran compiler, delivering modern Fortran standard support and OpenMP offloading to Intel GPUs.
+
+---
+
+### Question 45 | [Medium] — Compiler Architectural Optimization (-xHost)
+**When compiling computational physics or machine learning C/C++ codes with `icpx`, what optimization does the flag `-xHost` instruct the compiler to perform?**
+
+- **(A)** It binds the compiled binary to execute exclusively on a specific network IP address
+- **(B)** It runs the code inside an isolated Docker container
+- **(C)** It instructs the compiler to generate SIMD vector instructions targeting the highest instruction set supported by the compilation host CPU (e.g., AVX-512)
+- **(D)** It disables all loop unrolling and optimization to prioritize compilation speed
+
+> **Correct Answer**: **(C)** `It instructs the compiler to generate SIMD vector instructions targeting the highest instruction set supported by the compilation host CPU (e.g., AVX-512)`  
+> **Technical Explanation**: `-xHost` queries the CPU where compilation is occurring and instructs the compiler to generate the most advanced SIMD code available (such as AVX-512 or AVX2), maximizing vector arithmetic throughput.
+
+---
+
+### Question 46 | [Medium] — Intel MPI Library
+**In a multi-node distributed HPC cluster, which component in the Intel HPC Toolkit provides the optimized implementation of the MPI-3 / MPI-4 standard for inter-node communication?**
+
+- **(A)** Intel Integrated Performance Primitives (IPP)
+- **(B)** Intel Distribution for Python
+- **(C)** Intel VTune Profiler
+- **(D)** Intel MPI Library
+
+> **Correct Answer**: **(D)** `Intel MPI Library`  
+> **Technical Explanation**: The Intel MPI Library is an enterprise multi-fabric message-passing library implementing the MPI standard, optimized for low-latency point-to-point and collective communications across Intel Xeon clusters.
+
+---
+
+### Question 47 | [Medium] — Intel Inspector Diagnostic Tool
+**Which diagnostic analysis tool included in the Intel HPC Toolkit is designed to detect dynamic memory corruption, memory leaks, uninitialized memory accesses, and threading data races without needing specialized recompilation?**
 
 - **(A)** Intel Inspector
-- **(B)** GDB
-- **(C)** Valgrind only
-- **(D)** Wireshark
+- **(B)** Intel Advisor
+- **(C)** Intel Trace Analyzer and Collector (ITAC)
+- **(D)** Intel oneDNN
 
-> **Correct Answer**: **(A)**  
-> **Technical Explanation**: Intel Inspector is a memory and thread error debugger for C, C++, and Fortran applications.
-
----
-
-### Question 22 (D1-Q22)
-**Which library in the Intel HPC Toolkit enables multi-node message passing across cluster networks?**
-
-- **(A)** Intel oneDNN
-- **(B)** Intel MPI Library
-- **(C)** Intel oneDAL
-- **(D)** Intel DPC++
-
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: Intel MPI implements the MPI-3.1 standard optimized for low-latency cluster interconnects.
+> **Correct Answer**: **(A)** `Intel Inspector`  
+> **Technical Explanation**: Intel Inspector is a dynamic memory and thread checking tool that identifies subtle memory leaks, dangling pointers, deadlocks, and race conditions in multi-threaded C/C++/Fortran programs.
 
 ---
 
-### Question 23 (D1-Q23)
-**What command displays the exit status code of the immediately preceding command in Bash?**
+### Question 48 | [Hard] — NUMA Topology & Process Affinity Pinning
+**On a multi-socket Intel Xeon server featuring Non-Uniform Memory Access (NUMA), why does unconstrained OS thread migration across NUMA sockets severely degrade HPC application performance?**
 
-- **(A)** `echo $STATUS`
-- **(B)** `echo $?`
-- **(C)** `return`
-- **(D)** `check`
+- **(A)** Remote NUMA access causes immediate hardware watchdog reboot
+- **(B)** Accessing memory attached to a remote CPU socket over the UPI interconnect incurs significantly higher latency and lower bandwidth than accessing local NUMA memory; thread affinity pinning (`numactl` / `I_MPI_PIN`) prevents this penalty
+- **(C)** Thread migration deletes variables stored in L1 cache permanently
+- **(D)** Remote NUMA sockets only support 16-bit calculations
 
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: `$?` stores the exit code of the last executed command (0 = Success, non-zero = Failure).
-
----
-
-### Question 24 (D1-Q24)
-**In Linux, what does the `$PATH` environment variable represent?**
-
-- **(A)** The filepath of the current text document
-- **(B)** A colon-separated list of directories searched by the shell to find executable binaries
-- **(C)** The user's home folder location
-- **(D)** The network IP route to the internet
-
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: When a command name is typed, the shell searches directories listed in `$PATH` in order.
+> **Correct Answer**: **(B)** `Accessing memory attached to a remote CPU socket over the UPI interconnect incurs significantly higher latency and lower bandwidth than accessing local NUMA memory; thread affinity pinning (`numactl` / `I_MPI_PIN`) prevents this penalty`  
+> **Technical Explanation**: In NUMA systems, each socket has its own local memory controller and DDR channels. When a core accesses RAM on a remote socket, requests must traverse the interconnect (Intel UPI), which doubles memory access latency and congests the bus. Process/thread binding prevents cross-socket migrations.
 
 ---
 
-### Question 25 (D1-Q25)
-**Which of the following topics belongs STRICTLY to Day 2 and should NOT be executed on Day 1?**
+### Question 49 | [Hard] — Floating-Point Model Optimizations (-fp-model)
+**When compiling numerical linear algebra algorithms with `icx` / `icpx`, what is the consequence of specifying the floating-point optimization flag `-fp-model=fast=2` compared to `-fp-model=precise`?**
 
-- **(A)** Linux Filesystem Navigation
-- **(B)** Shell Scripting Automation
-- **(C)** OpenMP multithreading & MPI distributed computing
-- **(D)** Intel oneAPI environment sourcing
+- **(A)** `-fp-model=fast=2` converts all double-precision numbers to 8-bit integers
+- **(B)** `-fp-model=precise` disables all CPU vector registers and forces scalar emulation
+- **(C)** `-fp-model=fast=2` enables aggressive floating-point algebraic reordering and fused multiply-adds (FMA) that maximize compute throughput at the expense of strict IEEE 754 numerical bitwise reproducibility
+- **(D)** `-fp-model=fast=2` only functions on ARM processors
 
-> **Correct Answer**: **(C)**  
-> **Technical Explanation**: OpenMP, MPI, and oneDAL Machine Learning are scheduled for Day 2 as per the official curriculum.
-
----
-
-## 🔷 Section B: Advanced Supercomputer & Silicon Architecture (Q26 - Q50)
-
-### Question 26 (D1-Q26)
-**Why did Dennard scaling breakdown around 2005, forcing processor manufacturers to transition from increasing single-core clock frequencies to multi-core and heterogeneous architectures?**
-
-- **(A)** Sub-threshold leakage current and static power dissipation grew exponentially at sub-90nm process nodes, causing thermal runaway.
-- **(B)** Amdahl's law proved that clock frequencies above 4 GHz mathematically reduce instruction-level parallelism.
-- **(C)** InfiniBand fabric became mandatory for motherboard bus routing, capping CPU clock oscillators.
-- **(D)** Operating system schedulers could not allocate virtual memory addresses faster than 3.8 GHz.
-
-> **Correct Answer**: **(A)**  
-> **Technical Explanation**: Dennard scaling stated that as transistors shrink, power density stays constant because voltage and current scale downward proportionally. Below ~90nm, quantum tunneling and gate oxide leakage currents escalated exponentially. Operating voltages could no longer scale down without causing gate instability, leading to the 'Power Wall' where increasing clock speed resulted in uncontrollable thermal dissipation.
+> **Correct Answer**: **(C)** ``-fp-model=fast=2` enables aggressive floating-point algebraic reordering and fused multiply-adds (FMA) that maximize compute throughput at the expense of strict IEEE 754 numerical bitwise reproducibility`  
+> **Technical Explanation**: `-fp-model=precise` enforces strict IEEE 754 adherence and disables value-unsafe reordering. `-fp-model=fast=2` allows aggressive reassociation, reciprocal approximations, and contracted operations (FMA) that maximize execution speed on scientific workloads while permitting minor rounding variations.
 
 ---
 
-### Question 27 (D1-Q27)
-**According to Amdahl's Law, if 90% of an HPC application's execution time is parallelizable and 10% is strictly sequential, what is the theoretical maximum speedup limit as the number of parallel processor cores approaches infinity?**
-
-- **(A)** 90x
-- **(B)** 10x
-- **(C)** 100x
-- **(D)** Infinity
-
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: Amdahl's law states that maximum speedup S = 1 / ((1 - p) + (p / N)). As N -> infinity, p / N -> 0, leaving S_max = 1 / (1 - p). Here, p = 0.90, so S_max = 1 / (1 - 0.90) = 1 / 0.10 = 10x. Regardless of having 10,000 cores, the 10% serial bottleneck caps speedup at 10x.
-
----
-
-### Question 28 (D1-Q28)
-**How does Gustafson's Law fundamentally differ from Amdahl's Law in evaluating the scalability of high-performance computing clusters?**
-
-- **(A)** Gustafson's Law assumes a fixed problem size, whereas Amdahl's Law scales the problem size with core count.
-- **(B)** Gustafson's Law models scaled speedup where problem size increases proportionally to compute resources, demonstrating that the parallel fraction dominates large-scale workloads.
-- **(C)** Gustafson's Law only applies to shared-memory NUMA nodes, while Amdahl's Law applies to InfiniBand networks.
-- **(D)** Gustafson's Law models GPU matrix multiplication while Amdahl's Law models CPU scalar execution.
-
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: Amdahl's law assumes strong scaling (fixed problem size run on more cores). Gustafson's law assumes weak scaling (scaled speedup S(P) = P - alpha*(P - 1)), where as compute resources expand, scientists enlarge the problem grid, causing the time spent in parallel execution to dwarf the constant sequential setup phase.
-
----
-
-### Question 29 (D1-Q29)
-**In a dual-socket 4th Gen Intel Xeon Scalable (Sapphire Rapids) server, what interconnect fabric facilitates cache-coherent inter-socket communication, and what is its typical latency penalty relative to local DRAM access?**
-
-- **(A)** PCIe Gen 3 bus; ~20ns penalty.
-- **(B)** Intel Ultra Path Interconnect (UPI); approximately 60ns to 80ns latency penalty compared to local NUMA memory.
-- **(C)** InfiniBand HDR switch; ~500ns penalty.
-- **(D)** SATA Express controller; 10x slower bandwidth.
-
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: Intel Xeon multi-socket systems use UPI (Ultra Path Interconnect) links to maintain hardware cache coherency across sockets. Accessing memory attached to a local socket takes ~80ns, whereas a remote NUMA access crossing UPI links incurs an additional ~60-80ns (~140-160ns total), emphasizing the critical need for thread pinning and NUMA-aware allocation.
-
----
-
-### Question 30 (D1-Q30)
-**What is the register width and single-precision IEEE 754 floating-point capacity of Intel AVX-512 vector units?**
-
-- **(A)** 256 bits, processing 8 FP32 values per instruction.
-- **(B)** 512 bits (ZMM registers), processing 16 FP32 values per instruction.
-- **(C)** 128 bits (XMM registers), processing 4 FP32 values per instruction.
-- **(D)** 1024 bits, processing 32 FP32 values per instruction.
-
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: AVX-512 defines thirty-two 512-bit wide vector registers (ZMM0 through ZMM31). In a single clock cycle, an AVX-512 Fused Multiply-Add (FMA) unit computes sixteen 32-bit single-precision floats simultaneously (512 / 32 = 16).
-
----
-
-### Question 31 (D1-Q31)
-**What architectural engine was introduced in 4th Gen Intel Xeon Scalable (Sapphire Rapids) to accelerate deep learning tensor matrix multiplications in hardware?**
-
-- **(A)** Intel AMX (Advanced Matrix Extensions) with 2D tile registers (TMM) and TMUL matrix multiplication units.
-- **(B)** Intel Iris Xe Integrated Graphics Core.
-- **(C)** Intel QuickPath Interconnect (QPI).
-- **(D)** Intel Hyper-Threading Technology v2.
-
-> **Correct Answer**: **(A)**  
-> **Technical Explanation**: Intel AMX (Advanced Matrix Extensions) is a dedicated accelerator block embedded directly in Sapphire Rapids cores. It features 8 two-dimensional tile registers (TMM0-TMM7, 1KB each) and a TMUL (Tile Matrix Multiply) systolic execution unit capable of executing 2048 INT8 or 1024 BF16 operations per cycle.
-
----
-
-### Question 32 (D1-Q32)
-**In the NEC SX-Aurora TSUBASA supercomputing architecture, what role does the Intel Xeon processor play relative to the NEC Vector Engine (VE)?**
-
-- **(A)** The Intel Xeon acts as the Vector Host (VH), running the Linux OS, managing storage/Lustre I/O, and job dispatching, while the NEC VE PCIe card executes ultra-wide vector computations.
-- **(B)** The Intel Xeon is an idle standby CPU used only if the NEC Vector Engine burns out.
-- **(C)** The Intel Xeon is embedded inside the NEC PCIe card as an L1 cache controller.
-- **(D)** The NEC VE runs the Linux kernel while the Intel Xeon acts as a graphical display adapter.
-
-> **Correct Answer**: **(A)**  
-> **Technical Explanation**: NEC SX-Aurora TSUBASA employs a decoupled hybrid model: the standard x86_64 CPU (Intel Xeon) is the Vector Host (VH), handling standard Linux OS services, network drivers, Slurm scheduling, and Lustre file I/O. The NEC Vector Engine (VE) is a dedicated PCIe processor with dedicated HBM2 memory delivering massive vector throughput.
-
----
-
-### Question 33 (D1-Q33)
-**What is the peak memory bandwidth of the NEC SX-Aurora TSUBASA Type 20B Vector Engine, and what memory technology enables it?**
-
-- **(A)** 128 GB/s using standard DDR4 memory.
-- **(B)** 1.53 TB/s using stacked High Bandwidth Memory (HBM2).
-- **(C)** 25.6 GB/s using PCIe Gen 3 lanes.
-- **(D)** 500 GB/s using GDDR6 graphic memory.
-
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: The NEC SX-Aurora TSUBASA VE20B features integrated 3D-stacked HBM2 memory directly on the silicon interposer, delivering up to 1.53 Terabytes per second (TB/s) of memory bandwidth—essential for memory-bound sparse scientific HPC codes.
-
----
-
-### Question 34 (D1-Q34)
-**In an HPC Linux cluster, what is the functional difference between `/home` and `/scratch` parallel file systems?**
-
-- **(A)** `/home` is backed by high-throughput parallel Lustre storage for high IOPS, while `/scratch` is a slow USB stick.
-- **(B)** `/home` is typically an NFS share for source code and config files, while `/scratch` is a high-bandwidth parallel file system (Lustre/GPFS) striped across Object Storage Targets (OSTs) for temporary simulation data.
-- **(C)** `/scratch` is volatile RAM that gets erased every second.
-- **(D)** `/home` is only accessible by root, while `/scratch` is for normal users.
-
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: In production HPC clusters, user home directories are hosted on standard NFS with strict storage quotas and backup snapshots. The high-performance parallel file systems (such as Lustre or IBM Spectrum Scale / GPFS) are mounted at `/scratch`, striping multi-terabyte datasets across dozens of parallel OSTs for hundreds of gigabytes per second of aggregated sequential I/O.
-
----
-
-### Question 35 (D1-Q35)
-**Why is the bash directive `set -euo pipefail` considered mandatory for professional HPC job automation scripts?**
-
-- **(A)** It automatically compiles Python scripts into C++ binaries before execution.
-- **(B)** It halts execution immediately if any command fails (-e), if an unset variable is referenced (-u), or if any command in a pipeline fails (-o pipefail), preventing silent corrupted calculations.
-- **(C)** It allocates 100% of GPU memory to the current shell.
-- **(D)** It disables password prompts across the entire university network.
-
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: `set -e` ensures the script exits on non-zero command return; `set -u` treats uninitialized variables as fatal errors; and `set -o pipefail` ensures that a pipeline fails if any upstream command fails, rather than masking errors with the downstream command's exit code.
-
----
-
-### Question 36 (D1-Q36)
-**Which elliptic-curve algorithm is the modern enterprise standard for HPC passwordless SSH keys, replacing legacy RSA 2048/4096-bit keys due to superior security and cryptographic handshake speed?**
-
-- **(A)** DES
-- **(B)** Ed25519
-- **(C)** MD5
-- **(D)** SHA-1
-
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: Ed25519 provides 128-bit security level equivalent to ~3000-bit RSA, but with significantly smaller keys (68 characters), immune to side-channel timing attacks, and orders of magnitude faster signature generation.
-
----
-
-### Question 37 (D1-Q37)
-**In OpenSSH configuration (`~/.ssh/config`), what does the directive `ControlMaster auto` combined with `ControlPath` achieve in an HPC cluster environment?**
-
-- **(A)** It allows normal users to gain root privileges on compute nodes.
-- **(B)** It enables SSH connection multiplexing, reusing a single master TCP connection for subsequent sessions and eliminating the latency of repeated TLS/cryptographic handshakes.
-- **(C)** It controls the CPU fan speed of remote servers.
-- **(D)** It automatically formats hard drives on remote nodes.
-
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: SSH connection multiplexing (`ControlMaster auto`, `ControlPath ~/.ssh/sockets/%r@%h:%p`) creates a local Unix domain socket on the first SSH handshake. Subsequent commands reuse the existing authenticated TCP socket, reducing connection latency from ~400ms to <2ms.
-
----
-
-### Question 38 (D1-Q38)
-**What is the primary role of Lmod / Environment Modules (`module load`, `module purge`) on production HPC clusters?**
-
-- **(A)** It installs Linux kernel drivers directly into motherboard BIOS.
-- **(B)** It dynamically modifies shell environment variables (`PATH`, `LD_LIBRARY_PATH`, `CPATH`) to switch between conflicting compiler toolchains and MPI versions without system-wide collisions.
-- **(C)** It acts as an anti-virus scanner for student home directories.
-- **(D)** It provides a web interface for playing video games on supercomputers.
-
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: HPC clusters host multiple conflicting versions of compilers and MPI libraries. Environment Modules modify `PATH`, `LD_LIBRARY_PATH`, and include directories dynamically per-user session without overwriting base system libraries.
-
----
-
-### Question 39 (D1-Q39)
-**What is the core distinction between the Intel oneAPI Base Toolkit and the Intel oneAPI HPC Toolkit?**
-
-- **(A)** Base Toolkit is for Microsoft Office; HPC Toolkit is for Linux kernels.
-- **(B)** Base Toolkit provides core SYCL/DPC++ compilers, oneMKL, oneDAL, and profiling tools; HPC Toolkit extends this with production C/C++/Fortran compilers (`icx`, `ifx`), Intel MPI Library, and cluster analysis tools (ITAC, Inspector).
-- **(C)** Base Toolkit is paid; HPC Toolkit is open-source.
-- **(D)** Base Toolkit only runs on laptops; HPC Toolkit only runs on quantum computers.
-
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: The Base Toolkit includes cross-architecture developer tools (Intel DPC++/C++ Compiler, oneMKL, oneDNN, oneDAL, VTune). The HPC Toolkit provides dedicated distributed HPC libraries: Intel Fortran (`ifx`), Intel MPI Library, and Intel Trace Analyzer & Collector (ITAC).
-
----
-
-### Question 40 (D1-Q40)
-**What command-line tool is used in modern Linux kernels to inspect NUMA node assignments, socket CPU affinity, and distance matrices between CPU sockets and memory controllers?**
-
-- **(A)** numactl --hardware
-- **(B)** ipconfig /all
-- **(C)** systemctl restart numa
-- **(D)** cat /etc/hosts
-
-> **Correct Answer**: **(A)**  
-> **Technical Explanation**: `numactl --hardware` (or `numactl -H`) queries the Linux kernel NUMA subsystem, outputting available NUMA nodes, CPU core IDs mapped to each node, physical RAM per node, and the relative distance matrix.
-
----
-
-### Question 41 (D1-Q41)
-**What does a NUMA distance value of '21' relative to a local distance of '10' indicate in `numactl -H` output?**
-
-- **(A)** The remote memory has 21 GB of capacity.
-- **(B)** Accessing memory located on the remote socket takes approximately 2.1x more latency than accessing memory attached to the local socket.
-- **(C)** The memory controller is operating at 21 MHz clock speed.
-- **(D)** The network connection is 21 Gbps Ethernet.
-
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: Local node memory access is normalized to a baseline distance of 10. A distance of 21 signifies that memory transactions must cross inter-socket UPI interconnects, incurring ~2.1 times the latency of local node DRAM.
-
----
-
-### Question 42 (D1-Q42)
-**What flag must be passed to the Intel oneAPI C/C++ compiler (`icx`) to instruct it to generate optimized AVX-512 vector instructions targeting Intel 4th Gen Xeon Scalable processors?**
-
-- **(A)** -O0 -mno-simd
-- **(B)** -O3 -xSapphireRapids (or -mavx512f -mavx512dq -mavx512bw)
-- **(C)** -cuda-arch=sm_80
-- **(D)** -march=armv8-a
-
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: The Intel compiler (`icx`) uses `-x<target>` flags (e.g. `-xSapphireRapids`) along with optimization level `-O3` to vectorize loops into 512-bit ZMM register instructions, enabling AVX-512 FMA, VNNI, and mask register optimizations.
-
----
-
-### Question 43 (D1-Q43)
-**In Linux cluster administration, what virtual filesystem exposes real-time hardware status such as CPU temperature, frequency scaling governors, and memory sub-timings?**
-
-- **(A)** /sys and /proc
-- **(B)** /bin and /sbin
-- **(C)** /opt and /usr
-- **(D)** /var/log only
-
-> **Correct Answer**: **(A)**  
-> **Technical Explanation**: `/proc` provides kernel process state and hardware definitions (`/proc/cpuinfo`, `/proc/meminfo`), while `/sys` (sysfs) exposes structured device tree hierarchies including CPU power management and cache geometry.
-
----
-
-### Question 44 (D1-Q44)
-**What does the Linux command `lscpu -C` display?**
-
-- **(A)** Computer cost breakdown.
-- **(B)** Detailed CPU cache hierarchy, including L1 Data, L1 Instruction, L2, and L3 cache sizes, types, and core sharing mappings.
-- **(C)** List of compiled C programs.
-- **(D)** PCIe bus clock frequencies.
-
-> **Correct Answer**: **(B)**  
-> **Technical Explanation**: `lscpu -C` formats a complete table of the processor cache subsystem, listing NAME (L1d, L1i, L2, L3), ONE-SIZE, ALL-SIZE, WAYS of associativity, TYPE, and the CPU allocation mapping.
-
----
-
-### Question 45 (D1-Q45)
-**In modern heterogeneous HPC clusters, what is the role of Intel Level Zero API?**
-
-- **(A)** A low-level direct-to-metal hardware abstraction interface for Intel GPUs and AI accelerators, providing fine-grained device control below the SYCL layer.
-- **(B)** A basic video game design framework.
-- **(C)** An entry-level Linux terminal shell.
-- **(D)** A tool to delete user passwords.
-
-> **Correct Answer**: **(A)**  
-> **Technical Explanation**: Intel oneAPI Level Zero provides direct, low-overhead access to hardware capabilities of Intel discrete GPUs (like Data Center GPU Max) and accelerators, controlling device initialization, memory allocations, peer-to-peer copies, and kernel launches.
-
----
-
-### Question 46 (D1-Q46)
-**What is the key technological feature of InfiniBand NDR networking in top-tier HPC clusters?**
-
-- **(A)** 400 Gbps per-port throughput with sub-microsecond latency and hardware-offloaded RDMA (Remote Direct Memory Access).
-- **(B)** 10 Mbps dial-up protocol for legacy terminals.
-- **(C)** Wireless Wi-Fi 6 transmission over antennas.
-- **(D)** Bluetooth 5.0 mesh for keyboard connectivity.
-
-> **Correct Answer**: **(A)**  
-> **Technical Explanation**: InfiniBand NDR delivers 400 Gbps per port using 4 lanes of 100 Gbps PAM4 signaling. With hardware-level RDMA, compute nodes transfer data directly between application memories without involving OS kernel copy overhead.
-
----
-
-### Question 47 (D1-Q47)
-**What is a Fat-Tree network topology in supercomputer cluster design?**
-
-- **(A)** A tree topology where tree branches grow thicker (more aggregated bandwidth) toward the root, guaranteeing full bisection non-blocking bandwidth across all compute racks.
-- **(B)** A circular ring where all computers share a single cable.
-- **(C)** A wireless network configured in an outdoor park.
-- **(D)** A random daisy chain of ethernet switches.
-
-> **Correct Answer**: **(A)**  
-> **Technical Explanation**: In a Fat-Tree topology, switches closer to the root have more aggregated uplink bandwidth than leaf switches. A non-blocking fat-tree guarantees that any arbitrary half of the cluster can communicate simultaneously with the other half at wire speed.
-
----
-
-### Question 48 (D1-Q48)
-**What Linux tool allows an engineer to pin a process to a specific NUMA node and enforce that memory allocations only occur from that node's local memory controllers?**
-
-- **(A)** numactl --cpunodebind=0 --membind=0 ./app
-- **(B)** kill -9 ./app
-- **(C)** chmod +x ./app
-- **(D)** grep -r numa ./app
-
-> **Correct Answer**: **(A)**  
-> **Technical Explanation**: `numactl --cpunodebind=0 --membind=0 ./app` binds the process's CPU execution threads strictly to the cores of NUMA node 0 and strictly enforces memory allocations from node 0's local DRAM channels, eliminating remote cross-socket UPI traffic.
-
----
-
-### Question 49 (D1-Q49)
-**What does SYCL represent within the Intel oneAPI programming ecosystem?**
-
-- **(A)** An open standard, single-source C++ programming model governed by Khronos Group for heterogeneous computing across CPUs, GPUs, FPGAs, and AI accelerators.
-- **(B)** A proprietary Nvidia compiler for CUDA graphics cards.
-- **(C)** A replacement for HTML and CSS websites.
-- **(D)** A database query language similar to SQL.
-
-> **Correct Answer**: **(A)**  
-> **Technical Explanation**: SYCL is a royalty-free, open standard C++ programming model managed by the Khronos Group. Intel oneAPI's DPC++ is built upon SYCL, allowing developers to write standards-compliant modern C++ that compiles across Intel CPUs, GPUs, and accelerators.
-
----
-
-### Question 50 (D1-Q50)
-**When configuring passwordless SSH keys for an HPC cluster, why must the permissions of `~/.ssh` and `~/.ssh/authorized_keys` strictly be set to `700` and `600` respectively?**
-
-- **(A)** Because SSH daemons enforce strict permission checks and will refuse authentication if the directory or keys are writable by group or other users for security.
-- **(B)** Because Linux hard drives cannot store files larger than 600 bytes.
-- **(C)** Because the Slurm scheduler requires executable bits on authorized_keys.
-- **(D)** Because the files are automatically encrypted with AES-700.
-
-> **Correct Answer**: **(A)**  
-> **Technical Explanation**: The OpenSSH daemon enforces `StrictModes yes` by default. If `~/.ssh` has permissions looser than `700` or `authorized_keys` looser than `600`, other local users could tamper with the keys, causing OpenSSH to silently reject authentication.
+### Question 50 | [Hard] — Open Fabrics Interfaces (OFI / Libfabric)
+**What is the architectural role of the Open Fabrics Interfaces (OFI / Libfabric) provider layer underneath the Intel MPI Library in high-performance computing clusters?**
+
+- **(A)** It acts as a modular, hardware-independent network abstraction framework allowing Intel MPI to interface directly with high-speed kernel-bypass fabrics (InfiniBand verbs, RoCE, Omni-Path, TCP) with minimal overhead
+- **(B)** It converts MPI communication messages into HTTP REST API queries
+- **(C)** It encrypts cluster network packets using software RSA-4096 keys
+- **(D)** It assigns dynamic IP addresses to compute nodes using DHCP
+
+> **Correct Answer**: **(A)** `It acts as a modular, hardware-independent network abstraction framework allowing Intel MPI to interface directly with high-speed kernel-bypass fabrics (InfiniBand verbs, RoCE, Omni-Path, TCP) with minimal overhead`  
+> **Technical Explanation**: Libfabric (OFI) is the core fabric interface in Intel MPI. It provides a standard, low-latency API directly above user-space network drivers (like InfiniBand verbs, Cisco usNIC, Intel PSM3, or sockets), enabling kernel-bypass zero-copy communication across HPC fabrics.
 
 ---
 
 ## 📊 MASTER 50-QUESTION EVALUATION & ANSWER KEY GRID
 
-| Q# | Key | Question Topic | Q# | Key | Question Topic |
-|:---:|:---:|:---|:---:|:---:|:---|
-| **Q01** | **A** | HPC Definition & Fundamentals | **Q26** | **A** | Dennard Scaling Breakdown & Power Wall |
-| **Q02** | **B** | Memory Wall & LLM Laptop Bottlenecks | **Q27** | **B** | Amdahl's Law Speedup Boundary Calculation |
-| **Q03** | **B** | Head / Login Node Role vs Compute Nodes | **Q28** | **B** | Gustafson's Law Scaled Speedup Model |
-| **Q04** | **C** | Habana Gaudi On-Die RoCE Architecture | **Q29** | **B** | Xeon Dual-Socket UPI Bus & Memory Channels |
-| **Q05** | **B** | Intel Xeon Sapphire Rapids AMX Acceleration | **Q30** | **B** | AVX-512 Register Width & FLOPS Throughput |
-| **Q06** | **C** | Linux VFS Root Directory & Paths | **Q31** | **A** | Intel AMX Hardware Tile Registers (`tmm0-7`) |
-| **Q07** | **B** | Linux `ls -la` Hidden Dotfiles & Permissions | **Q32** | **A** | NEC SX-Aurora TSUBASA Vector Engine |
-| **Q08** | **C** | Linux `rm` Permanent Deletion Semantics | **Q33** | **B** | NEC SX-Aurora HBM2 Memory Bandwidth |
-| **Q09** | **C** | Bash Variable Assignment Syntax | **Q34** | **B** | Linux `/home` vs High-Throughput `/scratch` |
-| **Q10** | **B** | Bash Script Shebang (`#!/bin/bash`) | **Q35** | **B** | Defensive Shell Scripting (`set -euo pipefail`) |
-| **Q11** | **A** | Linux `chmod +x` Script Execution Rights | **Q36** | **B** | Ed25519 Elliptic-Curve SSH Security |
-| **Q12** | **B** | Shell Redirection (`>` vs `>>`) | **Q37** | **B** | SSH Multiplexing (`ControlMaster`) |
-| **Q13** | **B** | SSH Port 22 & Protocol Architecture | **Q38** | **B** | Lmod / Environment Modules Management |
-| **Q14** | **C** | Asymmetric SSH Keys (`ed25519` vs RSA) | **Q39** | **B** | oneAPI Base Toolkit vs HPC Toolkit |
-| **Q15** | **B** | Remote Server `~/.ssh/authorized_keys` | **Q40** | **A** | Linux NUMA Architecture Inspection (`numactl`) |
-| **Q16** | **B** | Intel oneAPI Cross-Architecture Vision | **Q41** | **B** | NUMA Distance Matrix & Interconnect Latency |
-| **Q17** | **B** | Khronos SYCL Single-Source C++ Standard | **Q42** | **B** | Intel `icx -xHost` Architectural Vectorization |
-| **Q18** | **B** | oneAPI Environment Sourcing (`setvars.sh`) | **Q43** | **A** | Linux `/proc` Virtual Kernel Telemetry |
-| **Q19** | **C** | Intel oneAPI DPC++/C++ Compiler (`icpx`) | **Q44** | **B** | Hardware Core Topology Inspection (`lscpu -C`) |
-| **Q20** | **B** | Intel oneMKL High-Performance Math Kernels | **Q45** | **A** | Intel Level Zero Direct Hardware Driver API |
-| **Q21** | **A** | Intel Inspector Memory/Thread Debugger | **Q46** | **A** | InfiniBand NDR 400Gb/s Interconnect Fabrics |
-| **Q22** | **B** | Intel MPI Multi-Node Message Passing | **Q47** | **A** | Supercomputer Fat-Tree Network Topology |
-| **Q23** | **B** | Shell Exit Status Check (`$?`) | **Q48** | **A** | Hardware Thread Pinning (`numactl --membind`) |
-| **Q24** | **B** | Linux Environment `$PATH` Resolution | **Q49** | **A** | Khronos SYCL Standard Governance |
-| **Q25** | **C** | Curriculum Scope Boundary Discipline | **Q50** | **A** | SSH Security Permission Discipline (`700`/`600`) |
+| Q# | Key | Topic | Difficulty | Q# | Key | Topic | Difficulty |
+|:---:|:---:|:---|:---:|:---:|:---:|:---|:---:|
+| **Q01** | **B** | HPC Performance Metrics & TOP500 | `Easy` | **Q26** | **C** | Combined Redirection of stdout & stderr | `Medium` |
+| **Q02** | **D** | Flynn's Taxonomy of Computer Architecture | `Easy` | **Q27** | **A** | Pipeline Error Trapping (set -o pipefail) | `Hard` |
+| **Q03** | **B** | The Memory Wall Bottleneck | `Medium` | **Q28** | **D** | Modern [[ ... ]] vs POSIX [ ... ] Operators | `Hard` |
+| **Q04** | **B** | HPC Node Roles: Login vs Compute Nodes | `Medium` | **Q29** | **C** | Standard SSH Port | `Easy` |
+| **Q05** | **B** | Amdahl's Law Speedup Calculation | `Medium` | **Q30** | **A** | SSH Public Key Authentication File | `Easy` |
+| **Q06** | **A** | Scaling Models: Strong Scaling vs Weak Scaling | `Hard` | **Q31** | **B** | Modern Asymmetric Cryptography: Ed25519 | `Medium` |
+| **Q07** | **A** | Supercomputing Benchmarks: HPL vs HPCG | `Hard` | **Q32** | **A** | SSH Private Key Permission Discipline | `Medium` |
+| **Q08** | **C** | Intel AMX Hardware Accelerator | `Easy` | **Q33** | **D** | Secure Remote File Transfer (scp) | `Medium` |
+| **Q09** | **D** | Intel Data Center GPU Max Microarchitecture | `Easy` | **Q34** | **A** | SSH Agent Forwarding Security Risks | `Hard` |
+| **Q10** | **A** | Habana Gaudi Inter-Accelerator Fabric | `Medium` | **Q35** | **C** | SSH Connection Multiplexing (ControlMaster) | `Hard` |
+| **Q11** | **B** | Intel Dual-Socket Coherent Interconnect | `Medium` | **Q36** | **B** | oneAPI Cross-Architecture Vision | `Easy` |
+| **Q12** | **A** | Intel AMX 2D Tile Architecture | `Medium` | **Q37** | **A** | oneAPI Environment Sourcing (setvars.sh) | `Easy` |
+| **Q13** | **B** | Intel Xeon CPU Max HBM Operating Modes | `Hard` | **Q38** | **C** | Khronos SYCL C++ Standard | `Medium` |
+| **Q14** | **A** | Intel AMX vs AVX-512 Throughput Analysis | `Hard` | **Q39** | **B** | Intel Level Zero Driver Abstraction | `Medium` |
+| **Q15** | **C** | Linux Unified Filesystem Root | `Easy` | **Q40** | **A** | Unified Shared Memory: malloc_device vs malloc_host | `Medium` |
+| **Q16** | **B** | Working Directory Navigation | `Easy` | **Q41** | **C** | Unified Shared Memory: malloc_shared Page Migration | `Hard` |
+| **Q17** | **A** | Octal Permission Calculation (chmod) | `Medium` | **Q42** | **D** | SYCL In-Order vs Out-of-Order Command Queues | `Hard` |
+| **Q18** | **C** | Default File Permissions & umask | `Medium` | **Q43** | **B** | Intel DPC++/C++ Compiler (icpx) | `Easy` |
+| **Q19** | **A** | HPC Storage Hierarchy: $HOME vs /scratch | `Medium` | **Q44** | **A** | Intel Modern Fortran Compiler (ifx) | `Easy` |
+| **Q20** | **A** | Virtual Filesystems: /proc vs /sys | `Hard` | **Q45** | **C** | Compiler Architectural Optimization (-xHost) | `Medium` |
+| **Q21** | **B** | Filesystem Inode & Deletion Semantics | `Hard` | **Q46** | **D** | Intel MPI Library | `Medium` |
+| **Q22** | **B** | Shell Script Shebang Mechanism | `Easy` | **Q47** | **A** | Intel Inspector Diagnostic Tool | `Medium` |
+| **Q23** | **D** | I/O Redirection Operators | `Easy` | **Q48** | **B** | NUMA Topology & Process Affinity Pinning | `Hard` |
+| **Q24** | **B** | Command Exit Status Parameter ($?) | `Medium` | **Q49** | **C** | Floating-Point Model Optimizations (-fp-model) | `Hard` |
+| **Q25** | **A** | Defensive Shell Scripting (set -e) | `Medium` | **Q50** | **A** | Open Fabrics Interfaces (OFI / Libfabric) | `Hard` |
