@@ -356,7 +356,7 @@ The official curriculum specifies **strictly 7 topics for Day 1**:
 
 ### [04:00 - 04:30] Phase 5: Student 50 MCQs Assessment & 22-Point Checklist Sign-Off
 - **Trainer Activity:**
-  1. Open [`GLA_University_Day_01_Pre_Assessment_50_MCQs.xlsx`](file:///c:/Users/Rose/Videos/GLA%20Trainings/HPC_Master_Curriculum/Day-01_HPC_Linux_Shell_oneAPI/quizzes_and_assessments/pre_assessment/pre_assessment_mcqs/GLA_University_Day_01_Pre_Assessment_50_MCQs.xlsx) and [`03_DAY_01_STUDENT_CHEATSHEET_AND_MCQS.md`](file:///c:/Users/Rose/Videos/GLA%20Trainings/HPC_Master_Curriculum/Day-01_HPC_Linux_Shell_oneAPI/03_DAY_01_STUDENT_CHEATSHEET_AND_MCQS.md).
+  1. Open [`GLA_University_Day_01_Pre_Assessment_50_MCQs.xlsx`](file:///c:/Users/Rose/Videos/GLA%20Trainings/HPC_Master_Curriculum/Day-01_HPC_Linux_Shell_oneAPI/quizzes_and_assessments/pre_assessment/excel/GLA_University_Day_01_Pre_Assessment_50_MCQs.xlsx) and [`03_DAY_01_STUDENT_CHEATSHEET_AND_MCQS.md`](file:///c:/Users/Rose/Videos/GLA%20Trainings/HPC_Master_Curriculum/Day-01_HPC_Linux_Shell_oneAPI/03_DAY_01_STUDENT_CHEATSHEET_AND_MCQS.md).
   2. Project or administer the 50 Evaluated Pre/In-Class MCQs. Have students submit their responses.
   3. Walk through the 22-point Day 1 Mastery Checklist. Verify that every student checks all 22 boxes.
   4. **Day 2 Preview Announcement:**

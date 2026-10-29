@@ -11,16 +11,15 @@
 quizzes_and_assessments/
 │
 ├── 📁 pre_assessment/                       [DIAGNOSTIC BASELINE: Target 40% - 60%]
-│   ├── 📁 pre_assessment_mcqs/
+│   ├── 📁 excel/                            (Spreadsheets for University Submission)
 │   │   ├── GLA_University_Day_01_Pre_Assessment_50_MCQs.xlsx  (Official 7-Column Master Sheet for Sreeja)
-│   │   ├── GLA_University_Day_01_Pre_Assessment_50_MCQs.csv   (Bit-for-Bit Synchronized CSV)
-│   │   ├── GLA_UNIVERSITY_DAY_01_50_MCQ_PRE_ASSESSMENT_OFFICIAL.md (Detailed Instructor Key & Rationale)
-│   │   └── GLA_UNIVERSITY_DAY_01_PRE_ASSESSMENT_STUDENT_QUESTION_PAPER.md (Clean Exam Paper for Students)
+│   │   └── GLA_University_Day_01_Pre_Assessment_50_MCQs.csv   (Bit-for-Bit Synchronized CSV)
+│   ├── GLA_UNIVERSITY_DAY_01_50_MCQ_PRE_ASSESSMENT_OFFICIAL.md (Detailed Instructor Key & Rationale)
+│   ├── GLA_UNIVERSITY_DAY_01_PRE_ASSESSMENT_STUDENT_QUESTION_PAPER.md (Clean Exam Paper for Students)
 │   └── README.md
 │
 └── 📁 post_assessment/                      [EVALUATIVE MASTERY: Target 85% - 95%]
-    ├── 📁 post_assessment_mcqs/
-    │   └── README.md
+    ├── 📁 excel/                            (Ready for Post-Assessment Spreadsheets)
     └── README.md
 ```
 

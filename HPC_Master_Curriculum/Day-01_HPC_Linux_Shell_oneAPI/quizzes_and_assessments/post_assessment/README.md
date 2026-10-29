@@ -13,11 +13,11 @@ The **Day 1 Post-Assessment** is administered at 04:00 PM (end of Day 1) to quan
 
 ---
 
-## 📁 Artifacts Structure in `post_assessment_mcqs/`
+## 📁 Directory Artifacts Structure
 
 | Target File | Format | Description |
 | :--- | :---: | :--- |
-| `GLA_University_Day_01_Post_Assessment_50_MCQs.xlsx` | Excel `.xlsx` | Post-Assessment Question Bank in official 7-column format matching university examination portal specs. |
-| `GLA_University_Day_01_Post_Assessment_50_MCQs.csv` | CSV `.csv` | Bit-for-bit synchronized UTF-8 CSV file. |
+| `excel/GLA_University_Day_01_Post_Assessment_50_MCQs.xlsx` | Excel `.xlsx` | Post-Assessment Question Bank in official 7-column format matching university examination portal specs. |
+| `excel/GLA_University_Day_01_Post_Assessment_50_MCQs.csv` | CSV `.csv` | Bit-for-bit synchronized UTF-8 CSV file. |
 | `GLA_UNIVERSITY_DAY_01_50_MCQ_POST_ASSESSMENT_OFFICIAL.md` | Markdown `.md` | Complete Post-Assessment Master with instructor rationales and answer key. |
 | `GLA_UNIVERSITY_DAY_01_POST_ASSESSMENT_STUDENT_QUESTION_PAPER.md` | Markdown `.md` | Student question paper for post-training evaluation. |
