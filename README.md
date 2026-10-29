@@ -13,6 +13,9 @@ Launch the complete hands-on supercomputing laboratories directly in your browse
 | Day | Topic | Interactive Lab Badge |
 | :---: | :--- | :---: |
 | **Day 1** | **HPC Foundations, Linux Performance, Intel oneAPI & HPC Toolkit** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Shivam990q/GLA-HPC-Masterclass/blob/main/COLAB_NOTEBOOKS/Day_01_Intel_oneAPI_and_HPC_Toolkit_Master_Lab.ipynb) |
+| **Day 2** | **Traditional ML, Parallel Computing, OpenMP, MPI & Intel oneDAL** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Shivam990q/GLA-HPC-Masterclass/blob/main/COLAB_NOTEBOOKS/Day_02_Traditional_ML_oneAPI_OpenMP_MPI_oneDAL.ipynb) |
+| **Day 3** | **Deep Learning Acceleration, TensorFlow, Slurm & Horovod Distributed Training** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Shivam990q/GLA-HPC-Masterclass/blob/main/COLAB_NOTEBOOKS/Day_03_Deep_Learning_TensorFlow_oneDNN_Slurm_Horovod.ipynb) |
+| **Day 4** | **Distributed AI Cluster Scaling, Multi-Node Slurm & Intel VTune Profiling** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Shivam990q/GLA-HPC-Masterclass/blob/main/COLAB_NOTEBOOKS/Day_04_Distributed_AI_Slurm_VTune_Profiling.ipynb) |
 | **Day 5** | **Generative AI, LLMs on Intel Xeon, Habana Gaudi & OpenVINO Optimization** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Shivam990q/GLA-HPC-Masterclass/blob/main/COLAB_NOTEBOOKS/Day_05_Generative_AI_LLMs_OpenVINO_Gaudi_HPC_Master_Lab.ipynb) |
 
 ---
@@ -21,10 +24,13 @@ Launch the complete hands-on supercomputing laboratories directly in your browse
 
 Every Day folder in [`HPC_Master_Curriculum/`](./HPC_Master_Curriculum) is standardized with:
 1. `00_DAY_0X_MASTER_TERMINOLOGY_AND_CONCEPT_GLOSSARY.md` (Complete Encyclopedia)
-2. `01_DAY_0X_3_HOUR_MASTER_TRAINER_PLAYBOOK.md` (Minute-by-minute trainer execution guide)
+2. `01_DAY_0X_6_HOUR_MASTER_TRAINER_PLAYBOOK.md` (Minute-by-minute trainer execution guide)
 3. `02_DAY_0X_HANDS_ON_LAB_AND_COMMANDS.md` (Copy-pasteable code, setups & troubleshooting)
 4. `03_DAY_0X_STUDENT_CHEATSHEET_AND_MCQS.md` (1-page quick cheatsheet + evaluated MCQ bank)
 5. `04_DAY_0X_COMPLETE_TOPIC_BY_TOPIC_STUDY_GUIDE.md` (Exhaustive first-principles notes)
+6. `05_DAY_0X_ARROW_WORKFLOWS_AND_TOPIC_TREES.md` (Visual ASCII architecture & workflows)
+7. `quizzes_and_assessments/` (Pre-Assessments, In-Class Checkpoints, and Official 50-MCQ Post-Assessments)
+8. **Executive High-Fidelity PDFs**: All documents are compiled into matching `.pdf` counterparts with pre-rendered KaTeX vector math!
 
 ---
 

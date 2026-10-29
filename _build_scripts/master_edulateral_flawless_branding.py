@@ -25,7 +25,7 @@ HPC_DIR = os.path.join(BASE_DIR, "HPC_Master_Curriculum")
 CENTRAL_DIR = os.path.join(HPC_DIR, "NotebookLM_Master_Decks_Organized")
 LMS_DIR = os.path.join(HPC_DIR, "LMS_Upload_Decks")
 PENDRIVE_DIR = os.path.join(HPC_DIR, "OFFLINE_PENDRIVE_TOOLKIT", "04_PRESENTATIONS_PPTX")
-LOGO_PATH = os.path.join(BASE_DIR, "edulateral_official_logo.png")
+LOGO_PATH = os.path.join(BASE_DIR, "assets", "logos", "edulateral_official_logo.png") if os.path.exists(os.path.join(BASE_DIR, "assets", "logos", "edulateral_official_logo.png")) else os.path.join(BASE_DIR, "edulateral_official_logo.png")
 
 TEMP_WORK = os.path.join(BASE_DIR, "_temp_flawless_branding")
 if os.path.exists(TEMP_WORK):

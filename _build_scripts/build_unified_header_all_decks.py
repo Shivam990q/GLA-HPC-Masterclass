@@ -56,7 +56,7 @@ if os.path.exists(TEMP_WORK):
 os.makedirs(TEMP_WORK, exist_ok=True)
 
 # 1. Prepare Tight Logo
-raw_logo_path = os.path.join(BASE_DIR, "edulateral_official_logo.png")
+raw_logo_path = os.path.join(BASE_DIR, "assets", "logos", "edulateral_official_logo.png") if os.path.exists(os.path.join(BASE_DIR, "assets", "logos", "edulateral_official_logo.png")) else os.path.join(BASE_DIR, "edulateral_official_logo.png")
 raw_logo = Image.open(raw_logo_path)
 alpha_box = raw_logo.getchannel("A").getbbox()
 tight_logo = raw_logo.crop(alpha_box).convert("RGBA")

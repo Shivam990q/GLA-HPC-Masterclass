@@ -20,7 +20,7 @@ HPC_DIR = BASE_DIR / "HPC_Master_Curriculum"
 CENTRAL_DIR = HPC_DIR / "NotebookLM_Master_Decks_Organized"
 LMS_DIR = HPC_DIR / "LMS_Upload_Decks"
 PENDRIVE_DIR = HPC_DIR / "OFFLINE_PENDRIVE_TOOLKIT" / "04_PRESENTATIONS_PPTX"
-LOGO_PATH = BASE_DIR / "edulateral_official_logo.png"
+LOGO_PATH = (BASE_DIR / "assets" / "logos" / "edulateral_official_logo.png") if (BASE_DIR / "assets" / "logos" / "edulateral_official_logo.png").exists() else (BASE_DIR / "edulateral_official_logo.png")
 
 TEMP_WORK = BASE_DIR / "_temp_logo_stamp"
 if TEMP_WORK.exists():
