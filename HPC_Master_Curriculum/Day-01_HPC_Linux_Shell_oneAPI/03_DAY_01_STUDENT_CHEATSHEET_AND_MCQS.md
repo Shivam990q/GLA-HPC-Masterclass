@@ -132,12 +132,12 @@
 - D) Infinite speedup
 **Answer: B** | *Explanation: Amdahl's Law defines Speedup S(N) = 1 / (s + p/N). As N approaches infinity, S_max = 1 / s = 1 / 0.20 = 5x maximum achievable speedup.*
 
-#### Q06. [Hard] A researcher scales an atmospheric climate model across a 64-core HPC compute node. If 95% of the scaled execution time is spent in parallel computation (p = 0.95) and 5% is sequential (s = 0.05), what is the scaled speedup achieved according to Gustafson's Law (S(N) = s + p × N)?
+#### Q06. [Hard] A researcher scales an atmospheric climate model across a 64-core HPC compute node. If 95% of the scaled execution time is spent in parallel computation (p = 0.95) and 5% is sequential (s = 0.05), what is the scaled speedup achieved according to Gustafson's Law (S(N) = s + p * N)?
 - A) 60.85x speedup
 - B) 20.00x speedup
 - C) 5.00x speedup
 - D) 128.00x speedup
-**Answer: A** | *Explanation: Gustafson's Law formula for scaled speedup is S(N) = s + p*N. For N=64 cores: S(64) = 0.05 + (0.95 * 64) = 0.05 + 60.80 = 60.85x speedup.*
+**Answer: A** | *Explanation: Gustafson's Law formula for scaled speedup is S(N) = s + (p * N). For N=64 cores: S(64) = 0.05 + (0.95 * 64) = 0.05 + 60.80 = 60.85x speedup.*
 
 #### Q07. [Hard] Why was the High Performance Conjugate Gradients (HPCG) benchmark established as a companion to the traditional High Performance LINPACK (HPL) on the TOP500 list?
 - A) HPL measures dense linear algebra compute throughput (high compute-to-memory ratio), whereas HPCG stresses memory bandwidth, latency, and sparse, irregular memory access patterns common in modern scientific simulations
@@ -174,14 +174,14 @@
 - B) 307.2 GB/s
 - C) 614.4 GB/s
 - D) 1228.8 GB/s
-**Answer: C** | *Explanation: Theoretical Memory Bandwidth = Sockets (2) × Channels per socket (8) × Transfer Rate (4.8 GT/s) × Bus Width (8 Bytes) = 16 × 4.8 × 8 = 614.4 GB/s aggregate bandwidth.*
+**Answer: C** | *Explanation: Theoretical Memory Bandwidth = Sockets (2) * Channels per socket (8) * Transfer Rate (4.8 GT/s) * Bus Width (8 Bytes) = 16 * 4.8 * 8 = 614.4 GB/s aggregate bandwidth.*
 
 #### Q12. [Medium] Intel Advanced Matrix Extensions (AMX) architecture provides 8 dedicated 2D tile registers (tmm0 through tmm7). If each tile register can configure up to 16 rows of 64 bytes each, what is the maximum total data capacity stored across all 8 AMX tile registers simultaneously?
 - A) 512 bytes
 - B) 2048 bytes (2 KB)
 - C) 4096 bytes (4 KB)
 - D) 8192 bytes (8 KB)
-**Answer: D** | *Explanation: Each AMX tile holds 16 rows × 64 bytes = 1024 bytes (1 KB). Across all 8 tile registers (tmm0 to tmm7), the total capacity is 8 × 1024 bytes = 8192 bytes (8 KB).*
+**Answer: D** | *Explanation: Each AMX tile holds 16 rows * 64 bytes = 1024 bytes (1 KB). Across all 8 tile registers (tmm0 to tmm7), the total capacity is 8 * 1024 bytes = 8192 bytes (8 KB).*
 
 #### Q13. [Hard] The Intel Xeon CPU Max Series (Sapphire Rapids with HBM2e) integrates up to 64GB of High Bandwidth Memory directly on-package. Which three memory operating modes can be configured via system BIOS?
 - A) Striped Mode, Mirror Mode, and Parity Mode
@@ -200,108 +200,108 @@
 ### 🔷 Module 3: Linux Basics & VFS
 
 #### Q15. [Easy] In the Linux Virtual File System (VFS) hierarchy, what character designates the single root directory from which all directories, files, and mounted file systems originate?
-- A) Backslash (`\`)
-- B) Tilde (`~`)
-- C) Forward slash (`/`)
-- D) Hash symbol (`#`)
-**Answer: C** | *Explanation: In Unix/Linux, the single forward slash `/` represents the top-level root directory of the single hierarchical filesystem tree.*
+- A) Backslash ('\')
+- B) Tilde ('~')
+- C) Forward slash ('/')
+- D) Hash symbol ('#')
+**Answer: C** | *Explanation: In Unix/Linux, the single forward slash '/' represents the top-level root directory of the single hierarchical filesystem tree.*
 
 #### Q16. [Easy] Which standard Linux shell command outputs the absolute canonical pathname of the current active working directory?
-- A) `cd`
-- B) `pwd`
-- C) `whoami`
-- D) `path`
-**Answer: B** | *Explanation: `pwd` stands for 'Print Working Directory' and writes the full absolute pathname from root to the current directory.*
+- A) 'cd'
+- B) 'pwd'
+- C) 'whoami'
+- D) 'path'
+**Answer: B** | *Explanation: 'pwd' stands for 'Print Working Directory' and writes the full absolute pathname from root to the current directory.*
 
-#### Q17. [Medium] In Linux octal permission notation, a systems administrator issues the command `chmod 750 /scratch/project`. What exact read (r), write (w), and execute (x) permissions are assigned to the Owner, Group, and Others?
+#### Q17. [Medium] In Linux octal permission notation, a systems administrator issues the command 'chmod 750 /scratch/project'. What exact read (r), write (w), and execute (x) permissions are assigned to the Owner, Group, and Others?
 - A) Owner: rwx (7), Group: r-x (5), Others: --- (0)
 - B) Owner: rw- (6), Group: rw- (6), Others: --x (1)
 - C) Owner: r-x (5), Group: rwx (7), Others: r-- (4)
 - D) Owner: rwx (7), Group: rwx (7), Others: r-x (5)
 **Answer: A** | *Explanation: Octal values: 7 = 4(r)+2(w)+1(x) = rwx; 5 = 4(r)+0(w)+1(x) = r-x; 0 = 0(r)+0(w)+0(x) = ---. Therefore 750 grants Owner rwx, Group r-x, and Others no permissions.*
 
-#### Q18. [Medium] If a Linux user's shell session has an active `umask` setting of `027`, what will be the default octal permissions assigned to a newly created directory (base 777) and a newly created regular text file (base 666) respectively?
-- A) Directory: 755 (`rwxr-xr-x`), File: 644 (`rw-r--r--`)
-- B) Directory: 750 (`rwxr-x---`), File: 640 (`rw-r-----`)
-- C) Directory: 770 (`rwxrwx---`), File: 660 (`rw-rw----`)
-- D) Directory: 700 (`rwx------`), File: 600 (`rw-------`)
-**Answer: B** | *Explanation: Base permissions: Directory = 777, File = 666. Applying umask 027 (bitwise bit clear): Directory = 777 - 027 = 750 (rwxr-x---). File = 666 masked by 027 = 640 (rw-r-----). Group gets r-x (dir) or r-- (file); others get zero rights.*
+#### Q18. [Medium] If a Linux user's shell session has an active 'umask' setting of 027, what will be the default octal permissions assigned to a newly created directory (base 777) and a newly created regular text file (base 666) respectively?
+- A) Directory: 755 ('rwxr-xr-x'), File: 644 ('rw-r--r--')
+- B) Directory: 750 ('rwxr-x---'), File: 640 ('rw-r-----')
+- C) Directory: 770 ('rwxrwx---'), File: 660 ('rw-rw----')
+- D) Directory: 700 ('rwx------'), File: 600 ('rw-------')
+**Answer: B** | *Explanation: Base permissions: Directory = 777, File = 666. Applying umask 027 (bitwise bit clear): Directory = 777 - 027 = 750 ('rwxr-x---'). File = 666 masked by 027 = 640 ('rw-r-----'). Group gets r-x (dir) or r-- (file); others get zero rights.*
 
-#### Q19. [Medium] Why are HPC cluster users strictly instructed not to write massive, high-throughput simulation output checkpoints into their `$HOME` directory?
-- A) `$HOME` is typically mounted over a shared, quota-limited network filesystem (NFS) that experiences high latency under heavy I/O, whereas parallel filesystems like `/scratch` (Lustre/GPFS) are optimized for high-bandwidth parallel I/O
-- B) `$HOME` is deleted automatically every time a user logs out of the cluster
-- C) `$HOME` does not allow binary executable files to be created or executed
-- D) `$HOME` cannot store files larger than 1 Megabyte due to kernel locks
-**Answer: A** | *Explanation: In HPC architectures, `$HOME` is an NFS share meant for scripts and configuration. High-throughput parallel checkpoints must target high-speed parallel storage (such as Lustre, GPFS, or local NVMe `/scratch`) to prevent degrading cluster metadata servers.*
+#### Q19. [Medium] Why are HPC cluster users strictly instructed not to write massive, high-throughput simulation output checkpoints into their '$HOME' directory?
+- A) '$HOME' is typically mounted over a shared, quota-limited network filesystem (NFS) that experiences high latency under heavy I/O, whereas parallel filesystems like '/scratch' (Lustre/GPFS) are optimized for high-bandwidth parallel I/O
+- B) '$HOME' is deleted automatically every time a user logs out of the cluster
+- C) '$HOME' does not allow binary executable files to be created or executed
+- D) '$HOME' cannot store files larger than 1 Megabyte due to kernel locks
+**Answer: A** | *Explanation: In HPC architectures, '$HOME' is an NFS share meant for scripts and configuration. High-throughput parallel checkpoints must target high-speed parallel storage (such as Lustre, GPFS, or local NVMe '/scratch') to prevent degrading cluster metadata servers.*
 
-#### Q20. [Hard] What is the fundamental architectural distinction between the virtual filesystems `/proc` and `/sys` in the Linux kernel?
-- A) `/proc` provides a view of process execution state and kernel runtime statistics (procfs), while `/sys` exposes the kernel's unified device model, hardware buses, and driver topology (sysfs)
-- B) `/proc` is stored permanently on an NVMe SSD, while `/sys` exists only in CPU cache
-- C) `/proc` is read-only for root, while `/sys` can be modified by any unprivileged user
-- D) `/proc` manages network routing tables, while `/sys` handles user password hashing
-**Answer: A** | *Explanation: `/proc` (procfs) exposes active process metadata and runtime kernel state (`/proc/cpuinfo`, `/proc/meminfo`), while `/sys` (sysfs) represents the structural hierarchy of physical devices, kernel objects, PCIe busses, and device drivers.*
+#### Q20. [Hard] What is the fundamental architectural distinction between the virtual filesystems '/proc' and '/sys' in the Linux kernel?
+- A) '/proc' provides a view of process execution state and kernel runtime statistics (procfs), while '/sys' exposes the kernel's unified device model, hardware buses, and driver topology (sysfs)
+- B) '/proc' is stored permanently on an NVMe SSD, while '/sys' exists only in CPU cache
+- C) '/proc' is read-only for root, while '/sys' can be modified by any unprivileged user
+- D) '/proc' manages network routing tables, while '/sys' handles user password hashing
+**Answer: A** | *Explanation: '/proc' (procfs) exposes active process metadata and runtime kernel state ('/proc/cpuinfo', '/proc/meminfo'), while '/sys' (sysfs) represents the structural hierarchy of physical devices, kernel objects, PCIe busses, and device drivers.*
 
-#### Q21. [Hard] When a user executes `rm -f large_dataset.bin` on a Linux filesystem, what happens to the underlying storage data blocks if another running application still holds an open file descriptor to that file?
+#### Q21. [Hard] When a user executes 'rm -f large_dataset.bin' on a Linux filesystem, what happens to the underlying storage data blocks if another running application still holds an open file descriptor to that file?
 - A) The data blocks are immediately overwritten with zeros, causing the running application to crash with a segmentation fault
 - B) The directory entry is unlinked immediately, but the inode and data blocks remain allocated and accessible to the running application until its file descriptor is closed
 - C) The command fails with an 'I/O Resource Busy' error and terminates
-- D) The file is automatically relocated to the `/tmp/swap` directory
-**Answer: B** | *Explanation: In Linux VFS semantics, `rm` unlinks the directory pointer (reducing the inode's hard-link count). However, disk blocks are only marked free for reuse when the link count reaches zero AND all open file descriptors referencing that inode are closed.*
+- D) The file is automatically relocated to the '/tmp/swap' directory
+**Answer: B** | *Explanation: In Linux VFS semantics, 'rm' unlinks the directory pointer (reducing the inode's hard-link count). However, disk blocks are only marked free for reuse when the link count reaches zero AND all open file descriptors referencing that inode are closed.*
 
 ### 🔷 Module 4: Shell Scripting
 
-#### Q22. [Easy] In a Linux Bash automation script, what is the exact function of the initial line `#!/bin/bash` (commonly termed the Shebang)?
+#### Q22. [Easy] In a Linux Bash automation script, what is the exact function of the initial line '#!/bin/bash' (commonly termed the Shebang)?
 - A) It elevates the script's execution privileges to root automatically
-- B) It instructs the kernel's `execve` system call which interpreter binary to launch to parse and execute the script
+- B) It instructs the kernel's 'execve' system call which interpreter binary to launch to parse and execute the script
 - C) It compiles the script into an ELF binary executable before running
 - D) It marks the entire script file as read-only
-**Answer: B** | *Explanation: The shebang `#!` is a 2-byte magic number (`0x23 0x21`) recognized by the Linux kernel loader to invoke the specified interpreter binary (`/bin/bash`) with the script file path as an argument.*
+**Answer: B** | *Explanation: The shebang '#!' is a 2-byte magic number (0x23 0x21) recognized by the Linux kernel loader to invoke the specified interpreter binary ('/bin/bash') with the script file path as an argument.*
 
 #### Q23. [Easy] Which shell redirection operator appends the Standard Output (stdout) of a command to the end of a specified destination file without overwriting its existing contents?
-- A) `>`
-- B) `<`
-- C) `|`
-- D) `>>`
-**Answer: D** | *Explanation: `>>` opens the destination file in append mode (`O_APPEND`), adding output to the end of the file. `>` truncates and overwrites existing contents.*
+- A) '>'
+- B) '<'
+- C) '|'
+- D) '>>'
+**Answer: D** | *Explanation: '>>' opens the destination file in append mode (O_APPEND), adding output to the end of the file. '>' truncates and overwrites existing contents.*
 
-#### Q24. [Medium] What does the special parameter `$?` represent in a Bash shell session immediately following the completion of a program?
+#### Q24. [Medium] What does the special parameter '$?' represent in a Bash shell session immediately following the completion of a program?
 - A) The Process ID (PID) of the currently running shell process
 - B) The numeric exit status code of the most recently executed foreground pipeline (where 0 indicates success)
 - C) The total count of command-line arguments passed to the script
 - D) The total wall-clock runtime of the previous command in milliseconds
-**Answer: B** | *Explanation: `$?` holds the decimal return status of the last executed foreground command. In standard POSIX conventions, 0 signals success, while any non-zero value (1–255) indicates an error.*
+**Answer: B** | *Explanation: '$?' holds the decimal return status of the last executed foreground command. In standard POSIX conventions, 0 signals success, while any non-zero value (1-255) indicates an error.*
 
-#### Q25. [Medium] In production HPC automation scripts, what is the effect of placing the directive `set -e` at the beginning of the script?
+#### Q25. [Medium] In production HPC automation scripts, what is the effect of placing the directive 'set -e' at the beginning of the script?
 - A) The shell will immediately exit if any command or pipeline returns a non-zero exit status, preventing cascading errors
 - B) The shell prints every command to the terminal before executing it
 - C) The shell ignores all syntax errors and proceeds execution
 - D) The shell allocates maximum GPU memory to all child processes
-**Answer: A** | *Explanation: `set -e` (or `set -o errexit`) ensures defensive execution by causing the shell script to abort immediately when a command fails, preventing silent cascading failures in automated batch workflows.*
+**Answer: A** | *Explanation: 'set -e' (or 'set -o errexit') ensures defensive execution by causing the shell script to abort immediately when a command fails, preventing silent cascading failures in automated batch workflows.*
 
-#### Q26. [Medium] In Bash shell scripting, which syntax correctly redirects both Standard Output (stdout, file descriptor 1) and Standard Error (stderr, file descriptor 2) to a log file named `simulation.log`?
-- A) `./sim_engine 2> simulation.log 1>&2`
-- B) `./sim_engine | simulation.log`
-- C) `./sim_engine > simulation.log 2>&1`
-- D) `./sim_engine 1>&2 >> simulation.log`
-**Answer: C** | *Explanation: `./sim_engine > simulation.log 2>&1` first redirects stdout (FD 1) to `simulation.log`, then redirects stderr (FD 2) to whatever FD 1 currently points to (`simulation.log`). (Modern bash also supports `./sim_engine &> simulation.log`).*
+#### Q26. [Medium] In Bash shell scripting, which syntax correctly redirects both Standard Output (stdout, file descriptor 1) and Standard Error (stderr, file descriptor 2) to a log file named 'simulation.log'?
+- A) ./sim_engine 2> simulation.log 1>&2
+- B) ./sim_engine | simulation.log
+- C) ./sim_engine > simulation.log 2>&1
+- D) ./sim_engine 1>&2 >> simulation.log
+**Answer: C** | *Explanation: './sim_engine > simulation.log 2>&1' first redirects stdout (FD 1) to 'simulation.log', then redirects stderr (FD 2) to whatever FD 1 currently points to ('simulation.log'). Modern bash also supports './sim_engine &> simulation.log'.*
 
-#### Q27. [Hard] A student writes an automation pipeline: `cat input.dat | grep 'CRITICAL_METRIC' | awk '{print $2}' > output.txt`. The input file `input.dat` does not exist, yet the bash script continues execution and reports exit status `$? = 0`. Why did this silent failure occur, and how should it be prevented?
-- A) By default, a shell pipeline returns the exit status of the LAST command in the pipeline (`awk`), masking the failure of `cat`; enabling `set -o pipefail` ensures the pipeline returns non-zero if ANY stage fails
-- B) `cat` always returns exit code 0 even if files are missing
-- C) Redirection with `>` forces the shell to ignore all previous errors
-- D) `awk` elevated the execution privileges to root
-**Answer: A** | *Explanation: Without `pipefail`, a pipeline's exit status is solely that of the last command (`awk`), which succeeded with empty input (status 0). `set -o pipefail` forces the pipeline to return the status of the rightmost command that failed with a non-zero code.*
+#### Q27. [Hard] A student writes an automation pipeline: "cat input.dat | grep 'CRITICAL_METRIC' | awk '{print $2}' > output.txt". The input file 'input.dat' does not exist, yet the bash script continues execution and reports exit status '$? = 0'. Why did this silent failure occur, and how should it be prevented?
+- A) By default, a shell pipeline returns the exit status of the LAST command in the pipeline ('awk'), masking the failure of 'cat'; enabling 'set -o pipefail' ensures the pipeline returns non-zero if ANY stage fails
+- B) 'cat' always returns exit code 0 even if files are missing
+- C) Redirection with '>' forces the shell to ignore all previous errors
+- D) 'awk' elevated the execution privileges to root
+**Answer: A** | *Explanation: Without 'pipefail', a pipeline's exit status is solely that of the last command ('awk'), which succeeded with empty input (status 0). 'set -o pipefail' forces the pipeline to return the status of the rightmost command that failed with a non-zero code.*
 
-#### Q28. [Hard] What is an important technical advantage of using the modern Bash compound conditional construct `[[ ... ]]` over the traditional POSIX test operator `[ ... ]`?
-- A) `[ ... ]` is executed by the kernel, whereas `[[ ... ]]` runs in user space
-- B) `[[ ... ]]` requires compiling the script with GCC before execution
-- C) `[ ... ]` only supports floating-point comparisons, while `[[ ... ]]` supports integers
-- D) `[[ ... ]]` is a shell keyword that prevents word splitting and pathname expansion on unquoted variable expansions and supports pattern matching with the `=~` regex operator
-**Answer: D** | *Explanation: `[[ ... ]]` is built into Bash syntax (a keyword, not a built-in executable like `[`/`test`). It does not perform word splitting or glob expansion on unquoted variables, preventing syntax errors when variables are empty or contain spaces, and supports advanced regex matching (`=~`).*
+#### Q28. [Hard] What is an important technical advantage of using the modern Bash compound conditional construct '[[ ... ]]' over the traditional POSIX test operator '[ ... ]'?
+- A) '[ ... ]' is executed by the kernel, whereas '[[ ... ]]' runs in user space
+- B) '[[ ... ]]' requires compiling the script with GCC before execution
+- C) '[ ... ]' only supports floating-point comparisons, while '[[ ... ]]' supports integers
+- D) '[[ ... ]]' is a shell keyword that prevents word splitting and pathname expansion on unquoted variable expansions and supports pattern matching with the '=~' regex operator
+**Answer: D** | *Explanation: '[[ ... ]]' is built into Bash syntax (a keyword, not a built-in executable like '['/'test'). It does not perform word splitting or glob expansion on unquoted variables, preventing syntax errors when variables are empty or contain spaces, and supports advanced regex matching ('=~').*
 
 ### 🔷 Module 5: Secured Shell (SSH)
 
-#### Q29. [Easy] What is the standard IANA default network TCP port number on which the OpenSSH daemon (`sshd`) listens for incoming secure remote shell connections?
+#### Q29. [Easy] What is the standard IANA default network TCP port number on which the OpenSSH daemon ('sshd') listens for incoming secure remote shell connections?
 - A) Port 80
 - B) Port 443
 - C) Port 22
@@ -309,11 +309,11 @@
 **Answer: C** | *Explanation: Standard IANA port assignment for the Secure Shell (SSH) protocol is TCP port 22.*
 
 #### Q30. [Easy] When setting up passwordless public-key authentication to an HPC cluster login node, where must the user's PUBLIC key be appended on the remote server?
-- A) `~/.ssh/authorized_keys`
-- B) `~/.ssh/known_hosts`
-- C) `/etc/ssh/ssh_config`
-- D) `~/.bashrc`
-**Answer: A** | *Explanation: The OpenSSH server verifies incoming client key signatures against the public keys stored in the user's `~/.ssh/authorized_keys` file on the remote machine.*
+- A) '~/.ssh/authorized_keys'
+- B) '~/.ssh/known_hosts'
+- C) '/etc/ssh/ssh_config'
+- D) '~/.bashrc'
+**Answer: A** | *Explanation: The OpenSSH server verifies incoming client key signatures against the public keys stored in the user's '~/.ssh/authorized_keys' file on the remote machine.*
 
 #### Q31. [Medium] Which modern elliptic-curve public-key algorithm is widely recommended for SSH keys due to its high computational efficiency, compact 256-bit key length, and strong resistance to timing and side-channel attacks?
 - A) DES (Data Encryption Standard)
@@ -322,33 +322,33 @@
 - D) RC4 (Rivest Cipher 4)
 **Answer: B** | *Explanation: Ed25519 uses the Twisted Edwards curve Curve25519. It provides ~128 bits of security with a 256-bit key length, faster signature verification, and immunity to cache-timing attacks compared to legacy RSA.*
 
-#### Q32. [Medium] A user generates an Ed25519 key pair and copies the private key to a new workstation. When running `ssh -i ~/.ssh/id_ed25519 user@hpc.gla.ac.in`, the connection immediately terminates with: 'Permissions 0777 for id_ed25519 are too open'. Which exact command resolves this error?
-- A) `chmod 600 ~/.ssh/id_ed25519`
-- B) `chmod 755 ~/.ssh/id_ed25519`
-- C) `chown root ~/.ssh/id_ed25519`
-- D) `rm -f ~/.ssh/known_hosts`
-**Answer: A** | *Explanation: OpenSSH enforces strict permission checks. If a private key file is readable by group or others (anything more permissive than `600` or `400`), it prints 'WARNING: UNPROTECTED PRIVATE KEY FILE!' and refuses to use the key. `chmod 600` grants read/write strictly to the owner.*
+#### Q32. [Medium] A user generates an Ed25519 key pair and copies the private key to a new workstation. When running 'ssh -i ~/.ssh/id_ed25519 user@hpc.gla.ac.in', the connection immediately terminates with: 'Permissions 0777 for id_ed25519 are too open'. Which exact command resolves this error?
+- A) 'chmod 600 ~/.ssh/id_ed25519'
+- B) 'chmod 755 ~/.ssh/id_ed25519'
+- C) 'chown root ~/.ssh/id_ed25519'
+- D) 'rm -f ~/.ssh/known_hosts'
+**Answer: A** | *Explanation: OpenSSH enforces strict permission checks. If a private key file is readable by group or others (anything more permissive than '600' or '400'), it prints 'WARNING: UNPROTECTED PRIVATE KEY FILE!' and refuses to use the key. 'chmod 600' grants read/write strictly to the owner.*
 
-#### Q33. [Medium] Which command transfers a local dataset `hpc_input.tar.gz` to a remote cluster user account at `login.gla.ac.in` under the directory `/scratch/data/`?
-- A) `ssh hpc_input.tar.gz user@login.gla.ac.in:/scratch/data/`
-- B) `cp -remote hpc_input.tar.gz user@login.gla.ac.in:/scratch/data/`
-- C) `sftp-push hpc_input.tar.gz login.gla.ac.in`
-- D) `scp hpc_input.tar.gz user@login.gla.ac.in:/scratch/data/`
-**Answer: D** | *Explanation: `scp` (Secure Copy Protocol) uses SSH data transfer syntax: `scp [source] [user@host:destination_path]`.*
+#### Q33. [Medium] Which command transfers a local dataset 'hpc_input.tar.gz' to a remote cluster user account at 'login.gla.ac.in' under the directory '/scratch/data/'?
+- A) ssh hpc_input.tar.gz user@login.gla.ac.in:/scratch/data/
+- B) cp -remote hpc_input.tar.gz user@login.gla.ac.in:/scratch/data/
+- C) sftp-push hpc_input.tar.gz login.gla.ac.in
+- D) scp hpc_input.tar.gz user@login.gla.ac.in:/scratch/data/
+**Answer: D** | *Explanation: 'scp' (Secure Copy Protocol) uses SSH data transfer syntax: 'scp [source] [user@host:destination_path]'.*
 
-#### Q34. [Hard] What critical security vulnerability is introduced when an administrator or user enables SSH Agent Forwarding (`ssh -A`) when connecting to an untrusted intermediate bastion host?
+#### Q34. [Hard] What critical security vulnerability is introduced when an administrator or user enables SSH Agent Forwarding ('ssh -A') when connecting to an untrusted intermediate bastion host?
 - A) Any user with root privileges on the intermediate host can access the forwarded SSH agent's Unix domain socket and authenticate to other remote servers as you without knowing your passphrase
-- B) The intermediate host steals your raw private key file and saves it in `/etc/shadow`
+- B) The intermediate host steals your raw private key file and saves it in '/etc/shadow'
 - C) Agent forwarding permanently decrypts all data on your local laptop hard drive
 - D) It exposes the client machine to denial-of-service via ICMP flood
-**Answer: A** | *Explanation: SSH Agent Forwarding passes a Unix domain socket (`$SSH_AUTH_SOCK`) to the remote host. Anyone with root access on that machine can hijack this socket to request signatures from your local key agent, authenticating as you to other machines. `ProxyJump` (`-J`) is the secure alternative.*
+**Answer: A** | *Explanation: SSH Agent Forwarding passes a Unix domain socket ('$SSH_AUTH_SOCK') to the remote host. Anyone with root access on that machine can hijack this socket to request signatures from your local key agent, authenticating as you to other machines. 'ProxyJump' ('-J') is the secure alternative.*
 
-#### Q35. [Hard] In high-frequency automated HPC scripting environments, what is the architectural benefit of configuring SSH Connection Multiplexing using `ControlMaster` and `ControlPath`?
+#### Q35. [Hard] In high-frequency automated HPC scripting environments, what is the architectural benefit of configuring SSH Connection Multiplexing using 'ControlMaster' and 'ControlPath'?
 - A) It automatically distributes a single SSH session across multiple physical Ethernet switches
 - B) It encrypts SSH traffic twice with independent AES-256 ciphers
 - C) It maintains a persistent master TCP socket connection, allowing subsequent SSH/SCP sessions to bypass public-key handshakes and authentication overhead
 - D) It prevents compute nodes from communicating with each other
-**Answer: C** | *Explanation: SSH multiplexing (`ControlMaster auto`) keeps an initial master connection open. Subsequent `ssh` or `scp` invocations communicate through a local control socket (`ControlPath`), reusing the established connection and reducing connection establishment time from ~500ms to ~5ms.*
+**Answer: C** | *Explanation: SSH multiplexing ('ControlMaster auto') keeps an initial master connection open. Subsequent 'ssh' or 'scp' invocations communicate through a local control socket ('ControlPath'), reusing the established connection and reducing connection establishment time from ~500ms to ~5ms.*
 
 ### 🔷 Module 6: Intel oneAPI Toolkit
 
@@ -360,11 +360,11 @@
 **Answer: B** | *Explanation: oneAPI is an open, cross-industry programming model designed to provide a unified development environment across heterogeneous compute architectures (CPUs, GPUs, FPGAs, and specialized AI hardware) without proprietary vendor lock-in.*
 
 #### Q37. [Easy] Which shell script must be sourced in an HPC Linux environment to set up the necessary PATH, LD_LIBRARY_PATH, and compiler variables for the Intel oneAPI toolkits?
-- A) `source /opt/intel/oneapi/setvars.sh`
-- B) `bash /opt/intel/oneapi/init.sh`
-- C) `exec start_oneapi`
-- D) `python /opt/intel/run_toolkit.py`
-**Answer: A** | *Explanation: Sourcing `/opt/intel/oneapi/setvars.sh` initializes all environment variables (compiler paths, library search paths, man pages) required to run oneAPI compilers and libraries in the current shell session.*
+- A) 'source /opt/intel/oneapi/setvars.sh'
+- B) 'bash /opt/intel/oneapi/init.sh'
+- C) 'exec start_oneapi'
+- D) 'python /opt/intel/run_toolkit.py'
+**Answer: A** | *Explanation: Sourcing '/opt/intel/oneapi/setvars.sh' initializes all environment variables (compiler paths, library search paths, man pages) required to run oneAPI compilers and libraries in the current shell session.*
 
 #### Q38. [Medium] Intel oneAPI DPC++ (Data Parallel C++) is based upon and actively contributes to which open industry standard maintained by the Khronos Group?
 - A) CUDA
@@ -380,49 +380,49 @@
 - D) A database query optimization engine
 **Answer: B** | *Explanation: Intel Level Zero provides direct, low-latency, bare-metal hardware access to Intel GPUs and accelerators, serving as the foundational driver interface beneath high-level runtimes like SYCL and oneMKL.*
 
-#### Q40. [Medium] In SYCL Unified Shared Memory (USM), what is the key functional difference between `malloc_device` and `malloc_host` memory allocations?
-- A) `malloc_device` allocates memory strictly in accelerator high-bandwidth memory (inaccessible directly by CPU pointers), whereas `malloc_host` allocates pinned host memory accessible by both CPU and GPU
-- B) `malloc_device` allocates memory on hard disks, while `malloc_host` allocates memory on tape drives
-- C) `malloc_device` is limited to 1 Megabyte, while `malloc_host` is unlimited
-- D) `malloc_host` cannot be read by accelerator GPUs
-**Answer: A** | *Explanation: `malloc_device` allocates memory resident on the target accelerator device (offering maximum GPU bandwidth, but CPU cannot dereference device pointers). `malloc_host` allocates pinned host memory accessible by both CPU and device across PCIe.*
+#### Q40. [Medium] In SYCL Unified Shared Memory (USM), what is the key functional difference between 'malloc_device' and 'malloc_host' memory allocations?
+- A) 'malloc_device' allocates memory strictly in accelerator high-bandwidth memory (inaccessible directly by CPU pointers), whereas 'malloc_host' allocates pinned host memory accessible by both CPU and GPU
+- B) 'malloc_device' allocates memory on hard disks, while 'malloc_host' allocates memory on tape drives
+- C) 'malloc_device' is limited to 1 Megabyte, while 'malloc_host' is unlimited
+- D) 'malloc_host' cannot be read by accelerator GPUs
+**Answer: A** | *Explanation: 'malloc_device' allocates memory resident on the target accelerator device (offering maximum GPU bandwidth, but CPU cannot dereference device pointers). 'malloc_host' allocates pinned host memory accessible by both CPU and device across PCIe.*
 
-#### Q41. [Hard] In SYCL Unified Shared Memory (USM), how does `malloc_shared` simplify heterogeneous programming compared to explicit buffer/accessor memory management?
+#### Q41. [Hard] In SYCL Unified Shared Memory (USM), how does 'malloc_shared' simplify heterogeneous programming compared to explicit buffer/accessor memory management?
 - A) It broadcasts memory across all nodes in a cluster using InfiniBand
 - B) It converts all double-precision floating-point numbers into 8-bit integers
 - C) It provides a unified pointer accessible by both CPU and GPU, with the SYCL runtime automatically managing page migration on demand between host and device memory
 - D) It disables data caching to enforce synchronous disk access
-**Answer: C** | *Explanation: `sycl::malloc_shared` allocates memory accessible from both the host CPU and the target device using the same pointer address. The underlying driver/OS automatically migrates data pages across the interconnect on demand, removing the need for manual buffer copies.*
+**Answer: C** | *Explanation: 'sycl::malloc_shared' allocates memory accessible from both the host CPU and the target device using the same pointer address. The underlying driver/OS automatically migrates data pages across the interconnect on demand, removing the need for manual buffer copies.*
 
-#### Q42. [Hard] When creating a SYCL command queue, what operational difference exists between an in-order queue (`sycl::property::queue::in_order`) and the default out-of-order queue?
+#### Q42. [Hard] When creating a SYCL command queue, what operational difference exists between an in-order queue ('sycl::property::queue::in_order') and the default out-of-order queue?
 - A) An in-order queue can only run on single-core CPUs and cannot target GPUs
 - B) Out-of-order queues automatically discard failed execution tasks without notification
 - C) In-order queues disable all asynchronous memory transfers
 - D) An in-order queue executes submitted command groups strictly in the sequential order they are submitted, whereas default out-of-order queues can execute commands concurrently unless explicit SYCL events/dependencies are declared
-**Answer: D** | *Explanation: By default, SYCL queues are out-of-order, allowing kernels to run concurrently or out of sequence unless directed by event dependencies (`depends_on`). Passing `sycl::property::queue::in_order` enforces FIFO sequential execution, simplifying debugging.*
+**Answer: D** | *Explanation: By default, SYCL queues are out-of-order, allowing kernels to run concurrently or out of sequence unless directed by event dependencies ('depends_on'). Passing 'sycl::property::queue::in_order' enforces FIFO sequential execution, simplifying debugging.*
 
 ### 🔷 Module 7: Intel HPC Toolkit
 
 #### Q43. [Easy] Which modern LLVM-based C++ compiler provided in the Intel HPC Toolkit is used to compile high-performance SYCL and modern C++ parallel applications?
-- A) `gcc`
-- B) `icpx`
-- C) `javac`
-- D) `cl.exe`
-**Answer: B** | *Explanation: In the Intel oneAPI HPC Toolkit, `icpx` is the Intel oneAPI DPC++/C++ compiler, built upon LLVM and providing advanced vectorization and SYCL heterogeneous compilation.*
+- A) 'gcc'
+- B) 'icpx'
+- C) 'javac'
+- D) 'cl.exe'
+**Answer: B** | *Explanation: In the Intel oneAPI HPC Toolkit, 'icpx' is the Intel oneAPI DPC++/C++ compiler, built upon LLVM and providing advanced vectorization and SYCL heterogeneous compilation.*
 
-#### Q44. [Easy] Which high-performance Fortran compiler in the Intel HPC Toolkit is the modern LLVM-based replacement for the classic `ifort` compiler?
-- A) `ifx`
-- B) `gfortran`
-- C) `f90`
-- D) `flang`
-**Answer: A** | *Explanation: `ifx` is Intel's modern LLVM-based Fortran compiler, delivering modern Fortran standard support and OpenMP offloading to Intel GPUs.*
+#### Q44. [Easy] Which high-performance Fortran compiler in the Intel HPC Toolkit is the modern LLVM-based replacement for the classic 'ifort' compiler?
+- A) 'ifx'
+- B) 'gfortran'
+- C) 'f90'
+- D) 'flang'
+**Answer: A** | *Explanation: 'ifx' is Intel's modern LLVM-based Fortran compiler, delivering modern Fortran standard support and OpenMP offloading to Intel GPUs.*
 
-#### Q45. [Medium] When compiling computational physics or machine learning C/C++ codes with `icpx`, what optimization does the flag `-xHost` instruct the compiler to perform?
+#### Q45. [Medium] When compiling computational physics or machine learning C/C++ codes with 'icpx', what optimization does the flag '-xHost' instruct the compiler to perform?
 - A) It binds the compiled binary to execute exclusively on a specific network IP address
 - B) It runs the code inside an isolated Docker container
 - C) It instructs the compiler to generate SIMD vector instructions targeting the highest instruction set supported by the compilation host CPU (e.g., AVX-512)
 - D) It disables all loop unrolling and optimization to prioritize compilation speed
-**Answer: C** | *Explanation: `-xHost` queries the CPU where compilation is occurring and instructs the compiler to generate the most advanced SIMD code available (such as AVX-512 or AVX2), maximizing vector arithmetic throughput.*
+**Answer: C** | *Explanation: '-xHost' queries the CPU where compilation is occurring and instructs the compiler to generate the most advanced SIMD code available (such as AVX-512 or AVX2), maximizing vector arithmetic throughput.*
 
 #### Q46. [Medium] In a multi-node distributed HPC cluster, which component in the Intel HPC Toolkit provides the optimized implementation of the MPI-3 / MPI-4 standard for inter-node communication?
 - A) Intel Integrated Performance Primitives (IPP)
@@ -440,17 +440,17 @@
 
 #### Q48. [Hard] An HPC engineer profiles an OpenMP simulation on a dual-socket 64-core Intel Xeon node and observes severe memory latency spikes due to cross-socket UPI traffic. Which command pins the process to CPU cores on Socket 0 and restricts physical memory allocation exclusively to Socket 0's local NUMA domain?
 - A) Remote NUMA access causes immediate hardware watchdog reboot
-- B) `numactl --cpunodebind=0 --membind=0 ./simulation_app`
-- C) `nice -n -20 ./simulation_app`
-- D) `nohup ./simulation_app &`
-**Answer: B** | *Explanation: `numactl --cpunodebind=0 --membind=0` enforces execution strictly on CPU cores belonging to NUMA node 0 and allocates all physical pages from node 0's local memory controller, completely eliminating remote cross-socket UPI bus traversals.*
+- B) numactl --cpunodebind=0 --membind=0 ./simulation_app
+- C) nice -n -20 ./simulation_app
+- D) nohup ./simulation_app &
+**Answer: B** | *Explanation: 'numactl --cpunodebind=0 --membind=0' enforces execution strictly on CPU cores belonging to NUMA node 0 and allocates all physical pages from node 0's local memory controller, completely eliminating remote cross-socket UPI bus traversals.*
 
-#### Q49. [Hard] When compiling numerical linear algebra algorithms with `icx` / `icpx`, what is the consequence of specifying the floating-point optimization flag `-fp-model=fast=2` compared to `-fp-model=precise`?
-- A) `-fp-model=fast=2` converts all double-precision numbers to 8-bit integers
-- B) `-fp-model=precise` disables all CPU vector registers and forces scalar emulation
-- C) `-fp-model=fast=2` enables aggressive floating-point algebraic reordering and fused multiply-adds (FMA) that maximize compute throughput at the expense of strict IEEE 754 numerical bitwise reproducibility
-- D) `-fp-model=fast=2` only functions on ARM processors
-**Answer: C** | *Explanation: `-fp-model=precise` enforces strict IEEE 754 adherence and disables value-unsafe reordering. `-fp-model=fast=2` allows aggressive reassociation, reciprocal approximations, and contracted operations (FMA) that maximize execution speed on scientific workloads while permitting minor rounding variations.*
+#### Q49. [Hard] When compiling numerical linear algebra algorithms with 'icx' / 'icpx', what is the consequence of specifying the floating-point optimization flag '-fp-model=fast=2' compared to '-fp-model=precise'?
+- A) '-fp-model=fast=2' converts all double-precision numbers to 8-bit integers
+- B) '-fp-model=precise' disables all CPU vector registers and forces scalar emulation
+- C) '-fp-model=fast=2' enables aggressive floating-point algebraic reordering and fused multiply-adds (FMA) that maximize compute throughput at the expense of strict IEEE 754 numerical bitwise reproducibility
+- D) '-fp-model=fast=2' only functions on ARM processors
+**Answer: C** | *Explanation: '-fp-model=precise' enforces strict IEEE 754 adherence and disables value-unsafe reordering. '-fp-model=fast=2' allows aggressive reassociation, reciprocal approximations, and contracted operations (FMA) that maximize execution speed on scientific workloads while permitting minor rounding variations.*
 
 #### Q50. [Hard] What is the architectural role of the Open Fabrics Interfaces (OFI / Libfabric) provider layer underneath the Intel MPI Library in high-performance computing clusters?
 - A) It acts as a modular, hardware-independent network abstraction framework allowing Intel MPI to interface directly with high-speed kernel-bypass fabrics (InfiniBand verbs, RoCE, Omni-Path, TCP) with minimal overhead
