@@ -123,7 +123,7 @@
 - [ ] **(c)** To convert the server into a database.
 - [ ] **(d)** To force the client to download the model `.bin` file.
 
-#### Q19. What is the role of the `alpha` hyperparameter in LoRA fine-tuning ($\Delta W = rac{lpha}{r} B \cdot A$)?
+#### Q19. What is the role of the `alpha` hyperparameter in LoRA fine-tuning ($\Delta W = \frac{\alpha}{r} B \cdot A$)?
 - [ ] **(a)** It sets the transparency level of the user interface.
 - [ ] **(b)** It is a constant scaling factor that stabilizes training dynamics when experimenting with different values of rank $r$, ensuring that the magnitude of the adapter update $\Delta W$ does not drastically fluctuate when the rank is changed.
 - [ ] **(c)** It sets the number of CPU threads allocated to data loading.

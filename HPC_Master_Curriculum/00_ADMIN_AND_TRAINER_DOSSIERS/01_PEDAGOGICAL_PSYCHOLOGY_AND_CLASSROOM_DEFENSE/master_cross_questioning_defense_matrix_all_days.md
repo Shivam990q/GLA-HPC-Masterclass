@@ -119,7 +119,7 @@ This document is Shivam's definitive technical shield. It contains 50+ nasty, hi
 - **Authoritative Answer**:
   > - **Parameter Server (PS) Architecture**: Worker nodes compute gradients and send them to dedicated Parameter Server nodes. The PS aggregates gradients, updates weights, and broadcasts new weights back.
   >   *Bottleneck*: The network bandwidth of the Parameter Server becomes a catastrophic bottleneck as worker count scales. At $N$ workers, network traffic at the PS scales as $O(N)$.
-  > - **Ring-AllReduce (Horovod / NCCL)**: Completely decentralized. No master node. All workers are organized in a logical ring. Each worker sends a fraction $rac{1}{N}$ of its gradient tensor to its successor while receiving from its predecessor. Communication scales as $2 	imes rac{N-1}{N} 	imes S$, which is constant with respect to cluster size. It eliminates network bottlenecks entirely.
+  > - **Ring-AllReduce (Horovod / NCCL)**: Completely decentralized. No master node. All workers are organized in a logical ring. Each worker sends a fraction $\frac{1}{N}$ of its gradient tensor to its successor while receiving from its predecessor. Communication scales as $2 	imes \frac{N-1}{N} 	imes S$, which is constant with respect to cluster size. It eliminates network bottlenecks entirely.
 
 ### Q3.4: "What is Intel Extension for PyTorch (IPEX), and how does it optimize transformer models?"
 - **The Student's Intention**: Testing familiarity with modern Intel AI frameworks.

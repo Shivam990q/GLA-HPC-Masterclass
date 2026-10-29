@@ -29,7 +29,7 @@ Understanding their internal psychological state is critical:
 - **Tactical Neutralization**:
   - Ask them: *"When you invoke `loss.backward()` in distributed training across 4 nodes, how does gradient synchronization happen without exhausting the PCIe bandwidth?"*
   - Watch them freeze.
-  - Explain the physical bottleneck: *"If you do all-to-all communication, network complexity is $O(N^2)$. Horovod and NCCL solve this using Ring-AllReduce, which transfers only $2 	imes rac{N-1}{N} 	imes S$ bytes per node regardless of cluster size. That is HPC. Without HPC, your AI model cannot scale past a single consumer GPU."*
+  - Explain the physical bottleneck: *"If you do all-to-all communication, network complexity is $O(N^2)$. Horovod and NCCL solve this using Ring-AllReduce, which transfers only $2 	imes \frac{N-1}{N} 	imes S$ bytes per node regardless of cluster size. That is HPC. Without HPC, your AI model cannot scale past a single consumer GPU."*
   - **Result**: They realize their machine learning knowledge is superficial and that HPC is the foundational engine of modern AI.
 
 ### Archetype C: The "Hostel Backbencher / Proxy Attendee"
