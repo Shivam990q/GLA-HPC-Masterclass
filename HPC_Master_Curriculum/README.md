@@ -31,7 +31,7 @@ HPC_Master_Curriculum/
 │   ├── 04_DAY_01_COMPLETE_TOPIC_BY_TOPIC_STUDY_GUIDE.md
 │   ├── 05_DAY_01_ARROW_WORKFLOWS_AND_TOPIC_TREES.md
 │   ├── 📁 lab_activities/                            (Interactive Colab Lab & Standalone code/)
-│   └── 📁 quizzes_and_assessments/                   (Pre-Assessment & Post-Assessment MCQs, Excel, CSV)
+│   └── 📁 quizzes_and_assessments/                   (Pre-Assessment, In-Class Checkpoints & Post-Assessment MCQs, Excel, CSV)
 │
 ├── 📁 Day-02_Parallel_OpenMP_MPI_oneDAL/             [DAY 2: PARALLEL COMPUTING]
 │   ├── 01_DAY_02_3_HOUR_MASTER_TRAINER_PLAYBOOK.md   (Exact 180-Min Script, OpenMP Pragmas, oneDAL)
