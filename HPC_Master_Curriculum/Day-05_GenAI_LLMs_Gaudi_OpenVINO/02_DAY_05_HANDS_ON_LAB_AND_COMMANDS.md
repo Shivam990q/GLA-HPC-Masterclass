@@ -1,7 +1,7 @@
 # 💻 DAY 5: HANDS-ON LAB & COMMANDS PLAYBOOK
 ## Practical Execution for OpenVINO LLM Compression & Distributed Fine-Tuning
 **Course Code:** GLA-HPC-BCSG701 | **Track:** Intel & NEC Supercomputing Alliance  
-**Lead Trainer:** Shivam Gupta | **Target Audience:** 60 B.Tech / M.Tech CS Students  
+**Lead Trainer:** Shivam Gupta | **Target Session:** Day 5 (6-Hour Capstone Masterclass: Morning Theory + Afternoon Server Lab)  
 **Primary Reference:** `Intel & NEC - High Performance Computing.pdf`
 
 ---

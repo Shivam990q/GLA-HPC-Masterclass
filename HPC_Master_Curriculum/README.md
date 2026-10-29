@@ -58,11 +58,11 @@ HPC_Master_Curriculum/
 │   └── 📁 quizzes_and_assessments/                   (Pre-Assessment, In-Class Checkpoints & Post-Assessment MCQs, Excel, CSV)
 │
 ├── 📁 Day-05_GenAI_LLMs_Gaudi_OpenVINO/              [SHIVAM EXPERT LEAD - DAY 5 CAPSTONE]
-│   ├── 01_DAY_05_3_HOUR_MASTER_TRAINER_PLAYBOOK.md   (Exact 180-Min Script, Xeon AMX vs Gaudi, OpenVINO INT4)
-│   ├── 02_DAY_05_HANDS_ON_LAB_AND_COMMANDS.md        (Step-by-Step OpenVINO NNCF & LoRA Slurm Scripts)
-│   ├── 03_DAY_05_STUDENT_CHEATSHEET_AND_MCQS.md     (1-Page Cheat Sheet + 25 Evaluated MCQs)
-│   ├── Day_05_Generative_AI_LLMs_OpenVINO_Gaudi_HPC_Master_Lab.ipynb (Interactive Colab Lab)
-│   └── 📁 code/                                      (Flat directory: openvino_llm_benchmark.py, llm_fastapi_server.py)
+│   ├── 01_DAY_05_6_HOUR_MASTER_TRAINER_PLAYBOOK.md   (Complete 6-Hour Script, Xeon AMX, Gaudi 2/3, OpenVINO INT4 & LoRA)
+│   ├── 02_DAY_05_HANDS_ON_LAB_AND_COMMANDS.md        (Step-by-Step OpenVINO NNCF, FastAPI & Slurm Multi-Node)
+│   ├── 03_DAY_05_STUDENT_CHEATSHEET_AND_MCQS.md     (Cheat Sheet + Evaluated MCQs)
+│   ├── 📁 lab_activities/                            (Interactive Colab Lab & Standalone code/)
+│   └── 📁 quizzes_and_assessments/                   (Pre-Assessment, In-Class Checkpoints & Post-Assessment MCQs, Excel, CSV)
 │
 ├── 📁 EDULATERAL_OFFICIAL_MCQ_BANK/                  (Consolidated 125 Evaluative MCQs & Quiz Engine)
 ├── 📁 OFFLINE_PENDRIVE_TOOLKIT/                      (Offline Pen Drive Safeguard)
