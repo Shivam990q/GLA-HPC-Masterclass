@@ -24,9 +24,9 @@ HPC_Master_Curriculum/
 ├── 📁 00_ADMIN_AND_TRAINER_DOSSIERS/                  (Compliance & Strategy)
 │
 ├── 📁 Day-01_HPC_Linux_Shell_oneAPI/                 [SHIVAM EXPERT LEAD - DAY 1]
-│   ├── 01_DAY_01_3_HOUR_MASTER_TRAINER_PLAYBOOK.md   (Exact 180-Min Script, Whiteboard Sketches, Gotchas)
+│   ├── 01_DAY_01_6_HOUR_MASTER_TRAINER_PLAYBOOK.md   (Complete 6-Hour Script, Whiteboard Sketches, Gotchas)
 │   ├── 02_DAY_01_HANDS_ON_LAB_AND_COMMANDS.md        (Step-by-Step Hands-On Commands & Output Verification)
-│   ├── 03_DAY_01_STUDENT_CHEATSHEET_AND_MCQS.md     (1-Page Cheat Sheet + 25 Evaluated MCQs)
+│   ├── 03_DAY_01_STUDENT_CHEATSHEET_AND_MCQS.md     (Cheat Sheet + 50 Evaluated Pre/In-Class MCQs)
 │   ├── Day_01_Intel_oneAPI_and_HPC_Toolkit_Master_Lab.ipynb (Interactive Colab Lab)
 │   └── 📁 code/                                      (Flat directory: compute_engine.py, orchestrator.sh)
 │
