@@ -125,19 +125,19 @@
 - D) Compute nodes allow direct interactive shell access to all users, whereas Login nodes refuse SSH connections
 **Answer: B** | *Explanation: Login nodes provide access for code editing, compiling, and submitting batch jobs to Slurm, while Compute nodes are isolated worker resources where heavy parallel simulations execute without interactive contention.*
 
-#### Q05. [Medium] According to Amdahl's Law, if an algorithm contains 20% strictly sequential (non-parallelizable) operations and 80% perfectly parallelizable operations, what is the theoretical maximum speedup limit on an infinite number of processor cores?
+#### Q05. [Medium] An HPC optimization engineer profiles a simulation algorithm and finds that 20% of the runtime is strictly sequential (s = 0.20), while 80% is parallelizable (p = 0.80). According to Amdahl's Law, what is the theoretical maximum speedup limit achievable by this algorithm even if executed across an infinite number of processor cores?
 - A) 4x speedup
 - B) 5x speedup
 - C) 10x speedup
 - D) Infinite speedup
 **Answer: B** | *Explanation: Amdahl's Law defines Speedup S(N) = 1 / (s + p/N). As N approaches infinity, S_max = 1 / s = 1 / 0.20 = 5x maximum achievable speedup.*
 
-#### Q06. [Hard] While Amdahl's Law evaluates 'Strong Scaling' by holding the total workload size fixed, what scaling model does Gustafson's Law introduce to more accurately evaluate real-world supercomputing applications?
-- A) Weak Scaling: The problem size scales proportionally with the number of processors, maintaining a constant execution time
-- B) Strong Scaling: The total problem size is halved each time processor count doubles
-- C) Static Scaling: The execution time increases exponentially as nodes are added
-- D) Negative Scaling: The communication overhead always exceeds computational gains
-**Answer: A** | *Explanation: Gustafson's Law formalizes 'Weak Scaling,' recognizing that researchers exploit larger supercomputers not to solve the same tiny problem faster, but to solve massively larger grid resolutions and physical datasets within a practical, constant time window.*
+#### Q06. [Hard] A researcher scales an atmospheric climate model across a 64-core HPC compute node. If 95% of the scaled execution time is spent in parallel computation (p = 0.95) and 5% is sequential (s = 0.05), what is the scaled speedup achieved according to Gustafson's Law (S(N) = s + p × N)?
+- A) 60.85x speedup
+- B) 20.00x speedup
+- C) 5.00x speedup
+- D) 128.00x speedup
+**Answer: A** | *Explanation: Gustafson's Law formula for scaled speedup is S(N) = s + p*N. For N=64 cores: S(64) = 0.05 + (0.95 * 64) = 0.05 + 60.80 = 60.85x speedup.*
 
 #### Q07. [Hard] Why was the High Performance Conjugate Gradients (HPCG) benchmark established as a companion to the traditional High Performance LINPACK (HPL) on the TOP500 list?
 - A) HPL measures dense linear algebra compute throughput (high compute-to-memory ratio), whereas HPCG stresses memory bandwidth, latency, and sparse, irregular memory access patterns common in modern scientific simulations
@@ -169,19 +169,19 @@
 - D) By requiring all network packets to be inspected synchronously by the CPU BIOS
 **Answer: A** | *Explanation: Habana Gaudi processors integrate RDMA over Converged Ethernet (RoCE v2) directly on-die (24x 100GbE on Gaudi 2), enabling all-to-all accelerator scaling over standard Ethernet without costly external host NIC bottlenecks.*
 
-#### Q11. [Medium] In a dual-socket Intel Xeon Scalable server node, which high-speed, low-latency point-to-point coherent interconnect bus links the two CPU sockets together for cross-socket cache coherence and memory access?
-- A) Universal Serial Bus (USB 3.2)
-- B) Intel Ultra Path Interconnect (Intel UPI)
-- C) Front Side Bus (FSB 400MHz)
-- D) Peripheral Component Interconnect (PCI 33MHz)
-**Answer: B** | *Explanation: Intel UPI (Ultra Path Interconnect) provides point-to-point coherent links between processor sockets in multi-socket Intel Xeon systems, replacing the legacy QPI.*
+#### Q11. [Medium] A dual-socket 4th Gen Intel Xeon Scalable server (Sapphire Rapids) features 8 DDR5 memory channels per socket operating at DDR5-4800 (4800 MT/s). Given a standard 64-bit (8-byte) bus width per channel, what is the theoretical peak aggregate memory bandwidth of the dual-socket system?
+- A) 153.6 GB/s
+- B) 307.2 GB/s
+- C) 614.4 GB/s
+- D) 1228.8 GB/s
+**Answer: C** | *Explanation: Theoretical Memory Bandwidth = Sockets (2) × Channels per socket (8) × Transfer Rate (4.8 GT/s) × Bus Width (8 Bytes) = 16 × 4.8 × 8 = 614.4 GB/s aggregate bandwidth.*
 
-#### Q12. [Medium] What architectural hardware registers does Intel AMX (Advanced Matrix Extensions) introduce to hold 2D sub-matrix tiles in the core execution units?
-- A) 8 two-dimensional tile registers named tmm0 through tmm7 (each up to 1KB in capacity)
-- B) 32 vector registers named zmm0 through zmm31 (each 512 bits)
-- C) 16 general-purpose 64-bit registers rax through r15
-- D) 8 floating-point stack registers st(0) through st(7)
-**Answer: A** | *Explanation: AMX introduces a 2D tile architecture consisting of 8 tile registers (tmm0 to tmm7), each capable of holding up to 1024 bytes (1KB) in a 2D matrix configuration (up to 16 rows of 64 bytes).*
+#### Q12. [Medium] Intel Advanced Matrix Extensions (AMX) architecture provides 8 dedicated 2D tile registers (tmm0 through tmm7). If each tile register can configure up to 16 rows of 64 bytes each, what is the maximum total data capacity stored across all 8 AMX tile registers simultaneously?
+- A) 512 bytes
+- B) 2048 bytes (2 KB)
+- C) 4096 bytes (4 KB)
+- D) 8192 bytes (8 KB)
+**Answer: D** | *Explanation: Each AMX tile holds 16 rows × 64 bytes = 1024 bytes (1 KB). Across all 8 tile registers (tmm0 to tmm7), the total capacity is 8 × 1024 bytes = 8192 bytes (8 KB).*
 
 #### Q13. [Hard] The Intel Xeon CPU Max Series (Sapphire Rapids with HBM2e) integrates up to 64GB of High Bandwidth Memory directly on-package. Which three memory operating modes can be configured via system BIOS?
 - A) Striped Mode, Mirror Mode, and Parity Mode
@@ -213,19 +213,19 @@
 - D) `path`
 **Answer: B** | *Explanation: `pwd` stands for 'Print Working Directory' and writes the full absolute pathname from root to the current directory.*
 
-#### Q17. [Medium] In the Linux octal permission model, what access rights does the command `chmod 750 dataset_dir/` grant to the file's owner, group members, and others respectively?
-- A) Owner: Read/Write/Execute (7), Group: Read/Execute (5), Others: No access (0)
-- B) Owner: Read/Write (6), Group: Read/Write (6), Others: Execute (1)
-- C) Owner: Read/Execute (5), Group: Read/Write (6), Others: Read (4)
-- D) Owner: Full access (7), Group: Full access (7), Others: Read/Write (6)
-**Answer: A** | *Explanation: Octal permissions: 7 = 4(r) + 2(w) + 1(x) = rwx; 5 = 4(r) + 1(x) = r-x; 0 = no permissions. Hence 750 gives owner rwx, group r-x, and others no access.*
+#### Q17. [Medium] In Linux octal permission notation, a systems administrator issues the command `chmod 750 /scratch/project`. What exact read (r), write (w), and execute (x) permissions are assigned to the Owner, Group, and Others?
+- A) Owner: rwx (7), Group: r-x (5), Others: --- (0)
+- B) Owner: rw- (6), Group: rw- (6), Others: --x (1)
+- C) Owner: r-x (5), Group: rwx (7), Others: r-- (4)
+- D) Owner: rwx (7), Group: rwx (7), Others: r-x (5)
+**Answer: A** | *Explanation: Octal values: 7 = 4(r)+2(w)+1(x) = rwx; 5 = 4(r)+0(w)+1(x) = r-x; 0 = 0(r)+0(w)+0(x) = ---. Therefore 750 grants Owner rwx, Group r-x, and Others no permissions.*
 
-#### Q18. [Medium] If a user's active shell environment has an active `umask` setting of `022`, what will be the default octal file permissions assigned to a newly created regular text file?
-- A) 755 (`-rwxr-xr-x`)
-- B) 666 (`-rw-rw-rw-`)
-- C) 644 (`-rw-r--r--`)
-- D) 700 (`-rwx------`)
-**Answer: C** | *Explanation: For regular files, the standard base permissions are 666 (`rw-rw-rw-`). Applying umask 022 gives 666 - 022 = 644 (`rw-r--r--`), stripping write permissions from group and others.*
+#### Q18. [Medium] If a Linux user's shell session has an active `umask` setting of `027`, what will be the default octal permissions assigned to a newly created directory (base 777) and a newly created regular text file (base 666) respectively?
+- A) Directory: 755 (`rwxr-xr-x`), File: 644 (`rw-r--r--`)
+- B) Directory: 750 (`rwxr-x---`), File: 640 (`rw-r-----`)
+- C) Directory: 770 (`rwxrwx---`), File: 660 (`rw-rw----`)
+- D) Directory: 700 (`rwx------`), File: 600 (`rw-------`)
+**Answer: B** | *Explanation: Base permissions: Directory = 777, File = 666. Applying umask 027 (bitwise bit clear): Directory = 777 - 027 = 750 (rwxr-x---). File = 666 masked by 027 = 640 (rw-r-----). Group gets r-x (dir) or r-- (file); others get zero rights.*
 
 #### Q19. [Medium] Why are HPC cluster users strictly instructed not to write massive, high-throughput simulation output checkpoints into their `$HOME` directory?
 - A) `$HOME` is typically mounted over a shared, quota-limited network filesystem (NFS) that experiences high latency under heavy I/O, whereas parallel filesystems like `/scratch` (Lustre/GPFS) are optimized for high-bandwidth parallel I/O
@@ -285,12 +285,12 @@
 - D) `./sim_engine 1>&2 >> simulation.log`
 **Answer: C** | *Explanation: `./sim_engine > simulation.log 2>&1` first redirects stdout (FD 1) to `simulation.log`, then redirects stderr (FD 2) to whatever FD 1 currently points to (`simulation.log`). (Modern bash also supports `./sim_engine &> simulation.log`).*
 
-#### Q27. [Hard] In a piped command sequence such as `cat simulation.dat | grep 'CONVERGED' | wc -l`, why is the defensive flag `set -o pipefail` critical when `set -e` is already active?
-- A) By default, the exit status of a pipeline is determined solely by the LAST command (`wc -l`); `pipefail` ensures the pipeline returns the exit code of the last failing command if any step fails
-- B) `set -e` crashes if any pipe is used, so `pipefail` is required to enable pipes
-- C) `pipefail` increases the buffer size of the Unix pipe from 64KB to 1GB
-- D) `pipefail` converts pipe operations into synchronous disk writes
-**Answer: A** | *Explanation: Without `pipefail`, if `grep` crashes or errors out, the pipeline still returns the exit status of `wc -l` (which is 0 / success), causing `set -e` to mistakenly treat the whole pipeline as successful. `set -o pipefail` fixes this critical silent bug.*
+#### Q27. [Hard] A student writes an automation pipeline: `cat input.dat | grep 'CRITICAL_METRIC' | awk '{print $2}' > output.txt`. The input file `input.dat` does not exist, yet the bash script continues execution and reports exit status `$? = 0`. Why did this silent failure occur, and how should it be prevented?
+- A) By default, a shell pipeline returns the exit status of the LAST command in the pipeline (`awk`), masking the failure of `cat`; enabling `set -o pipefail` ensures the pipeline returns non-zero if ANY stage fails
+- B) `cat` always returns exit code 0 even if files are missing
+- C) Redirection with `>` forces the shell to ignore all previous errors
+- D) `awk` elevated the execution privileges to root
+**Answer: A** | *Explanation: Without `pipefail`, a pipeline's exit status is solely that of the last command (`awk`), which succeeded with empty input (status 0). `set -o pipefail` forces the pipeline to return the status of the rightmost command that failed with a non-zero code.*
 
 #### Q28. [Hard] What is an important technical advantage of using the modern Bash compound conditional construct `[[ ... ]]` over the traditional POSIX test operator `[ ... ]`?
 - A) `[ ... ]` is executed by the kernel, whereas `[[ ... ]]` runs in user space
@@ -322,12 +322,12 @@
 - D) RC4 (Rivest Cipher 4)
 **Answer: B** | *Explanation: Ed25519 uses the Twisted Edwards curve Curve25519. It provides ~128 bits of security with a 256-bit key length, faster signature verification, and immunity to cache-timing attacks compared to legacy RSA.*
 
-#### Q32. [Medium] If a user accidentally executes `chmod 777 ~/.ssh/id_ed25519` on their private SSH key, what will happen when they attempt to connect to a remote server?
-- A) The SSH client will immediately abort the connection with an error warning that the private key permissions are too open
-- B) The remote server will automatically format the user's home directory
-- C) The SSH client will silently convert the key to a public key
-- D) The connection will succeed with enhanced administrative speed
-**Answer: A** | *Explanation: OpenSSH enforces strict permission checks. If a private key file is readable by group or others (anything more permissive than `600` or `400`), it prints 'WARNING: UNPROTECTED PRIVATE KEY FILE!' and ignores the key.*
+#### Q32. [Medium] A user generates an Ed25519 key pair and copies the private key to a new workstation. When running `ssh -i ~/.ssh/id_ed25519 user@hpc.gla.ac.in`, the connection immediately terminates with: 'Permissions 0777 for id_ed25519 are too open'. Which exact command resolves this error?
+- A) `chmod 600 ~/.ssh/id_ed25519`
+- B) `chmod 755 ~/.ssh/id_ed25519`
+- C) `chown root ~/.ssh/id_ed25519`
+- D) `rm -f ~/.ssh/known_hosts`
+**Answer: A** | *Explanation: OpenSSH enforces strict permission checks. If a private key file is readable by group or others (anything more permissive than `600` or `400`), it prints 'WARNING: UNPROTECTED PRIVATE KEY FILE!' and refuses to use the key. `chmod 600` grants read/write strictly to the owner.*
 
 #### Q33. [Medium] Which command transfers a local dataset `hpc_input.tar.gz` to a remote cluster user account at `login.gla.ac.in` under the directory `/scratch/data/`?
 - A) `ssh hpc_input.tar.gz user@login.gla.ac.in:/scratch/data/`
@@ -438,12 +438,12 @@
 - D) Intel oneDNN
 **Answer: A** | *Explanation: Intel Inspector is a dynamic memory and thread checking tool that identifies subtle memory leaks, dangling pointers, deadlocks, and race conditions in multi-threaded C/C++/Fortran programs.*
 
-#### Q48. [Hard] On a multi-socket Intel Xeon server featuring Non-Uniform Memory Access (NUMA), why does unconstrained OS thread migration across NUMA sockets severely degrade HPC application performance?
+#### Q48. [Hard] An HPC engineer profiles an OpenMP simulation on a dual-socket 64-core Intel Xeon node and observes severe memory latency spikes due to cross-socket UPI traffic. Which command pins the process to CPU cores on Socket 0 and restricts physical memory allocation exclusively to Socket 0's local NUMA domain?
 - A) Remote NUMA access causes immediate hardware watchdog reboot
-- B) Accessing memory attached to a remote CPU socket over the UPI interconnect incurs significantly higher latency and lower bandwidth than accessing local NUMA memory; thread affinity pinning (`numactl` / `I_MPI_PIN`) prevents this penalty
-- C) Thread migration deletes variables stored in L1 cache permanently
-- D) Remote NUMA sockets only support 16-bit calculations
-**Answer: B** | *Explanation: In NUMA systems, each socket has its own local memory controller and DDR channels. When a core accesses RAM on a remote socket, requests must traverse the interconnect (Intel UPI), which doubles memory access latency and congests the bus. Process/thread binding prevents cross-socket migrations.*
+- B) `numactl --cpunodebind=0 --membind=0 ./simulation_app`
+- C) `nice -n -20 ./simulation_app`
+- D) `nohup ./simulation_app &`
+**Answer: B** | *Explanation: `numactl --cpunodebind=0 --membind=0` enforces execution strictly on CPU cores belonging to NUMA node 0 and allocates all physical pages from node 0's local memory controller, completely eliminating remote cross-socket UPI bus traversals.*
 
 #### Q49. [Hard] When compiling numerical linear algebra algorithms with `icx` / `icpx`, what is the consequence of specifying the floating-point optimization flag `-fp-model=fast=2` compared to `-fp-model=precise`?
 - A) `-fp-model=fast=2` converts all double-precision numbers to 8-bit integers

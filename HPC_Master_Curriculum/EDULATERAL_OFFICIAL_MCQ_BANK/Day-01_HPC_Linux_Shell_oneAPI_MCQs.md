@@ -9,17 +9,18 @@
 
 ---
 
-## 📌 Assessment Design & Pedagogical Gradation
-Designed specifically for 7th-semester engineering undergraduates transitioning from classical computing to supercomputing architecture. The 50 questions span all 7 modules of Day 1 with a calibrated difficulty progression:
-- **Easy (Foundational — 14 Questions, 28%):** Core definitions, standard terminology, essential commands, and basic acronyms.
-- **Medium (Applied & Technical — 21 Questions, 42%):** Real-world scenarios, command options, numerical calculations (Amdahl's law, octal permissions), and subsystem mechanisms.
-- **Hard (Architectural & Systems Rigor — 15 Questions, 30%):** Deep silicon architecture (AMX TMUL, HBM operating modes), Linux kernel VFS internals, compiler vectorization, and NUMA memory affinity.
+## 📌 Pedagogical Structure & Quad-Blend Methodology
+Designed to showcase the world-class teaching standard of **Edulateral Foundation** to GLA University faculty and coordinators:
+1. **Foundational & Definitional (12 Questions, 24%):** Core terminology, standard acronyms (FLOPS, MIMD, VFS, Shebang, Port 22).
+2. **Numerical & Analytical Calculations (8 Questions, 16%):** Amdahl's Law speedup (5x), Gustafson's Law scaled speedup (60.85x), DDR5 peak bandwidth (614.4 GB/s), AMX tile capacity (8 KB), octal permissions (750), umask directory/file calculation (750/640).
+3. **Applied Technical & Systems Tooling (18 Questions, 36%):** Intel oneAPI DPC++, Khronos SYCL C++, Unified Shared Memory (malloc_device, malloc_shared), Intel Level Zero, compiler flags (-O3, -xHost, -fp-model=fast=2), Intel MPI Library, and Libfabric.
+4. **Logical Troubleshooting & Real-World Scenarios (12 Questions, 24%):** Pipeline silent failure trapping (set -o pipefail), SSH key permission denial (0777 -> 0600), SSH Agent forwarding socket hijacking, VFS inode link counts with open file descriptors, and NUMA cross-socket UPI latency mitigation (numactl).
 
 ---
 
 ## 🔷 Module 1: Introduction to HPC
 
-### Question 01 | [Easy] — HPC Performance Metrics & TOP500
+### Question 01 | [Easy] [Foundational] — HPC Performance Metrics & TOP500
 **Which performance metric is the primary benchmark utilized to evaluate and rank the world's most powerful supercomputers on the official TOP500 list?**
 
 - **(A)** Clock frequency measured in Gigahertz (GHz)
@@ -32,7 +33,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 02 | [Easy] — Flynn's Taxonomy of Computer Architecture
+### Question 02 | [Easy] [Foundational] — Flynn's Taxonomy of Computer Architecture
 **Under Flynn's classical taxonomy of computer architectures, modern High Performance Computing clusters comprising multi-core CPUs and distributed compute nodes are predominantly categorized as:**
 
 - **(A)** Single Instruction, Single Data (SISD)
@@ -45,7 +46,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 03 | [Medium] — The Memory Wall Bottleneck
+### Question 03 | [Medium] [Conceptual] — The Memory Wall Bottleneck
 **In modern computer architecture and high-performance system design, what fundamental architectural bottleneck is termed the 'Memory Wall'?**
 
 - **(A)** The physical DRAM capacity limit imposed by 64-bit operating systems
@@ -58,7 +59,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 04 | [Medium] — HPC Node Roles: Login vs Compute Nodes
+### Question 04 | [Medium] [Scenario] — HPC Node Roles: Login vs Compute Nodes
 **In a production HPC cluster environment, what is the crucial operational distinction between a Login (Head) Node and Compute Nodes?**
 
 - **(A)** Login nodes run heavy distributed deep learning training, while Compute nodes only manage user home directories
@@ -71,8 +72,8 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 05 | [Medium] — Amdahl's Law Speedup Calculation
-**According to Amdahl's Law, if an algorithm contains 20% strictly sequential (non-parallelizable) operations and 80% perfectly parallelizable operations, what is the theoretical maximum speedup limit on an infinite number of processor cores?**
+### Question 05 | [Medium] [Numerical] — Amdahl's Law Speedup Calculation
+**An HPC optimization engineer profiles a simulation algorithm and finds that 20% of the runtime is strictly sequential (s = 0.20), while 80% is parallelizable (p = 0.80). According to Amdahl's Law, what is the theoretical maximum speedup limit achievable by this algorithm even if executed across an infinite number of processor cores?**
 
 - **(A)** 4x speedup
 - **(B)** 5x speedup
@@ -84,20 +85,20 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 06 | [Hard] — Scaling Models: Strong Scaling vs Weak Scaling
-**While Amdahl's Law evaluates 'Strong Scaling' by holding the total workload size fixed, what scaling model does Gustafson's Law introduce to more accurately evaluate real-world supercomputing applications?**
+### Question 06 | [Hard] [Numerical] — Gustafson's Law Scaled Speedup Calculation
+**A researcher scales an atmospheric climate model across a 64-core HPC compute node. If 95% of the scaled execution time is spent in parallel computation (p = 0.95) and 5% is sequential (s = 0.05), what is the scaled speedup achieved according to Gustafson's Law (S(N) = s + p × N)?**
 
-- **(A)** Weak Scaling: The problem size scales proportionally with the number of processors, maintaining a constant execution time
-- **(B)** Strong Scaling: The total problem size is halved each time processor count doubles
-- **(C)** Static Scaling: The execution time increases exponentially as nodes are added
-- **(D)** Negative Scaling: The communication overhead always exceeds computational gains
+- **(A)** 60.85x speedup
+- **(B)** 20.00x speedup
+- **(C)** 5.00x speedup
+- **(D)** 128.00x speedup
 
-> **Correct Answer**: **(A)** `Weak Scaling: The problem size scales proportionally with the number of processors, maintaining a constant execution time`  
-> **Technical Explanation**: Gustafson's Law formalizes 'Weak Scaling,' recognizing that researchers exploit larger supercomputers not to solve the same tiny problem faster, but to solve massively larger grid resolutions and physical datasets within a practical, constant time window.
+> **Correct Answer**: **(A)** `60.85x speedup`  
+> **Technical Explanation**: Gustafson's Law formula for scaled speedup is S(N) = s + p*N. For N=64 cores: S(64) = 0.05 + (0.95 * 64) = 0.05 + 60.80 = 60.85x speedup.
 
 ---
 
-### Question 07 | [Hard] — Supercomputing Benchmarks: HPL vs HPCG
+### Question 07 | [Hard] [Conceptual] — Supercomputing Benchmarks: HPL vs HPCG
 **Why was the High Performance Conjugate Gradients (HPCG) benchmark established as a companion to the traditional High Performance LINPACK (HPL) on the TOP500 list?**
 
 - **(A)** HPL measures dense linear algebra compute throughput (high compute-to-memory ratio), whereas HPCG stresses memory bandwidth, latency, and sparse, irregular memory access patterns common in modern scientific simulations
@@ -112,7 +113,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ## 🔷 Module 2: Intel HPC Architecture
 
-### Question 08 | [Easy] — Intel AMX Hardware Accelerator
+### Question 08 | [Easy] [Foundational] — Intel AMX Hardware Accelerator
 **What dedicated hardware matrix acceleration engine introduced in 4th Gen Intel Xeon Scalable processors (Sapphire Rapids) delivers accelerated deep learning tensor computation directly on CPU cores?**
 
 - **(A)** Intel Software Guard Extensions (Intel SGX)
@@ -125,7 +126,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 09 | [Easy] — Intel Data Center GPU Max Microarchitecture
+### Question 09 | [Easy] [Foundational] — Intel Data Center GPU Max Microarchitecture
 **The Intel Data Center GPU Max Series (formerly codenamed Ponte Vecchio) engineered for exascale supercomputing and deep learning is built upon which GPU microarchitecture?**
 
 - **(A)** Intel Xe-LP (Low Power)
@@ -138,7 +139,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 10 | [Medium] — Habana Gaudi Inter-Accelerator Fabric
+### Question 10 | [Medium] [Technical] — Habana Gaudi Inter-Accelerator Fabric
 **How do Habana Gaudi 2/3 AI accelerators optimize inter-node scale-out communications for massive distributed LLM training clusters compared to typical PCIe accelerators?**
 
 - **(A)** By integrating multiple 100 Gigabit Ethernet (RoCE v2) ports directly onto the accelerator silicon, bypassing external host PCIe NIC bottlenecks
@@ -151,33 +152,33 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 11 | [Medium] — Intel Dual-Socket Coherent Interconnect
-**In a dual-socket Intel Xeon Scalable server node, which high-speed, low-latency point-to-point coherent interconnect bus links the two CPU sockets together for cross-socket cache coherence and memory access?**
+### Question 11 | [Medium] [Numerical] — Theoretical Peak Memory Bandwidth Calculation
+**A dual-socket 4th Gen Intel Xeon Scalable server (Sapphire Rapids) features 8 DDR5 memory channels per socket operating at DDR5-4800 (4800 MT/s). Given a standard 64-bit (8-byte) bus width per channel, what is the theoretical peak aggregate memory bandwidth of the dual-socket system?**
 
-- **(A)** Universal Serial Bus (USB 3.2)
-- **(B)** Intel Ultra Path Interconnect (Intel UPI)
-- **(C)** Front Side Bus (FSB 400MHz)
-- **(D)** Peripheral Component Interconnect (PCI 33MHz)
+- **(A)** 153.6 GB/s
+- **(B)** 307.2 GB/s
+- **(C)** 614.4 GB/s
+- **(D)** 1228.8 GB/s
 
-> **Correct Answer**: **(B)** `Intel Ultra Path Interconnect (Intel UPI)`  
-> **Technical Explanation**: Intel UPI (Ultra Path Interconnect) provides point-to-point coherent links between processor sockets in multi-socket Intel Xeon systems, replacing the legacy QPI.
-
----
-
-### Question 12 | [Medium] — Intel AMX 2D Tile Architecture
-**What architectural hardware registers does Intel AMX (Advanced Matrix Extensions) introduce to hold 2D sub-matrix tiles in the core execution units?**
-
-- **(A)** 8 two-dimensional tile registers named tmm0 through tmm7 (each up to 1KB in capacity)
-- **(B)** 32 vector registers named zmm0 through zmm31 (each 512 bits)
-- **(C)** 16 general-purpose 64-bit registers rax through r15
-- **(D)** 8 floating-point stack registers st(0) through st(7)
-
-> **Correct Answer**: **(A)** `8 two-dimensional tile registers named tmm0 through tmm7 (each up to 1KB in capacity)`  
-> **Technical Explanation**: AMX introduces a 2D tile architecture consisting of 8 tile registers (tmm0 to tmm7), each capable of holding up to 1024 bytes (1KB) in a 2D matrix configuration (up to 16 rows of 64 bytes).
+> **Correct Answer**: **(C)** `614.4 GB/s`  
+> **Technical Explanation**: Theoretical Memory Bandwidth = Sockets (2) × Channels per socket (8) × Transfer Rate (4.8 GT/s) × Bus Width (8 Bytes) = 16 × 4.8 × 8 = 614.4 GB/s aggregate bandwidth.
 
 ---
 
-### Question 13 | [Hard] — Intel Xeon CPU Max HBM Operating Modes
+### Question 12 | [Medium] [Numerical] — AMX 2D Tile Register Capacity Calculation
+**Intel Advanced Matrix Extensions (AMX) architecture provides 8 dedicated 2D tile registers (tmm0 through tmm7). If each tile register can configure up to 16 rows of 64 bytes each, what is the maximum total data capacity stored across all 8 AMX tile registers simultaneously?**
+
+- **(A)** 512 bytes
+- **(B)** 2048 bytes (2 KB)
+- **(C)** 4096 bytes (4 KB)
+- **(D)** 8192 bytes (8 KB)
+
+> **Correct Answer**: **(D)** `8192 bytes (8 KB)`  
+> **Technical Explanation**: Each AMX tile holds 16 rows × 64 bytes = 1024 bytes (1 KB). Across all 8 tile registers (tmm0 to tmm7), the total capacity is 8 × 1024 bytes = 8192 bytes (8 KB).
+
+---
+
+### Question 13 | [Hard] [Technical] — Intel Xeon CPU Max HBM Operating Modes
 **The Intel Xeon CPU Max Series (Sapphire Rapids with HBM2e) integrates up to 64GB of High Bandwidth Memory directly on-package. Which three memory operating modes can be configured via system BIOS?**
 
 - **(A)** Striped Mode, Mirror Mode, and Parity Mode
@@ -190,7 +191,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 14 | [Hard] — Intel AMX vs AVX-512 Throughput Analysis
+### Question 14 | [Hard] [Technical] — Intel AMX vs AVX-512 Throughput Analysis
 **When comparing Intel AVX-512 with Intel AMX on 4th Gen Xeon CPUs for INT8 matrix multiplication, why does AMX achieve up to an 8x throughput boost per clock cycle?**
 
 - **(A)** AMX features the Tile Matrix Multiply (TMUL) unit which computes up to 2048 INT8 operations per cycle on 2D tiles, whereas AVX-512 operates on 1D 512-bit vector registers
@@ -205,7 +206,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ## 🔷 Module 3: Linux Basics & VFS
 
-### Question 15 | [Easy] — Linux Unified Filesystem Root
+### Question 15 | [Easy] [Foundational] — Linux Unified Filesystem Root
 **In the Linux Virtual File System (VFS) hierarchy, what character designates the single root directory from which all directories, files, and mounted file systems originate?**
 
 - **(A)** Backslash (`\`)
@@ -218,7 +219,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 16 | [Easy] — Working Directory Navigation
+### Question 16 | [Easy] [Foundational] — Working Directory Navigation
 **Which standard Linux shell command outputs the absolute canonical pathname of the current active working directory?**
 
 - **(A)** `cd`
@@ -231,33 +232,33 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 17 | [Medium] — Octal Permission Calculation (chmod)
-**In the Linux octal permission model, what access rights does the command `chmod 750 dataset_dir/` grant to the file's owner, group members, and others respectively?**
+### Question 17 | [Medium] [Numerical] — Octal Permission Calculation (chmod)
+**In Linux octal permission notation, a systems administrator issues the command `chmod 750 /scratch/project`. What exact read (r), write (w), and execute (x) permissions are assigned to the Owner, Group, and Others?**
 
-- **(A)** Owner: Read/Write/Execute (7), Group: Read/Execute (5), Others: No access (0)
-- **(B)** Owner: Read/Write (6), Group: Read/Write (6), Others: Execute (1)
-- **(C)** Owner: Read/Execute (5), Group: Read/Write (6), Others: Read (4)
-- **(D)** Owner: Full access (7), Group: Full access (7), Others: Read/Write (6)
+- **(A)** Owner: rwx (7), Group: r-x (5), Others: --- (0)
+- **(B)** Owner: rw- (6), Group: rw- (6), Others: --x (1)
+- **(C)** Owner: r-x (5), Group: rwx (7), Others: r-- (4)
+- **(D)** Owner: rwx (7), Group: rwx (7), Others: r-x (5)
 
-> **Correct Answer**: **(A)** `Owner: Read/Write/Execute (7), Group: Read/Execute (5), Others: No access (0)`  
-> **Technical Explanation**: Octal permissions: 7 = 4(r) + 2(w) + 1(x) = rwx; 5 = 4(r) + 1(x) = r-x; 0 = no permissions. Hence 750 gives owner rwx, group r-x, and others no access.
-
----
-
-### Question 18 | [Medium] — Default File Permissions & umask
-**If a user's active shell environment has an active `umask` setting of `022`, what will be the default octal file permissions assigned to a newly created regular text file?**
-
-- **(A)** 755 (`-rwxr-xr-x`)
-- **(B)** 666 (`-rw-rw-rw-`)
-- **(C)** 644 (`-rw-r--r--`)
-- **(D)** 700 (`-rwx------`)
-
-> **Correct Answer**: **(C)** `644 (`-rw-r--r--`)`  
-> **Technical Explanation**: For regular files, the standard base permissions are 666 (`rw-rw-rw-`). Applying umask 022 gives 666 - 022 = 644 (`rw-r--r--`), stripping write permissions from group and others.
+> **Correct Answer**: **(A)** `Owner: rwx (7), Group: r-x (5), Others: --- (0)`  
+> **Technical Explanation**: Octal values: 7 = 4(r)+2(w)+1(x) = rwx; 5 = 4(r)+0(w)+1(x) = r-x; 0 = 0(r)+0(w)+0(x) = ---. Therefore 750 grants Owner rwx, Group r-x, and Others no permissions.
 
 ---
 
-### Question 19 | [Medium] — HPC Storage Hierarchy: $HOME vs /scratch
+### Question 18 | [Medium] [Numerical] — Default File & Directory Permissions (umask)
+**If a Linux user's shell session has an active `umask` setting of `027`, what will be the default octal permissions assigned to a newly created directory (base 777) and a newly created regular text file (base 666) respectively?**
+
+- **(A)** Directory: 755 (`rwxr-xr-x`), File: 644 (`rw-r--r--`)
+- **(B)** Directory: 750 (`rwxr-x---`), File: 640 (`rw-r-----`)
+- **(C)** Directory: 770 (`rwxrwx---`), File: 660 (`rw-rw----`)
+- **(D)** Directory: 700 (`rwx------`), File: 600 (`rw-------`)
+
+> **Correct Answer**: **(B)** `Directory: 750 (`rwxr-x---`), File: 640 (`rw-r-----`)`  
+> **Technical Explanation**: Base permissions: Directory = 777, File = 666. Applying umask 027 (bitwise bit clear): Directory = 777 - 027 = 750 (rwxr-x---). File = 666 masked by 027 = 640 (rw-r-----). Group gets r-x (dir) or r-- (file); others get zero rights.
+
+---
+
+### Question 19 | [Medium] [Scenario] — HPC Storage Hierarchy: $HOME vs /scratch
 **Why are HPC cluster users strictly instructed not to write massive, high-throughput simulation output checkpoints into their `$HOME` directory?**
 
 - **(A)** `$HOME` is typically mounted over a shared, quota-limited network filesystem (NFS) that experiences high latency under heavy I/O, whereas parallel filesystems like `/scratch` (Lustre/GPFS) are optimized for high-bandwidth parallel I/O
@@ -270,7 +271,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 20 | [Hard] — Virtual Filesystems: /proc vs /sys
+### Question 20 | [Hard] [Technical] — Virtual Filesystems: /proc vs /sys
 **What is the fundamental architectural distinction between the virtual filesystems `/proc` and `/sys` in the Linux kernel?**
 
 - **(A)** `/proc` provides a view of process execution state and kernel runtime statistics (procfs), while `/sys` exposes the kernel's unified device model, hardware buses, and driver topology (sysfs)
@@ -283,7 +284,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 21 | [Hard] — Filesystem Inode & Deletion Semantics
+### Question 21 | [Hard] [Scenario] — Filesystem Inode & Deletion Semantics
 **When a user executes `rm -f large_dataset.bin` on a Linux filesystem, what happens to the underlying storage data blocks if another running application still holds an open file descriptor to that file?**
 
 - **(A)** The data blocks are immediately overwritten with zeros, causing the running application to crash with a segmentation fault
@@ -298,7 +299,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ## 🔷 Module 4: Shell Scripting
 
-### Question 22 | [Easy] — Shell Script Shebang Mechanism
+### Question 22 | [Easy] [Foundational] — Shell Script Shebang Mechanism
 **In a Linux Bash automation script, what is the exact function of the initial line `#!/bin/bash` (commonly termed the Shebang)?**
 
 - **(A)** It elevates the script's execution privileges to root automatically
@@ -311,7 +312,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 23 | [Easy] — I/O Redirection Operators
+### Question 23 | [Easy] [Foundational] — I/O Redirection Operators
 **Which shell redirection operator appends the Standard Output (stdout) of a command to the end of a specified destination file without overwriting its existing contents?**
 
 - **(A)** `>`
@@ -324,7 +325,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 24 | [Medium] — Command Exit Status Parameter ($?)
+### Question 24 | [Medium] [Technical] — Command Exit Status Parameter ($?)
 **What does the special parameter `$?` represent in a Bash shell session immediately following the completion of a program?**
 
 - **(A)** The Process ID (PID) of the currently running shell process
@@ -337,7 +338,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 25 | [Medium] — Defensive Shell Scripting (set -e)
+### Question 25 | [Medium] [Technical] — Defensive Shell Scripting (set -e)
 **In production HPC automation scripts, what is the effect of placing the directive `set -e` at the beginning of the script?**
 
 - **(A)** The shell will immediately exit if any command or pipeline returns a non-zero exit status, preventing cascading errors
@@ -350,7 +351,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 26 | [Medium] — Combined Redirection of stdout & stderr
+### Question 26 | [Medium] [Technical] — Combined Redirection of stdout & stderr
 **In Bash shell scripting, which syntax correctly redirects both Standard Output (stdout, file descriptor 1) and Standard Error (stderr, file descriptor 2) to a log file named `simulation.log`?**
 
 - **(A)** `./sim_engine 2> simulation.log 1>&2`
@@ -363,20 +364,20 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 27 | [Hard] — Pipeline Error Trapping (set -o pipefail)
-**In a piped command sequence such as `cat simulation.dat | grep 'CONVERGED' | wc -l`, why is the defensive flag `set -o pipefail` critical when `set -e` is already active?**
+### Question 27 | [Hard] [Scenario] — Pipeline Error Trapping Scenario (set -o pipefail)
+**A student writes an automation pipeline: `cat input.dat | grep 'CRITICAL_METRIC' | awk '{print $2}' > output.txt`. The input file `input.dat` does not exist, yet the bash script continues execution and reports exit status `$? = 0`. Why did this silent failure occur, and how should it be prevented?**
 
-- **(A)** By default, the exit status of a pipeline is determined solely by the LAST command (`wc -l`); `pipefail` ensures the pipeline returns the exit code of the last failing command if any step fails
-- **(B)** `set -e` crashes if any pipe is used, so `pipefail` is required to enable pipes
-- **(C)** `pipefail` increases the buffer size of the Unix pipe from 64KB to 1GB
-- **(D)** `pipefail` converts pipe operations into synchronous disk writes
+- **(A)** By default, a shell pipeline returns the exit status of the LAST command in the pipeline (`awk`), masking the failure of `cat`; enabling `set -o pipefail` ensures the pipeline returns non-zero if ANY stage fails
+- **(B)** `cat` always returns exit code 0 even if files are missing
+- **(C)** Redirection with `>` forces the shell to ignore all previous errors
+- **(D)** `awk` elevated the execution privileges to root
 
-> **Correct Answer**: **(A)** `By default, the exit status of a pipeline is determined solely by the LAST command (`wc -l`); `pipefail` ensures the pipeline returns the exit code of the last failing command if any step fails`  
-> **Technical Explanation**: Without `pipefail`, if `grep` crashes or errors out, the pipeline still returns the exit status of `wc -l` (which is 0 / success), causing `set -e` to mistakenly treat the whole pipeline as successful. `set -o pipefail` fixes this critical silent bug.
+> **Correct Answer**: **(A)** `By default, a shell pipeline returns the exit status of the LAST command in the pipeline (`awk`), masking the failure of `cat`; enabling `set -o pipefail` ensures the pipeline returns non-zero if ANY stage fails`  
+> **Technical Explanation**: Without `pipefail`, a pipeline's exit status is solely that of the last command (`awk`), which succeeded with empty input (status 0). `set -o pipefail` forces the pipeline to return the status of the rightmost command that failed with a non-zero code.
 
 ---
 
-### Question 28 | [Hard] — Modern [[ ... ]] vs POSIX [ ... ] Operators
+### Question 28 | [Hard] [Technical] — Modern [[ ... ]] vs POSIX [ ... ] Operators
 **What is an important technical advantage of using the modern Bash compound conditional construct `[[ ... ]]` over the traditional POSIX test operator `[ ... ]`?**
 
 - **(A)** `[ ... ]` is executed by the kernel, whereas `[[ ... ]]` runs in user space
@@ -391,7 +392,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ## 🔷 Module 5: Secured Shell (SSH)
 
-### Question 29 | [Easy] — Standard SSH Port
+### Question 29 | [Easy] [Foundational] — Standard SSH Port
 **What is the standard IANA default network TCP port number on which the OpenSSH daemon (`sshd`) listens for incoming secure remote shell connections?**
 
 - **(A)** Port 80
@@ -404,7 +405,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 30 | [Easy] — SSH Public Key Authentication File
+### Question 30 | [Easy] [Foundational] — SSH Public Key Authentication File
 **When setting up passwordless public-key authentication to an HPC cluster login node, where must the user's PUBLIC key be appended on the remote server?**
 
 - **(A)** `~/.ssh/authorized_keys`
@@ -417,7 +418,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 31 | [Medium] — Modern Asymmetric Cryptography: Ed25519
+### Question 31 | [Medium] [Technical] — Modern Asymmetric Cryptography: Ed25519
 **Which modern elliptic-curve public-key algorithm is widely recommended for SSH keys due to its high computational efficiency, compact 256-bit key length, and strong resistance to timing and side-channel attacks?**
 
 - **(A)** DES (Data Encryption Standard)
@@ -430,20 +431,20 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 32 | [Medium] — SSH Private Key Permission Discipline
-**If a user accidentally executes `chmod 777 ~/.ssh/id_ed25519` on their private SSH key, what will happen when they attempt to connect to a remote server?**
+### Question 32 | [Medium] [Scenario] — SSH Private Key Permission Troubleshooting Scenario
+**A user generates an Ed25519 key pair and copies the private key to a new workstation. When running `ssh -i ~/.ssh/id_ed25519 user@hpc.gla.ac.in`, the connection immediately terminates with: 'Permissions 0777 for id_ed25519 are too open'. Which exact command resolves this error?**
 
-- **(A)** The SSH client will immediately abort the connection with an error warning that the private key permissions are too open
-- **(B)** The remote server will automatically format the user's home directory
-- **(C)** The SSH client will silently convert the key to a public key
-- **(D)** The connection will succeed with enhanced administrative speed
+- **(A)** `chmod 600 ~/.ssh/id_ed25519`
+- **(B)** `chmod 755 ~/.ssh/id_ed25519`
+- **(C)** `chown root ~/.ssh/id_ed25519`
+- **(D)** `rm -f ~/.ssh/known_hosts`
 
-> **Correct Answer**: **(A)** `The SSH client will immediately abort the connection with an error warning that the private key permissions are too open`  
-> **Technical Explanation**: OpenSSH enforces strict permission checks. If a private key file is readable by group or others (anything more permissive than `600` or `400`), it prints 'WARNING: UNPROTECTED PRIVATE KEY FILE!' and ignores the key.
+> **Correct Answer**: **(A)** ``chmod 600 ~/.ssh/id_ed25519``  
+> **Technical Explanation**: OpenSSH enforces strict permission checks. If a private key file is readable by group or others (anything more permissive than `600` or `400`), it prints 'WARNING: UNPROTECTED PRIVATE KEY FILE!' and refuses to use the key. `chmod 600` grants read/write strictly to the owner.
 
 ---
 
-### Question 33 | [Medium] — Secure Remote File Transfer (scp)
+### Question 33 | [Medium] [Technical] — Secure Remote File Transfer (scp)
 **Which command transfers a local dataset `hpc_input.tar.gz` to a remote cluster user account at `login.gla.ac.in` under the directory `/scratch/data/`?**
 
 - **(A)** `ssh hpc_input.tar.gz user@login.gla.ac.in:/scratch/data/`
@@ -456,7 +457,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 34 | [Hard] — SSH Agent Forwarding Security Risks
+### Question 34 | [Hard] [Scenario] — SSH Agent Forwarding Security Risks
 **What critical security vulnerability is introduced when an administrator or user enables SSH Agent Forwarding (`ssh -A`) when connecting to an untrusted intermediate bastion host?**
 
 - **(A)** Any user with root privileges on the intermediate host can access the forwarded SSH agent's Unix domain socket and authenticate to other remote servers as you without knowing your passphrase
@@ -469,7 +470,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 35 | [Hard] — SSH Connection Multiplexing (ControlMaster)
+### Question 35 | [Hard] [Technical] — SSH Connection Multiplexing (ControlMaster)
 **In high-frequency automated HPC scripting environments, what is the architectural benefit of configuring SSH Connection Multiplexing using `ControlMaster` and `ControlPath`?**
 
 - **(A)** It automatically distributes a single SSH session across multiple physical Ethernet switches
@@ -484,7 +485,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ## 🔷 Module 6: Intel oneAPI Toolkit
 
-### Question 36 | [Easy] — oneAPI Cross-Architecture Vision
+### Question 36 | [Easy] [Conceptual] — oneAPI Cross-Architecture Vision
 **What is the primary industry objective of the Intel oneAPI programming model?**
 
 - **(A)** To replace the Linux operating system kernel with an Intel-proprietary microkernel
@@ -497,7 +498,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 37 | [Easy] — oneAPI Environment Sourcing (setvars.sh)
+### Question 37 | [Easy] [Foundational] — oneAPI Environment Sourcing (setvars.sh)
 **Which shell script must be sourced in an HPC Linux environment to set up the necessary PATH, LD_LIBRARY_PATH, and compiler variables for the Intel oneAPI toolkits?**
 
 - **(A)** `source /opt/intel/oneapi/setvars.sh`
@@ -510,7 +511,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 38 | [Medium] — Khronos SYCL C++ Standard
+### Question 38 | [Medium] [Technical] — Khronos SYCL C++ Standard
 **Intel oneAPI DPC++ (Data Parallel C++) is based upon and actively contributes to which open industry standard maintained by the Khronos Group?**
 
 - **(A)** CUDA
@@ -523,7 +524,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 39 | [Medium] — Intel Level Zero Driver Abstraction
+### Question 39 | [Medium] [Technical] — Intel Level Zero Driver Abstraction
 **In the Intel oneAPI software stack, what is the role of Intel Level Zero?**
 
 - **(A)** A high-level visual graph designer for web applications
@@ -536,7 +537,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 40 | [Medium] — Unified Shared Memory: malloc_device vs malloc_host
+### Question 40 | [Medium] [Technical] — Unified Shared Memory: malloc_device vs malloc_host
 **In SYCL Unified Shared Memory (USM), what is the key functional difference between `malloc_device` and `malloc_host` memory allocations?**
 
 - **(A)** `malloc_device` allocates memory strictly in accelerator high-bandwidth memory (inaccessible directly by CPU pointers), whereas `malloc_host` allocates pinned host memory accessible by both CPU and GPU
@@ -549,7 +550,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 41 | [Hard] — Unified Shared Memory: malloc_shared Page Migration
+### Question 41 | [Hard] [Technical] — Unified Shared Memory: malloc_shared Page Migration
 **In SYCL Unified Shared Memory (USM), how does `malloc_shared` simplify heterogeneous programming compared to explicit buffer/accessor memory management?**
 
 - **(A)** It broadcasts memory across all nodes in a cluster using InfiniBand
@@ -562,7 +563,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 42 | [Hard] — SYCL In-Order vs Out-of-Order Command Queues
+### Question 42 | [Hard] [Scenario] — SYCL In-Order vs Out-of-Order Command Queues
 **When creating a SYCL command queue, what operational difference exists between an in-order queue (`sycl::property::queue::in_order`) and the default out-of-order queue?**
 
 - **(A)** An in-order queue can only run on single-core CPUs and cannot target GPUs
@@ -577,7 +578,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ## 🔷 Module 7: Intel HPC Toolkit
 
-### Question 43 | [Easy] — Intel DPC++/C++ Compiler (icpx)
+### Question 43 | [Easy] [Foundational] — Intel DPC++/C++ Compiler (icpx)
 **Which modern LLVM-based C++ compiler provided in the Intel HPC Toolkit is used to compile high-performance SYCL and modern C++ parallel applications?**
 
 - **(A)** `gcc`
@@ -590,7 +591,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 44 | [Easy] — Intel Modern Fortran Compiler (ifx)
+### Question 44 | [Easy] [Foundational] — Intel Modern Fortran Compiler (ifx)
 **Which high-performance Fortran compiler in the Intel HPC Toolkit is the modern LLVM-based replacement for the classic `ifort` compiler?**
 
 - **(A)** `ifx`
@@ -603,7 +604,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 45 | [Medium] — Compiler Architectural Optimization (-xHost)
+### Question 45 | [Medium] [Technical] — Compiler Architectural Optimization (-xHost)
 **When compiling computational physics or machine learning C/C++ codes with `icpx`, what optimization does the flag `-xHost` instruct the compiler to perform?**
 
 - **(A)** It binds the compiled binary to execute exclusively on a specific network IP address
@@ -616,7 +617,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 46 | [Medium] — Intel MPI Library
+### Question 46 | [Medium] [Technical] — Intel MPI Library
 **In a multi-node distributed HPC cluster, which component in the Intel HPC Toolkit provides the optimized implementation of the MPI-3 / MPI-4 standard for inter-node communication?**
 
 - **(A)** Intel Integrated Performance Primitives (IPP)
@@ -629,7 +630,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 47 | [Medium] — Intel Inspector Diagnostic Tool
+### Question 47 | [Medium] [Scenario] — Intel Inspector Diagnostic Tool
 **Which diagnostic analysis tool included in the Intel HPC Toolkit is designed to detect dynamic memory corruption, memory leaks, uninitialized memory accesses, and threading data races without needing specialized recompilation?**
 
 - **(A)** Intel Inspector
@@ -642,20 +643,20 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 48 | [Hard] — NUMA Topology & Process Affinity Pinning
-**On a multi-socket Intel Xeon server featuring Non-Uniform Memory Access (NUMA), why does unconstrained OS thread migration across NUMA sockets severely degrade HPC application performance?**
+### Question 48 | [Hard] [Scenario] — NUMA Socket Thread Affinity & Memory Allocation Scenario
+**An HPC engineer profiles an OpenMP simulation on a dual-socket 64-core Intel Xeon node and observes severe memory latency spikes due to cross-socket UPI traffic. Which command pins the process to CPU cores on Socket 0 and restricts physical memory allocation exclusively to Socket 0's local NUMA domain?**
 
 - **(A)** Remote NUMA access causes immediate hardware watchdog reboot
-- **(B)** Accessing memory attached to a remote CPU socket over the UPI interconnect incurs significantly higher latency and lower bandwidth than accessing local NUMA memory; thread affinity pinning (`numactl` / `I_MPI_PIN`) prevents this penalty
-- **(C)** Thread migration deletes variables stored in L1 cache permanently
-- **(D)** Remote NUMA sockets only support 16-bit calculations
+- **(B)** `numactl --cpunodebind=0 --membind=0 ./simulation_app`
+- **(C)** `nice -n -20 ./simulation_app`
+- **(D)** `nohup ./simulation_app &`
 
-> **Correct Answer**: **(B)** `Accessing memory attached to a remote CPU socket over the UPI interconnect incurs significantly higher latency and lower bandwidth than accessing local NUMA memory; thread affinity pinning (`numactl` / `I_MPI_PIN`) prevents this penalty`  
-> **Technical Explanation**: In NUMA systems, each socket has its own local memory controller and DDR channels. When a core accesses RAM on a remote socket, requests must traverse the interconnect (Intel UPI), which doubles memory access latency and congests the bus. Process/thread binding prevents cross-socket migrations.
+> **Correct Answer**: **(B)** ``numactl --cpunodebind=0 --membind=0 ./simulation_app``  
+> **Technical Explanation**: `numactl --cpunodebind=0 --membind=0` enforces execution strictly on CPU cores belonging to NUMA node 0 and allocates all physical pages from node 0's local memory controller, completely eliminating remote cross-socket UPI bus traversals.
 
 ---
 
-### Question 49 | [Hard] — Floating-Point Model Optimizations (-fp-model)
+### Question 49 | [Hard] [Technical] — Floating-Point Model Optimizations (-fp-model)
 **When compiling numerical linear algebra algorithms with `icx` / `icpx`, what is the consequence of specifying the floating-point optimization flag `-fp-model=fast=2` compared to `-fp-model=precise`?**
 
 - **(A)** `-fp-model=fast=2` converts all double-precision numbers to 8-bit integers
@@ -668,7 +669,7 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ---
 
-### Question 50 | [Hard] — Open Fabrics Interfaces (OFI / Libfabric)
+### Question 50 | [Hard] [Technical] — Open Fabrics Interfaces (OFI / Libfabric)
 **What is the architectural role of the Open Fabrics Interfaces (OFI / Libfabric) provider layer underneath the Intel MPI Library in high-performance computing clusters?**
 
 - **(A)** It acts as a modular, hardware-independent network abstraction framework allowing Intel MPI to interface directly with high-speed kernel-bypass fabrics (InfiniBand verbs, RoCE, Omni-Path, TCP) with minimal overhead
@@ -683,30 +684,30 @@ Designed specifically for 7th-semester engineering undergraduates transitioning 
 
 ## 📊 MASTER 50-QUESTION EVALUATION & ANSWER KEY GRID
 
-| Q# | Key | Topic | Difficulty | Q# | Key | Topic | Difficulty |
-|:---:|:---:|:---|:---:|:---:|:---:|:---|:---:|
-| **Q01** | **B** | HPC Performance Metrics & TOP500 | `Easy` | **Q26** | **C** | Combined Redirection of stdout & stderr | `Medium` |
-| **Q02** | **D** | Flynn's Taxonomy of Computer Architecture | `Easy` | **Q27** | **A** | Pipeline Error Trapping (set -o pipefail) | `Hard` |
-| **Q03** | **B** | The Memory Wall Bottleneck | `Medium` | **Q28** | **D** | Modern [[ ... ]] vs POSIX [ ... ] Operators | `Hard` |
-| **Q04** | **B** | HPC Node Roles: Login vs Compute Nodes | `Medium` | **Q29** | **C** | Standard SSH Port | `Easy` |
-| **Q05** | **B** | Amdahl's Law Speedup Calculation | `Medium` | **Q30** | **A** | SSH Public Key Authentication File | `Easy` |
-| **Q06** | **A** | Scaling Models: Strong Scaling vs Weak Scaling | `Hard` | **Q31** | **B** | Modern Asymmetric Cryptography: Ed25519 | `Medium` |
-| **Q07** | **A** | Supercomputing Benchmarks: HPL vs HPCG | `Hard` | **Q32** | **A** | SSH Private Key Permission Discipline | `Medium` |
-| **Q08** | **C** | Intel AMX Hardware Accelerator | `Easy` | **Q33** | **D** | Secure Remote File Transfer (scp) | `Medium` |
-| **Q09** | **D** | Intel Data Center GPU Max Microarchitecture | `Easy` | **Q34** | **A** | SSH Agent Forwarding Security Risks | `Hard` |
-| **Q10** | **A** | Habana Gaudi Inter-Accelerator Fabric | `Medium` | **Q35** | **C** | SSH Connection Multiplexing (ControlMaster) | `Hard` |
-| **Q11** | **B** | Intel Dual-Socket Coherent Interconnect | `Medium` | **Q36** | **B** | oneAPI Cross-Architecture Vision | `Easy` |
-| **Q12** | **A** | Intel AMX 2D Tile Architecture | `Medium` | **Q37** | **A** | oneAPI Environment Sourcing (setvars.sh) | `Easy` |
-| **Q13** | **B** | Intel Xeon CPU Max HBM Operating Modes | `Hard` | **Q38** | **C** | Khronos SYCL C++ Standard | `Medium` |
-| **Q14** | **A** | Intel AMX vs AVX-512 Throughput Analysis | `Hard` | **Q39** | **B** | Intel Level Zero Driver Abstraction | `Medium` |
-| **Q15** | **C** | Linux Unified Filesystem Root | `Easy` | **Q40** | **A** | Unified Shared Memory: malloc_device vs malloc_host | `Medium` |
-| **Q16** | **B** | Working Directory Navigation | `Easy` | **Q41** | **C** | Unified Shared Memory: malloc_shared Page Migration | `Hard` |
-| **Q17** | **A** | Octal Permission Calculation (chmod) | `Medium` | **Q42** | **D** | SYCL In-Order vs Out-of-Order Command Queues | `Hard` |
-| **Q18** | **C** | Default File Permissions & umask | `Medium` | **Q43** | **B** | Intel DPC++/C++ Compiler (icpx) | `Easy` |
-| **Q19** | **A** | HPC Storage Hierarchy: $HOME vs /scratch | `Medium` | **Q44** | **A** | Intel Modern Fortran Compiler (ifx) | `Easy` |
-| **Q20** | **A** | Virtual Filesystems: /proc vs /sys | `Hard` | **Q45** | **C** | Compiler Architectural Optimization (-xHost) | `Medium` |
-| **Q21** | **B** | Filesystem Inode & Deletion Semantics | `Hard` | **Q46** | **D** | Intel MPI Library | `Medium` |
-| **Q22** | **B** | Shell Script Shebang Mechanism | `Easy` | **Q47** | **A** | Intel Inspector Diagnostic Tool | `Medium` |
-| **Q23** | **D** | I/O Redirection Operators | `Easy` | **Q48** | **B** | NUMA Topology & Process Affinity Pinning | `Hard` |
-| **Q24** | **B** | Command Exit Status Parameter ($?) | `Medium` | **Q49** | **C** | Floating-Point Model Optimizations (-fp-model) | `Hard` |
-| **Q25** | **A** | Defensive Shell Scripting (set -e) | `Medium` | **Q50** | **A** | Open Fabrics Interfaces (OFI / Libfabric) | `Hard` |
+| Q# | Key | Topic | Category | Diff | Q# | Key | Topic | Category | Diff |
+|:---:|:---:|:---|:---:|:---:|:---:|:---:|:---|:---:|:---:|
+| **Q01** | **B** | HPC Performance Metrics & TOP500 | `Foundational` | `Easy` | **Q26** | **C** | Combined Redirection of stdout & stderr | `Technical` | `Medium` |
+| **Q02** | **D** | Flynn's Taxonomy of Computer Architecture | `Foundational` | `Easy` | **Q27** | **A** | Pipeline Error Trapping Scenario (set -o pipefail) | `Scenario` | `Hard` |
+| **Q03** | **B** | The Memory Wall Bottleneck | `Conceptual` | `Medium` | **Q28** | **D** | Modern [[ ... ]] vs POSIX [ ... ] Operators | `Technical` | `Hard` |
+| **Q04** | **B** | HPC Node Roles: Login vs Compute Nodes | `Scenario` | `Medium` | **Q29** | **C** | Standard SSH Port | `Foundational` | `Easy` |
+| **Q05** | **B** | Amdahl's Law Speedup Calculation | `Numerical` | `Medium` | **Q30** | **A** | SSH Public Key Authentication File | `Foundational` | `Easy` |
+| **Q06** | **A** | Gustafson's Law Scaled Speedup Calculation | `Numerical` | `Hard` | **Q31** | **B** | Modern Asymmetric Cryptography: Ed25519 | `Technical` | `Medium` |
+| **Q07** | **A** | Supercomputing Benchmarks: HPL vs HPCG | `Conceptual` | `Hard` | **Q32** | **A** | SSH Private Key Permission Troubleshooting Scenario | `Scenario` | `Medium` |
+| **Q08** | **C** | Intel AMX Hardware Accelerator | `Foundational` | `Easy` | **Q33** | **D** | Secure Remote File Transfer (scp) | `Technical` | `Medium` |
+| **Q09** | **D** | Intel Data Center GPU Max Microarchitecture | `Foundational` | `Easy` | **Q34** | **A** | SSH Agent Forwarding Security Risks | `Scenario` | `Hard` |
+| **Q10** | **A** | Habana Gaudi Inter-Accelerator Fabric | `Technical` | `Medium` | **Q35** | **C** | SSH Connection Multiplexing (ControlMaster) | `Technical` | `Hard` |
+| **Q11** | **C** | Theoretical Peak Memory Bandwidth Calculation | `Numerical` | `Medium` | **Q36** | **B** | oneAPI Cross-Architecture Vision | `Conceptual` | `Easy` |
+| **Q12** | **D** | AMX 2D Tile Register Capacity Calculation | `Numerical` | `Medium` | **Q37** | **A** | oneAPI Environment Sourcing (setvars.sh) | `Foundational` | `Easy` |
+| **Q13** | **B** | Intel Xeon CPU Max HBM Operating Modes | `Technical` | `Hard` | **Q38** | **C** | Khronos SYCL C++ Standard | `Technical` | `Medium` |
+| **Q14** | **A** | Intel AMX vs AVX-512 Throughput Analysis | `Technical` | `Hard` | **Q39** | **B** | Intel Level Zero Driver Abstraction | `Technical` | `Medium` |
+| **Q15** | **C** | Linux Unified Filesystem Root | `Foundational` | `Easy` | **Q40** | **A** | Unified Shared Memory: malloc_device vs malloc_host | `Technical` | `Medium` |
+| **Q16** | **B** | Working Directory Navigation | `Foundational` | `Easy` | **Q41** | **C** | Unified Shared Memory: malloc_shared Page Migration | `Technical` | `Hard` |
+| **Q17** | **A** | Octal Permission Calculation (chmod) | `Numerical` | `Medium` | **Q42** | **D** | SYCL In-Order vs Out-of-Order Command Queues | `Scenario` | `Hard` |
+| **Q18** | **B** | Default File & Directory Permissions (umask) | `Numerical` | `Medium` | **Q43** | **B** | Intel DPC++/C++ Compiler (icpx) | `Foundational` | `Easy` |
+| **Q19** | **A** | HPC Storage Hierarchy: $HOME vs /scratch | `Scenario` | `Medium` | **Q44** | **A** | Intel Modern Fortran Compiler (ifx) | `Foundational` | `Easy` |
+| **Q20** | **A** | Virtual Filesystems: /proc vs /sys | `Technical` | `Hard` | **Q45** | **C** | Compiler Architectural Optimization (-xHost) | `Technical` | `Medium` |
+| **Q21** | **B** | Filesystem Inode & Deletion Semantics | `Scenario` | `Hard` | **Q46** | **D** | Intel MPI Library | `Technical` | `Medium` |
+| **Q22** | **B** | Shell Script Shebang Mechanism | `Foundational` | `Easy` | **Q47** | **A** | Intel Inspector Diagnostic Tool | `Scenario` | `Medium` |
+| **Q23** | **D** | I/O Redirection Operators | `Foundational` | `Easy` | **Q48** | **B** | NUMA Socket Thread Affinity & Memory Allocation Scenario | `Scenario` | `Hard` |
+| **Q24** | **B** | Command Exit Status Parameter ($?) | `Technical` | `Medium` | **Q49** | **C** | Floating-Point Model Optimizations (-fp-model) | `Technical` | `Hard` |
+| **Q25** | **A** | Defensive Shell Scripting (set -e) | `Technical` | `Medium` | **Q50** | **A** | Open Fabrics Interfaces (OFI / Libfabric) | `Technical` | `Hard` |

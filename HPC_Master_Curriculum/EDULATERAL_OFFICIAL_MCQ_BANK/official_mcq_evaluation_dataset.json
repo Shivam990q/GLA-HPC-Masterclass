@@ -3,6 +3,7 @@
     {
       "id": "D1-Q01",
       "module": "Module 1: Introduction to HPC",
+      "category": "Foundational",
       "difficulty": "Easy",
       "topic": "HPC Performance Metrics & TOP500",
       "question": "Which performance metric is the primary benchmark utilized to evaluate and rank the world's most powerful supercomputers on the official TOP500 list?",
@@ -18,6 +19,7 @@
     {
       "id": "D1-Q02",
       "module": "Module 1: Introduction to HPC",
+      "category": "Foundational",
       "difficulty": "Easy",
       "topic": "Flynn's Taxonomy of Computer Architecture",
       "question": "Under Flynn's classical taxonomy of computer architectures, modern High Performance Computing clusters comprising multi-core CPUs and distributed compute nodes are predominantly categorized as:",
@@ -33,6 +35,7 @@
     {
       "id": "D1-Q03",
       "module": "Module 1: Introduction to HPC",
+      "category": "Conceptual",
       "difficulty": "Medium",
       "topic": "The Memory Wall Bottleneck",
       "question": "In modern computer architecture and high-performance system design, what fundamental architectural bottleneck is termed the 'Memory Wall'?",
@@ -48,6 +51,7 @@
     {
       "id": "D1-Q04",
       "module": "Module 1: Introduction to HPC",
+      "category": "Scenario",
       "difficulty": "Medium",
       "topic": "HPC Node Roles: Login vs Compute Nodes",
       "question": "In a production HPC cluster environment, what is the crucial operational distinction between a Login (Head) Node and Compute Nodes?",
@@ -63,9 +67,10 @@
     {
       "id": "D1-Q05",
       "module": "Module 1: Introduction to HPC",
+      "category": "Numerical",
       "difficulty": "Medium",
       "topic": "Amdahl's Law Speedup Calculation",
-      "question": "According to Amdahl's Law, if an algorithm contains 20% strictly sequential (non-parallelizable) operations and 80% perfectly parallelizable operations, what is the theoretical maximum speedup limit on an infinite number of processor cores?",
+      "question": "An HPC optimization engineer profiles a simulation algorithm and finds that 20% of the runtime is strictly sequential (s = 0.20), while 80% is parallelizable (p = 0.80). According to Amdahl's Law, what is the theoretical maximum speedup limit achievable by this algorithm even if executed across an infinite number of processor cores?",
       "options": [
         "(A) 4x speedup",
         "(B) 5x speedup",
@@ -78,21 +83,23 @@
     {
       "id": "D1-Q06",
       "module": "Module 1: Introduction to HPC",
+      "category": "Numerical",
       "difficulty": "Hard",
-      "topic": "Scaling Models: Strong Scaling vs Weak Scaling",
-      "question": "While Amdahl's Law evaluates 'Strong Scaling' by holding the total workload size fixed, what scaling model does Gustafson's Law introduce to more accurately evaluate real-world supercomputing applications?",
+      "topic": "Gustafson's Law Scaled Speedup Calculation",
+      "question": "A researcher scales an atmospheric climate model across a 64-core HPC compute node. If 95% of the scaled execution time is spent in parallel computation (p = 0.95) and 5% is sequential (s = 0.05), what is the scaled speedup achieved according to Gustafson's Law (S(N) = s + p \u00d7 N)?",
       "options": [
-        "(A) Weak Scaling: The problem size scales proportionally with the number of processors, maintaining a constant execution time",
-        "(B) Strong Scaling: The total problem size is halved each time processor count doubles",
-        "(C) Static Scaling: The execution time increases exponentially as nodes are added",
-        "(D) Negative Scaling: The communication overhead always exceeds computational gains"
+        "(A) 60.85x speedup",
+        "(B) 20.00x speedup",
+        "(C) 5.00x speedup",
+        "(D) 128.00x speedup"
       ],
       "answer": "A",
-      "explanation": "Gustafson's Law formalizes 'Weak Scaling,' recognizing that researchers exploit larger supercomputers not to solve the same tiny problem faster, but to solve massively larger grid resolutions and physical datasets within a practical, constant time window."
+      "explanation": "Gustafson's Law formula for scaled speedup is S(N) = s + p*N. For N=64 cores: S(64) = 0.05 + (0.95 * 64) = 0.05 + 60.80 = 60.85x speedup."
     },
     {
       "id": "D1-Q07",
       "module": "Module 1: Introduction to HPC",
+      "category": "Conceptual",
       "difficulty": "Hard",
       "topic": "Supercomputing Benchmarks: HPL vs HPCG",
       "question": "Why was the High Performance Conjugate Gradients (HPCG) benchmark established as a companion to the traditional High Performance LINPACK (HPL) on the TOP500 list?",
@@ -108,6 +115,7 @@
     {
       "id": "D1-Q08",
       "module": "Module 2: Intel HPC Architecture",
+      "category": "Foundational",
       "difficulty": "Easy",
       "topic": "Intel AMX Hardware Accelerator",
       "question": "What dedicated hardware matrix acceleration engine introduced in 4th Gen Intel Xeon Scalable processors (Sapphire Rapids) delivers accelerated deep learning tensor computation directly on CPU cores?",
@@ -123,6 +131,7 @@
     {
       "id": "D1-Q09",
       "module": "Module 2: Intel HPC Architecture",
+      "category": "Foundational",
       "difficulty": "Easy",
       "topic": "Intel Data Center GPU Max Microarchitecture",
       "question": "The Intel Data Center GPU Max Series (formerly codenamed Ponte Vecchio) engineered for exascale supercomputing and deep learning is built upon which GPU microarchitecture?",
@@ -138,6 +147,7 @@
     {
       "id": "D1-Q10",
       "module": "Module 2: Intel HPC Architecture",
+      "category": "Technical",
       "difficulty": "Medium",
       "topic": "Habana Gaudi Inter-Accelerator Fabric",
       "question": "How do Habana Gaudi 2/3 AI accelerators optimize inter-node scale-out communications for massive distributed LLM training clusters compared to typical PCIe accelerators?",
@@ -153,36 +163,39 @@
     {
       "id": "D1-Q11",
       "module": "Module 2: Intel HPC Architecture",
+      "category": "Numerical",
       "difficulty": "Medium",
-      "topic": "Intel Dual-Socket Coherent Interconnect",
-      "question": "In a dual-socket Intel Xeon Scalable server node, which high-speed, low-latency point-to-point coherent interconnect bus links the two CPU sockets together for cross-socket cache coherence and memory access?",
+      "topic": "Theoretical Peak Memory Bandwidth Calculation",
+      "question": "A dual-socket 4th Gen Intel Xeon Scalable server (Sapphire Rapids) features 8 DDR5 memory channels per socket operating at DDR5-4800 (4800 MT/s). Given a standard 64-bit (8-byte) bus width per channel, what is the theoretical peak aggregate memory bandwidth of the dual-socket system?",
       "options": [
-        "(A) Universal Serial Bus (USB 3.2)",
-        "(B) Intel Ultra Path Interconnect (Intel UPI)",
-        "(C) Front Side Bus (FSB 400MHz)",
-        "(D) Peripheral Component Interconnect (PCI 33MHz)"
+        "(A) 153.6 GB/s",
+        "(B) 307.2 GB/s",
+        "(C) 614.4 GB/s",
+        "(D) 1228.8 GB/s"
       ],
-      "answer": "B",
-      "explanation": "Intel UPI (Ultra Path Interconnect) provides point-to-point coherent links between processor sockets in multi-socket Intel Xeon systems, replacing the legacy QPI."
+      "answer": "C",
+      "explanation": "Theoretical Memory Bandwidth = Sockets (2) \u00d7 Channels per socket (8) \u00d7 Transfer Rate (4.8 GT/s) \u00d7 Bus Width (8 Bytes) = 16 \u00d7 4.8 \u00d7 8 = 614.4 GB/s aggregate bandwidth."
     },
     {
       "id": "D1-Q12",
       "module": "Module 2: Intel HPC Architecture",
+      "category": "Numerical",
       "difficulty": "Medium",
-      "topic": "Intel AMX 2D Tile Architecture",
-      "question": "What architectural hardware registers does Intel AMX (Advanced Matrix Extensions) introduce to hold 2D sub-matrix tiles in the core execution units?",
+      "topic": "AMX 2D Tile Register Capacity Calculation",
+      "question": "Intel Advanced Matrix Extensions (AMX) architecture provides 8 dedicated 2D tile registers (tmm0 through tmm7). If each tile register can configure up to 16 rows of 64 bytes each, what is the maximum total data capacity stored across all 8 AMX tile registers simultaneously?",
       "options": [
-        "(A) 8 two-dimensional tile registers named tmm0 through tmm7 (each up to 1KB in capacity)",
-        "(B) 32 vector registers named zmm0 through zmm31 (each 512 bits)",
-        "(C) 16 general-purpose 64-bit registers rax through r15",
-        "(D) 8 floating-point stack registers st(0) through st(7)"
+        "(A) 512 bytes",
+        "(B) 2048 bytes (2 KB)",
+        "(C) 4096 bytes (4 KB)",
+        "(D) 8192 bytes (8 KB)"
       ],
-      "answer": "A",
-      "explanation": "AMX introduces a 2D tile architecture consisting of 8 tile registers (tmm0 to tmm7), each capable of holding up to 1024 bytes (1KB) in a 2D matrix configuration (up to 16 rows of 64 bytes)."
+      "answer": "D",
+      "explanation": "Each AMX tile holds 16 rows \u00d7 64 bytes = 1024 bytes (1 KB). Across all 8 tile registers (tmm0 to tmm7), the total capacity is 8 \u00d7 1024 bytes = 8192 bytes (8 KB)."
     },
     {
       "id": "D1-Q13",
       "module": "Module 2: Intel HPC Architecture",
+      "category": "Technical",
       "difficulty": "Hard",
       "topic": "Intel Xeon CPU Max HBM Operating Modes",
       "question": "The Intel Xeon CPU Max Series (Sapphire Rapids with HBM2e) integrates up to 64GB of High Bandwidth Memory directly on-package. Which three memory operating modes can be configured via system BIOS?",
@@ -198,6 +211,7 @@
     {
       "id": "D1-Q14",
       "module": "Module 2: Intel HPC Architecture",
+      "category": "Technical",
       "difficulty": "Hard",
       "topic": "Intel AMX vs AVX-512 Throughput Analysis",
       "question": "When comparing Intel AVX-512 with Intel AMX on 4th Gen Xeon CPUs for INT8 matrix multiplication, why does AMX achieve up to an 8x throughput boost per clock cycle?",
@@ -213,6 +227,7 @@
     {
       "id": "D1-Q15",
       "module": "Module 3: Linux Basics & VFS",
+      "category": "Foundational",
       "difficulty": "Easy",
       "topic": "Linux Unified Filesystem Root",
       "question": "In the Linux Virtual File System (VFS) hierarchy, what character designates the single root directory from which all directories, files, and mounted file systems originate?",
@@ -228,6 +243,7 @@
     {
       "id": "D1-Q16",
       "module": "Module 3: Linux Basics & VFS",
+      "category": "Foundational",
       "difficulty": "Easy",
       "topic": "Working Directory Navigation",
       "question": "Which standard Linux shell command outputs the absolute canonical pathname of the current active working directory?",
@@ -243,36 +259,39 @@
     {
       "id": "D1-Q17",
       "module": "Module 3: Linux Basics & VFS",
+      "category": "Numerical",
       "difficulty": "Medium",
       "topic": "Octal Permission Calculation (chmod)",
-      "question": "In the Linux octal permission model, what access rights does the command `chmod 750 dataset_dir/` grant to the file's owner, group members, and others respectively?",
+      "question": "In Linux octal permission notation, a systems administrator issues the command `chmod 750 /scratch/project`. What exact read (r), write (w), and execute (x) permissions are assigned to the Owner, Group, and Others?",
       "options": [
-        "(A) Owner: Read/Write/Execute (7), Group: Read/Execute (5), Others: No access (0)",
-        "(B) Owner: Read/Write (6), Group: Read/Write (6), Others: Execute (1)",
-        "(C) Owner: Read/Execute (5), Group: Read/Write (6), Others: Read (4)",
-        "(D) Owner: Full access (7), Group: Full access (7), Others: Read/Write (6)"
+        "(A) Owner: rwx (7), Group: r-x (5), Others: --- (0)",
+        "(B) Owner: rw- (6), Group: rw- (6), Others: --x (1)",
+        "(C) Owner: r-x (5), Group: rwx (7), Others: r-- (4)",
+        "(D) Owner: rwx (7), Group: rwx (7), Others: r-x (5)"
       ],
       "answer": "A",
-      "explanation": "Octal permissions: 7 = 4(r) + 2(w) + 1(x) = rwx; 5 = 4(r) + 1(x) = r-x; 0 = no permissions. Hence 750 gives owner rwx, group r-x, and others no access."
+      "explanation": "Octal values: 7 = 4(r)+2(w)+1(x) = rwx; 5 = 4(r)+0(w)+1(x) = r-x; 0 = 0(r)+0(w)+0(x) = ---. Therefore 750 grants Owner rwx, Group r-x, and Others no permissions."
     },
     {
       "id": "D1-Q18",
       "module": "Module 3: Linux Basics & VFS",
+      "category": "Numerical",
       "difficulty": "Medium",
-      "topic": "Default File Permissions & umask",
-      "question": "If a user's active shell environment has an active `umask` setting of `022`, what will be the default octal file permissions assigned to a newly created regular text file?",
+      "topic": "Default File & Directory Permissions (umask)",
+      "question": "If a Linux user's shell session has an active `umask` setting of `027`, what will be the default octal permissions assigned to a newly created directory (base 777) and a newly created regular text file (base 666) respectively?",
       "options": [
-        "(A) 755 (`-rwxr-xr-x`)",
-        "(B) 666 (`-rw-rw-rw-`)",
-        "(C) 644 (`-rw-r--r--`)",
-        "(D) 700 (`-rwx------`)"
+        "(A) Directory: 755 (`rwxr-xr-x`), File: 644 (`rw-r--r--`)",
+        "(B) Directory: 750 (`rwxr-x---`), File: 640 (`rw-r-----`)",
+        "(C) Directory: 770 (`rwxrwx---`), File: 660 (`rw-rw----`)",
+        "(D) Directory: 700 (`rwx------`), File: 600 (`rw-------`)"
       ],
-      "answer": "C",
-      "explanation": "For regular files, the standard base permissions are 666 (`rw-rw-rw-`). Applying umask 022 gives 666 - 022 = 644 (`rw-r--r--`), stripping write permissions from group and others."
+      "answer": "B",
+      "explanation": "Base permissions: Directory = 777, File = 666. Applying umask 027 (bitwise bit clear): Directory = 777 - 027 = 750 (rwxr-x---). File = 666 masked by 027 = 640 (rw-r-----). Group gets r-x (dir) or r-- (file); others get zero rights."
     },
     {
       "id": "D1-Q19",
       "module": "Module 3: Linux Basics & VFS",
+      "category": "Scenario",
       "difficulty": "Medium",
       "topic": "HPC Storage Hierarchy: $HOME vs /scratch",
       "question": "Why are HPC cluster users strictly instructed not to write massive, high-throughput simulation output checkpoints into their `$HOME` directory?",
@@ -288,6 +307,7 @@
     {
       "id": "D1-Q20",
       "module": "Module 3: Linux Basics & VFS",
+      "category": "Technical",
       "difficulty": "Hard",
       "topic": "Virtual Filesystems: /proc vs /sys",
       "question": "What is the fundamental architectural distinction between the virtual filesystems `/proc` and `/sys` in the Linux kernel?",
@@ -303,6 +323,7 @@
     {
       "id": "D1-Q21",
       "module": "Module 3: Linux Basics & VFS",
+      "category": "Scenario",
       "difficulty": "Hard",
       "topic": "Filesystem Inode & Deletion Semantics",
       "question": "When a user executes `rm -f large_dataset.bin` on a Linux filesystem, what happens to the underlying storage data blocks if another running application still holds an open file descriptor to that file?",
@@ -318,6 +339,7 @@
     {
       "id": "D1-Q22",
       "module": "Module 4: Shell Scripting",
+      "category": "Foundational",
       "difficulty": "Easy",
       "topic": "Shell Script Shebang Mechanism",
       "question": "In a Linux Bash automation script, what is the exact function of the initial line `#!/bin/bash` (commonly termed the Shebang)?",
@@ -333,6 +355,7 @@
     {
       "id": "D1-Q23",
       "module": "Module 4: Shell Scripting",
+      "category": "Foundational",
       "difficulty": "Easy",
       "topic": "I/O Redirection Operators",
       "question": "Which shell redirection operator appends the Standard Output (stdout) of a command to the end of a specified destination file without overwriting its existing contents?",
@@ -348,6 +371,7 @@
     {
       "id": "D1-Q24",
       "module": "Module 4: Shell Scripting",
+      "category": "Technical",
       "difficulty": "Medium",
       "topic": "Command Exit Status Parameter ($?)",
       "question": "What does the special parameter `$?` represent in a Bash shell session immediately following the completion of a program?",
@@ -363,6 +387,7 @@
     {
       "id": "D1-Q25",
       "module": "Module 4: Shell Scripting",
+      "category": "Technical",
       "difficulty": "Medium",
       "topic": "Defensive Shell Scripting (set -e)",
       "question": "In production HPC automation scripts, what is the effect of placing the directive `set -e` at the beginning of the script?",
@@ -378,6 +403,7 @@
     {
       "id": "D1-Q26",
       "module": "Module 4: Shell Scripting",
+      "category": "Technical",
       "difficulty": "Medium",
       "topic": "Combined Redirection of stdout & stderr",
       "question": "In Bash shell scripting, which syntax correctly redirects both Standard Output (stdout, file descriptor 1) and Standard Error (stderr, file descriptor 2) to a log file named `simulation.log`?",
@@ -393,21 +419,23 @@
     {
       "id": "D1-Q27",
       "module": "Module 4: Shell Scripting",
+      "category": "Scenario",
       "difficulty": "Hard",
-      "topic": "Pipeline Error Trapping (set -o pipefail)",
-      "question": "In a piped command sequence such as `cat simulation.dat | grep 'CONVERGED' | wc -l`, why is the defensive flag `set -o pipefail` critical when `set -e` is already active?",
+      "topic": "Pipeline Error Trapping Scenario (set -o pipefail)",
+      "question": "A student writes an automation pipeline: `cat input.dat | grep 'CRITICAL_METRIC' | awk '{print $2}' > output.txt`. The input file `input.dat` does not exist, yet the bash script continues execution and reports exit status `$? = 0`. Why did this silent failure occur, and how should it be prevented?",
       "options": [
-        "(A) By default, the exit status of a pipeline is determined solely by the LAST command (`wc -l`); `pipefail` ensures the pipeline returns the exit code of the last failing command if any step fails",
-        "(B) `set -e` crashes if any pipe is used, so `pipefail` is required to enable pipes",
-        "(C) `pipefail` increases the buffer size of the Unix pipe from 64KB to 1GB",
-        "(D) `pipefail` converts pipe operations into synchronous disk writes"
+        "(A) By default, a shell pipeline returns the exit status of the LAST command in the pipeline (`awk`), masking the failure of `cat`; enabling `set -o pipefail` ensures the pipeline returns non-zero if ANY stage fails",
+        "(B) `cat` always returns exit code 0 even if files are missing",
+        "(C) Redirection with `>` forces the shell to ignore all previous errors",
+        "(D) `awk` elevated the execution privileges to root"
       ],
       "answer": "A",
-      "explanation": "Without `pipefail`, if `grep` crashes or errors out, the pipeline still returns the exit status of `wc -l` (which is 0 / success), causing `set -e` to mistakenly treat the whole pipeline as successful. `set -o pipefail` fixes this critical silent bug."
+      "explanation": "Without `pipefail`, a pipeline's exit status is solely that of the last command (`awk`), which succeeded with empty input (status 0). `set -o pipefail` forces the pipeline to return the status of the rightmost command that failed with a non-zero code."
     },
     {
       "id": "D1-Q28",
       "module": "Module 4: Shell Scripting",
+      "category": "Technical",
       "difficulty": "Hard",
       "topic": "Modern [[ ... ]] vs POSIX [ ... ] Operators",
       "question": "What is an important technical advantage of using the modern Bash compound conditional construct `[[ ... ]]` over the traditional POSIX test operator `[ ... ]`?",
@@ -423,6 +451,7 @@
     {
       "id": "D1-Q29",
       "module": "Module 5: Secured Shell (SSH)",
+      "category": "Foundational",
       "difficulty": "Easy",
       "topic": "Standard SSH Port",
       "question": "What is the standard IANA default network TCP port number on which the OpenSSH daemon (`sshd`) listens for incoming secure remote shell connections?",
@@ -438,6 +467,7 @@
     {
       "id": "D1-Q30",
       "module": "Module 5: Secured Shell (SSH)",
+      "category": "Foundational",
       "difficulty": "Easy",
       "topic": "SSH Public Key Authentication File",
       "question": "When setting up passwordless public-key authentication to an HPC cluster login node, where must the user's PUBLIC key be appended on the remote server?",
@@ -453,6 +483,7 @@
     {
       "id": "D1-Q31",
       "module": "Module 5: Secured Shell (SSH)",
+      "category": "Technical",
       "difficulty": "Medium",
       "topic": "Modern Asymmetric Cryptography: Ed25519",
       "question": "Which modern elliptic-curve public-key algorithm is widely recommended for SSH keys due to its high computational efficiency, compact 256-bit key length, and strong resistance to timing and side-channel attacks?",
@@ -468,21 +499,23 @@
     {
       "id": "D1-Q32",
       "module": "Module 5: Secured Shell (SSH)",
+      "category": "Scenario",
       "difficulty": "Medium",
-      "topic": "SSH Private Key Permission Discipline",
-      "question": "If a user accidentally executes `chmod 777 ~/.ssh/id_ed25519` on their private SSH key, what will happen when they attempt to connect to a remote server?",
+      "topic": "SSH Private Key Permission Troubleshooting Scenario",
+      "question": "A user generates an Ed25519 key pair and copies the private key to a new workstation. When running `ssh -i ~/.ssh/id_ed25519 user@hpc.gla.ac.in`, the connection immediately terminates with: 'Permissions 0777 for id_ed25519 are too open'. Which exact command resolves this error?",
       "options": [
-        "(A) The SSH client will immediately abort the connection with an error warning that the private key permissions are too open",
-        "(B) The remote server will automatically format the user's home directory",
-        "(C) The SSH client will silently convert the key to a public key",
-        "(D) The connection will succeed with enhanced administrative speed"
+        "(A) `chmod 600 ~/.ssh/id_ed25519`",
+        "(B) `chmod 755 ~/.ssh/id_ed25519`",
+        "(C) `chown root ~/.ssh/id_ed25519`",
+        "(D) `rm -f ~/.ssh/known_hosts`"
       ],
       "answer": "A",
-      "explanation": "OpenSSH enforces strict permission checks. If a private key file is readable by group or others (anything more permissive than `600` or `400`), it prints 'WARNING: UNPROTECTED PRIVATE KEY FILE!' and ignores the key."
+      "explanation": "OpenSSH enforces strict permission checks. If a private key file is readable by group or others (anything more permissive than `600` or `400`), it prints 'WARNING: UNPROTECTED PRIVATE KEY FILE!' and refuses to use the key. `chmod 600` grants read/write strictly to the owner."
     },
     {
       "id": "D1-Q33",
       "module": "Module 5: Secured Shell (SSH)",
+      "category": "Technical",
       "difficulty": "Medium",
       "topic": "Secure Remote File Transfer (scp)",
       "question": "Which command transfers a local dataset `hpc_input.tar.gz` to a remote cluster user account at `login.gla.ac.in` under the directory `/scratch/data/`?",
@@ -498,6 +531,7 @@
     {
       "id": "D1-Q34",
       "module": "Module 5: Secured Shell (SSH)",
+      "category": "Scenario",
       "difficulty": "Hard",
       "topic": "SSH Agent Forwarding Security Risks",
       "question": "What critical security vulnerability is introduced when an administrator or user enables SSH Agent Forwarding (`ssh -A`) when connecting to an untrusted intermediate bastion host?",
@@ -513,6 +547,7 @@
     {
       "id": "D1-Q35",
       "module": "Module 5: Secured Shell (SSH)",
+      "category": "Technical",
       "difficulty": "Hard",
       "topic": "SSH Connection Multiplexing (ControlMaster)",
       "question": "In high-frequency automated HPC scripting environments, what is the architectural benefit of configuring SSH Connection Multiplexing using `ControlMaster` and `ControlPath`?",
@@ -528,6 +563,7 @@
     {
       "id": "D1-Q36",
       "module": "Module 6: Intel oneAPI Toolkit",
+      "category": "Conceptual",
       "difficulty": "Easy",
       "topic": "oneAPI Cross-Architecture Vision",
       "question": "What is the primary industry objective of the Intel oneAPI programming model?",
@@ -543,6 +579,7 @@
     {
       "id": "D1-Q37",
       "module": "Module 6: Intel oneAPI Toolkit",
+      "category": "Foundational",
       "difficulty": "Easy",
       "topic": "oneAPI Environment Sourcing (setvars.sh)",
       "question": "Which shell script must be sourced in an HPC Linux environment to set up the necessary PATH, LD_LIBRARY_PATH, and compiler variables for the Intel oneAPI toolkits?",
@@ -558,6 +595,7 @@
     {
       "id": "D1-Q38",
       "module": "Module 6: Intel oneAPI Toolkit",
+      "category": "Technical",
       "difficulty": "Medium",
       "topic": "Khronos SYCL C++ Standard",
       "question": "Intel oneAPI DPC++ (Data Parallel C++) is based upon and actively contributes to which open industry standard maintained by the Khronos Group?",
@@ -573,6 +611,7 @@
     {
       "id": "D1-Q39",
       "module": "Module 6: Intel oneAPI Toolkit",
+      "category": "Technical",
       "difficulty": "Medium",
       "topic": "Intel Level Zero Driver Abstraction",
       "question": "In the Intel oneAPI software stack, what is the role of Intel Level Zero?",
@@ -588,6 +627,7 @@
     {
       "id": "D1-Q40",
       "module": "Module 6: Intel oneAPI Toolkit",
+      "category": "Technical",
       "difficulty": "Medium",
       "topic": "Unified Shared Memory: malloc_device vs malloc_host",
       "question": "In SYCL Unified Shared Memory (USM), what is the key functional difference between `malloc_device` and `malloc_host` memory allocations?",
@@ -603,6 +643,7 @@
     {
       "id": "D1-Q41",
       "module": "Module 6: Intel oneAPI Toolkit",
+      "category": "Technical",
       "difficulty": "Hard",
       "topic": "Unified Shared Memory: malloc_shared Page Migration",
       "question": "In SYCL Unified Shared Memory (USM), how does `malloc_shared` simplify heterogeneous programming compared to explicit buffer/accessor memory management?",
@@ -618,6 +659,7 @@
     {
       "id": "D1-Q42",
       "module": "Module 6: Intel oneAPI Toolkit",
+      "category": "Scenario",
       "difficulty": "Hard",
       "topic": "SYCL In-Order vs Out-of-Order Command Queues",
       "question": "When creating a SYCL command queue, what operational difference exists between an in-order queue (`sycl::property::queue::in_order`) and the default out-of-order queue?",
@@ -633,6 +675,7 @@
     {
       "id": "D1-Q43",
       "module": "Module 7: Intel HPC Toolkit",
+      "category": "Foundational",
       "difficulty": "Easy",
       "topic": "Intel DPC++/C++ Compiler (icpx)",
       "question": "Which modern LLVM-based C++ compiler provided in the Intel HPC Toolkit is used to compile high-performance SYCL and modern C++ parallel applications?",
@@ -648,6 +691,7 @@
     {
       "id": "D1-Q44",
       "module": "Module 7: Intel HPC Toolkit",
+      "category": "Foundational",
       "difficulty": "Easy",
       "topic": "Intel Modern Fortran Compiler (ifx)",
       "question": "Which high-performance Fortran compiler in the Intel HPC Toolkit is the modern LLVM-based replacement for the classic `ifort` compiler?",
@@ -663,6 +707,7 @@
     {
       "id": "D1-Q45",
       "module": "Module 7: Intel HPC Toolkit",
+      "category": "Technical",
       "difficulty": "Medium",
       "topic": "Compiler Architectural Optimization (-xHost)",
       "question": "When compiling computational physics or machine learning C/C++ codes with `icpx`, what optimization does the flag `-xHost` instruct the compiler to perform?",
@@ -678,6 +723,7 @@
     {
       "id": "D1-Q46",
       "module": "Module 7: Intel HPC Toolkit",
+      "category": "Technical",
       "difficulty": "Medium",
       "topic": "Intel MPI Library",
       "question": "In a multi-node distributed HPC cluster, which component in the Intel HPC Toolkit provides the optimized implementation of the MPI-3 / MPI-4 standard for inter-node communication?",
@@ -693,6 +739,7 @@
     {
       "id": "D1-Q47",
       "module": "Module 7: Intel HPC Toolkit",
+      "category": "Scenario",
       "difficulty": "Medium",
       "topic": "Intel Inspector Diagnostic Tool",
       "question": "Which diagnostic analysis tool included in the Intel HPC Toolkit is designed to detect dynamic memory corruption, memory leaks, uninitialized memory accesses, and threading data races without needing specialized recompilation?",
@@ -708,21 +755,23 @@
     {
       "id": "D1-Q48",
       "module": "Module 7: Intel HPC Toolkit",
+      "category": "Scenario",
       "difficulty": "Hard",
-      "topic": "NUMA Topology & Process Affinity Pinning",
-      "question": "On a multi-socket Intel Xeon server featuring Non-Uniform Memory Access (NUMA), why does unconstrained OS thread migration across NUMA sockets severely degrade HPC application performance?",
+      "topic": "NUMA Socket Thread Affinity & Memory Allocation Scenario",
+      "question": "An HPC engineer profiles an OpenMP simulation on a dual-socket 64-core Intel Xeon node and observes severe memory latency spikes due to cross-socket UPI traffic. Which command pins the process to CPU cores on Socket 0 and restricts physical memory allocation exclusively to Socket 0's local NUMA domain?",
       "options": [
         "(A) Remote NUMA access causes immediate hardware watchdog reboot",
-        "(B) Accessing memory attached to a remote CPU socket over the UPI interconnect incurs significantly higher latency and lower bandwidth than accessing local NUMA memory; thread affinity pinning (`numactl` / `I_MPI_PIN`) prevents this penalty",
-        "(C) Thread migration deletes variables stored in L1 cache permanently",
-        "(D) Remote NUMA sockets only support 16-bit calculations"
+        "(B) `numactl --cpunodebind=0 --membind=0 ./simulation_app`",
+        "(C) `nice -n -20 ./simulation_app`",
+        "(D) `nohup ./simulation_app &`"
       ],
       "answer": "B",
-      "explanation": "In NUMA systems, each socket has its own local memory controller and DDR channels. When a core accesses RAM on a remote socket, requests must traverse the interconnect (Intel UPI), which doubles memory access latency and congests the bus. Process/thread binding prevents cross-socket migrations."
+      "explanation": "`numactl --cpunodebind=0 --membind=0` enforces execution strictly on CPU cores belonging to NUMA node 0 and allocates all physical pages from node 0's local memory controller, completely eliminating remote cross-socket UPI bus traversals."
     },
     {
       "id": "D1-Q49",
       "module": "Module 7: Intel HPC Toolkit",
+      "category": "Technical",
       "difficulty": "Hard",
       "topic": "Floating-Point Model Optimizations (-fp-model)",
       "question": "When compiling numerical linear algebra algorithms with `icx` / `icpx`, what is the consequence of specifying the floating-point optimization flag `-fp-model=fast=2` compared to `-fp-model=precise`?",
@@ -738,6 +787,7 @@
     {
       "id": "D1-Q50",
       "module": "Module 7: Intel HPC Toolkit",
+      "category": "Technical",
       "difficulty": "Hard",
       "topic": "Open Fabrics Interfaces (OFI / Libfabric)",
       "question": "What is the architectural role of the Open Fabrics Interfaces (OFI / Libfabric) provider layer underneath the Intel MPI Library in high-performance computing clusters?",
