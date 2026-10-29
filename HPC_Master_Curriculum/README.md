@@ -43,11 +43,12 @@ HPC_Master_Curriculum/
 │   ├── 📁 lab_activities/                            (Interactive Colab Lab & Standalone code/)
 │   └── 📁 quizzes_and_assessments/                   (Pre-Assessment, In-Class Checkpoints & Post-Assessment MCQs, Excel, CSV)
 │
-├── 📁 Day-03_DeepLearning_TF_Slurm_Horovod/          [DAY 3: DEEP LEARNING & SLURM]
-│   ├── 01_DAY_03_3_HOUR_MASTER_TRAINER_PLAYBOOK.md   (Exact 180-Min Script, oneDNN, Slurm, Horovod)
+├── 📁 Day-03_DeepLearning_TF_Slurm_Horovod/          [DAY 3: DEEP LEARNING, SLURM & HOROVOD]
+│   ├── 01_DAY_03_6_HOUR_MASTER_TRAINER_PLAYBOOK.md   (Complete 6-Hour Script, oneDNN Fusion, Slurm & Horovod)
 │   ├── 02_DAY_03_HANDS_ON_LAB_AND_COMMANDS.md        (Step-by-Step oneDNN TF & #SBATCH Slurm Scripts)
-│   ├── 03_DAY_03_STUDENT_CHEATSHEET_AND_MCQS.md     (1-Page Cheat Sheet + 25 Evaluated MCQs)
-│   └── 📁 code/                                      (Flat directory: slurm_batch_template.slurm, horovod_tf_training.py)
+│   ├── 03_DAY_03_STUDENT_CHEATSHEET_AND_MCQS.md     (Cheat Sheet + Evaluated MCQs)
+│   ├── 📁 lab_activities/                            (Interactive Colab Lab & Standalone code/)
+│   └── 📁 quizzes_and_assessments/                   (Pre-Assessment, In-Class Checkpoints & Post-Assessment MCQs, Excel, CSV)
 │
 ├── 📁 Day-04_Distributed_Slurm_VTune_Profiling/      [DAY 4: HOROVOD & VTUNE]
 │   ├── 01_DAY_04_3_HOUR_MASTER_TRAINER_PLAYBOOK.md   (Exact 180-Min Script, Socket Pinning, VTune TMAM)

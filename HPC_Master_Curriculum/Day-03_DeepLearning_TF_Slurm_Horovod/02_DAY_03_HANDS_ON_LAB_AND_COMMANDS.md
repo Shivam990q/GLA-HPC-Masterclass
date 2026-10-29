@@ -1,7 +1,7 @@
 # 💻 DAY 3: MASTER HANDS-ON LAB & COMMANDS RUNBOOK
 ## Deep Learning on HPC with TensorFlow, oneDNN, Slurm & Horovod
 **Course Code:** `GLA-HPC-BCSG701` | **Track:** Intel & NEC Supercomputing Alliance  
-**Lead Trainer:** Shivam Gupta | **Target Session:** Day 3 (Strictly 3 Hours / 180 Minutes)  
+**Lead Trainer:** Shivam Gupta | **Target Session:** Day 3 Hands-On Server Lab (01:30 PM – 04:30 PM | 3 Hours, Part of 6-Hour Day 3 Masterclass)  
 **Primary Reference:** [`Intel & NEC - High Performance Computing.pdf` (Page 2)](file:///c:/Users/Rose/Videos/GLA%20Trainings/_official_syllabus_docs/Intel%20%26%20NEC%20-%20High%20Performance%20Computing.pdf)
 
 ---
