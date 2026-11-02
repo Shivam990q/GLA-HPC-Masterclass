@@ -6,16 +6,38 @@
 **Curriculum Alignment:** Day 1 Official Syllabus Core (Linux Basics, Shell Automation, SSH)  
 **Lead Trainer:** Shivam Gupta  
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Shivam990q/GLA-HPC-Masterclass/blob/main/HPC_Master_Curriculum/Day-01_HPC_Linux_Shell_oneAPI/Day_01_Linux_Basics_Shell_Scripting_and_SSH_Colab.ipynb)
+[![GitHub Repository](https://img.shields.io/badge/GitHub-GLA--HPC--Masterclass-181717?logo=github)](https://github.com/Shivam990q/GLA-HPC-Masterclass)
+
+---
+
+## 🚀 Interactive Google Colab Notebook (Zero Setup Required)
+
+Students can launch the complete hands-on interactive laboratory directly in their web browser without installing anything locally:
+
+👉 **[Launch Interactive Colab: `Day_01_Linux_Basics_Shell_Scripting_and_SSH_Colab.ipynb`](https://colab.research.google.com/github/Shivam990q/GLA-HPC-Masterclass/blob/main/HPC_Master_Curriculum/Day-01_HPC_Linux_Shell_oneAPI/Day_01_Linux_Basics_Shell_Scripting_and_SSH_Colab.ipynb)**
+
+- **Scope:** Basic to Medium hands-on practice (Zero fluff, zero cognitive overload).
+- **Environment:** Ubuntu Linux runtime on Google Cloud VM using `%%bash` cell execution.
+- **Coverage:**
+  1. Linux Filesystem Navigation, File Inspection & Permissions Math (755/644/600).
+  2. Linux Streams, Redirection (`>`, `>>`, `2>&1`, `/dev/null`) & Pipelines (`grep`, `awk`, `sort`, `uniq`).
+  3. Environment Variables, Custom Tools, `$PATH` Export & `.bashrc` Configuration.
+  4. Bash Scripting (Shebang, `$1`, `$#`, `$@`, `$?`, `if/else`, `for/while` loops, and Automated Backup Script).
+  5. Secured Shell (SSH) Ed25519 Keypairs, `authorized_keys`, `~/.ssh/config` Aliases, and `scp`/`rsync`.
+  6. Three Interactive Student Challenges with automated verification checks.
+
 ---
 
 ## 📂 Module Package Directory Structure
 
-This dedicated module folder contains everything required for a world-class training delivery—from conceptual classroom theory and step-by-step whiteboard notes to live terminal demos, runnable automation scripts, hands-on student lab activities, and an exhaustive 50-question MCQ assessment bank.
+This dedicated module folder contains everything required for a world-class training delivery—from conceptual classroom theory and step-by-step whiteboard notes to live terminal demos, runnable automation scripts, hands-on student lab activities, an interactive Google Colab notebook, and an exhaustive 50-question MCQ assessment bank.
 
 ```
 LINUX_SHELL_SCRIPTING_AND_SSH_TRAINING_MODULE/
 │
 ├── README.md                                   # Master Navigation & Module Blueprint
+├── Day_01_Linux_Basics_Shell_Scripting_and_SSH_Colab.ipynb # Interactive Google Colab Notebook
 │
 ├── 01_THEORY_AND_TRAINER_LECTURE_GUIDE.md      # Complete Lecture Notes, Concept Deconstructions & Pedagogy
 │   ├── Topic 1: Linux Architecture & Filesystem Hierarchy Standard (FHS)
