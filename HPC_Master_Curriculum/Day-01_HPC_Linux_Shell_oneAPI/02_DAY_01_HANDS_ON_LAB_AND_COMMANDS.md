@@ -161,11 +161,96 @@ chmod 755 ~/hpc_day01/scripts
 
 ---
 
-## 🤖 STAGE 4: Automated Shell Scripting for HPC
+## 🤖 STAGE 4: Automated Shell Scripting for HPC (Step-by-Step Progressive Drill)
 *Maps to Syllabus Topic 4: Shell Scripting for Automation*
 
+### Level 1: Shebang, Variables & Command Substitution (`01_basic_syntax_and_vars.sh`)
 ```bash
-# 1. Create the automated compute node hardware audit script
+cat << 'EOF' > ~/hpc_day01/scripts/01_basic_syntax_and_vars.sh
+#!/usr/bin/env bash
+# RULE: NO SPACES around '=' when assigning variables!
+STUDENT_NAME="GLA_Supercomputing_Student"
+WORKSHOP_DAY=1
+CURRENT_TIME=$(date '+%Y-%m-%d %H:%M:%S')
+
+echo "=========================================================="
+echo "  STEP 1: BASH BASICS & ENVIRONMENT VARIABLES"
+echo "=========================================================="
+echo "Welcome, ${STUDENT_NAME}!"
+echo "Workshop Day     : ${WORKSHOP_DAY}"
+echo "Current Hostname : $(hostname)"
+echo "Current Time     : ${CURRENT_TIME}"
+echo "=========================================================="
+EOF
+
+chmod +x ~/hpc_day01/scripts/01_basic_syntax_and_vars.sh
+~/hpc_day01/scripts/01_basic_syntax_and_vars.sh
+```
+
+### Level 2: Conditionals (if/else), Directory Checks & Exit Codes (`02_conditions_and_exit_codes.sh`)
+```bash
+cat << 'EOF' > ~/hpc_day01/scripts/02_conditions_and_exit_codes.sh
+#!/usr/bin/env bash
+WORKSPACE_DIR="${HOME}/hpc_day01/data"
+
+echo "=========================================================="
+echo "  STEP 2: CONDITIONALS & EXIT STATUS CODES"
+echo "=========================================================="
+
+if [ -d "$WORKSPACE_DIR" ]; then
+    echo "[+] Found existing directory: $WORKSPACE_DIR"
+else
+    echo "[-] Directory not found. Creating it now..."
+    mkdir -p "$WORKSPACE_DIR"
+    echo "[+] mkdir command completed with exit code: $?"
+fi
+
+SAMPLE_FILE="${WORKSPACE_DIR}/sample.txt"
+echo "HPC Batch Processing initialized on $(date)" > "$SAMPLE_FILE"
+
+if [ -f "$SAMPLE_FILE" ]; then
+    echo "[+] Verified file creation: $SAMPLE_FILE"
+    echo "[+] File size: $(wc -c < "$SAMPLE_FILE") bytes"
+fi
+echo "=========================================================="
+EOF
+
+chmod +x ~/hpc_day01/scripts/02_conditions_and_exit_codes.sh
+~/hpc_day01/scripts/02_conditions_and_exit_codes.sh
+```
+
+### Level 3: Loops, Node Arrays & Output Redirection (`03_batch_loop_automation.sh`)
+```bash
+cat << 'EOF' > ~/hpc_day01/scripts/03_batch_loop_automation.sh
+#!/usr/bin/env bash
+COMPUTE_NODES=("node-cpu-01" "node-cpu-02" "node-gpu-01" "node-ai-gaudi")
+LOG_FILE="${HOME}/hpc_day01/logs/cluster_dispatch.log"
+
+> "$LOG_FILE"
+
+echo "=========================================================="
+echo "  STEP 3: CLUSTER BATCH LOOP & AUTOMATION"
+echo "=========================================================="
+echo "[*] Dispatching tasks across ${#COMPUTE_NODES[@]} compute nodes..."
+
+for node in "${COMPUTE_NODES[@]}"; do
+    TIMESTAMP=$(date '+%H:%M:%S')
+    echo "[${TIMESTAMP}] Dispatched batch job to ${node} -> Status: ACTIVE" >> "$LOG_FILE"
+    echo "  • Node ${node}: Assigned Batch Worker Task"
+done
+
+echo "----------------------------------------------------------"
+echo "[+] All tasks dispatched! Persisted to: $LOG_FILE"
+cat "$LOG_FILE"
+echo "=========================================================="
+EOF
+
+chmod +x ~/hpc_day01/scripts/03_batch_loop_automation.sh
+~/hpc_day01/scripts/03_batch_loop_automation.sh
+```
+
+### Level 4: Full Node Hardware & Memory Audit Capstone (`hpc_node_audit.sh`)
+```bash
 cat << 'EOF' > ~/hpc_day01/scripts/hpc_node_audit.sh
 #!/usr/bin/env bash
 # ==============================================================================
@@ -226,13 +311,13 @@ echo ""
 echo "[INFO] Audit successfully completed and persisted to: $LOG_FILE"
 EOF
 
-# 2. Grant executable permission to the script
+# Grant executable permission to the script
 chmod u+x ~/hpc_day01/scripts/hpc_node_audit.sh
 
-# 3. Execute the automated script
+# Execute the automated script
 ~/hpc_day01/scripts/hpc_node_audit.sh
 
-# 4. Verify that the persistent log file was written
+# Verify log file
 ls -la ~/hpc_day01/logs/
 ```
 
@@ -245,25 +330,48 @@ ls -la ~/hpc_day01/logs/
 # 1. Verify SSH client presence
 ssh -V
 
-# 2. Generate an industrial-grade Ed25519 asymmetric cryptographic key pair
-ssh-keygen -t ed25519 -C "shivam@gla_hpc_cluster" -f ~/.ssh/id_ed25519_gla -N ""
+# 2. Create secure .ssh directory with strict permissions
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
 
-# 3. Inspect generated keys and verify strict file permissions
+# 3. Generate an industrial-grade Ed25519 asymmetric cryptographic key pair
+ssh-keygen -t ed25519 -C "student@gla_hpc_cluster" -f ~/.ssh/id_ed25519_gla -N ""
+
+# 4. Inspect generated keys and verify strict file permissions
 ls -la ~/.ssh/id_ed25519_gla*
-# Ensure private key permissions are strictly 600 (read/write only by owner):
+
+# 5. Ensure private key permissions are strictly 600 (read/write only by owner):
 chmod 600 ~/.ssh/id_ed25519_gla
+chmod 644 ~/.ssh/id_ed25519_gla.pub
 
-# 4. View Public Key string (Safe to distribute to server authorized_keys)
+# 6. View Public Key string (Safe to distribute to server authorized_keys)
 cat ~/.ssh/id_ed25519_gla.pub
+```
 
-# 5. Remote Supercomputer Connection Syntax:
-# ssh -i ~/.ssh/id_ed25519_gla username@remote_cluster_ip -p 22
+### 🌐 SCENARIO A: Remote Cluster Server is Available
+```bash
+# A1. Copy public key to remote server (Run from local machine):
+# ssh-copy-id -i ~/.ssh/id_ed25519_gla.pub username@cluster_ip
 
-# 6. Remote script transfer using Secure Copy (SCP):
-# scp -i ~/.ssh/id_ed25519_gla ~/hpc_day01/scripts/hpc_node_audit.sh username@remote_cluster_ip:~/
+# A2. Connect passwordless over SSH:
+# ssh -i ~/.ssh/id_ed25519_gla username@cluster_ip -p 22
 
-# 7. Non-interactive remote command execution:
-# ssh -i ~/.ssh/id_ed25519_gla username@remote_cluster_ip 'bash ~/hpc_node_audit.sh'
+# A3. Non-interactive remote command execution:
+# ssh -i ~/.ssh/id_ed25519_gla username@cluster_ip 'bash ~/hpc_day01/scripts/hpc_node_audit.sh'
+```
+
+### 💻 SCENARIO B: Zero-Server Mode (Local Workstation Self-Authorization & Demonstration)
+*(If no external server is provided, students verify the complete cryptographic handshake locally)*
+```bash
+# B1. Self-authorize public key into local authorized_keys
+cat ~/.ssh/id_ed25519_gla.pub >> ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+
+# B2. Verify local key authorization entry
+grep -i "student@gla_hpc" ~/.ssh/authorized_keys
+
+# B3. Test loopback connection (or demonstrate on Projector via Trainer IDC VM)
+echo "[+] SSH Key Pair successfully configured and authorized for passwordless access!"
 ```
 
 ---

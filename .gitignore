@@ -10,5 +10,6 @@ graphify-out/
 workspace_manifest.csv
 __pycache__/
 *.pyc
+*.log
 .system_generated/
 scratch/
