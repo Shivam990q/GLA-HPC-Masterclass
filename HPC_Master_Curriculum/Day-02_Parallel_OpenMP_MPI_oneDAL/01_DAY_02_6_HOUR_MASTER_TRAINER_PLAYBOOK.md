@@ -1,21 +1,27 @@
 # ⏱️ DAY 2: COMPLETE 6-HOUR MASTER TRAINER PLAYBOOK
 ## Traditional Machine Learning & Parallel Computing using Intel oneAPI
 **Course Code:** `GLA-HPC-BCSG701` | **Track:** Intel & NEC Supercomputing Alliance  
-**Lead Trainer:** Shivam Gupta | **Daily Duration:** 6 Full Hours (Session 1: Morning 3h + Session 2: Afternoon 3h)  
+**Dual-Trainer Architecture:**
+- 🌅 **Session 1 (Morning 3h, 09:30 AM - 12:30 PM):** Trainer 1 — HPC Systems & Parallel Computing Lead
+- 💻 **Session 2 (Afternoon 3h, 01:30 PM - 04:30 PM):** Trainer 2 — Applied AI/ML Acceleration Lead (**Shivam Gupta**)
 **Official Syllabus Reference:** [`Intel & NEC - High Performance Computing.pdf` (Page 2)](file:///c:/Users/Rose/Videos/GLA%20Trainings/_official_syllabus_docs/Intel%20%26%20NEC%20-%20High%20Performance%20Computing.pdf)  
-**Day 2 Complete Terminology Glossary:** [`00_DAY_02_MASTER_TERMINOLOGY_AND_CONCEPT_GLOSSARY.md`](file:///c:/Users/Rose/Videos/GLA%20Trainings/HPC_Master_Curriculum/Day-02_Parallel_OpenMP_MPI_oneDAL/00_DAY_02_MASTER_TERMINOLOGY_AND_CONCEPT_GLOSSARY.md)  
-**Day 2 Hands-On Lab Runbook:** [`02_DAY_02_HANDS_ON_LAB_AND_COMMANDS.md`](file:///c:/Users/Rose/Videos/GLA%20Trainings/HPC_Master_Curriculum/Day-02_Parallel_OpenMP_MPI_oneDAL/02_DAY_02_HANDS_ON_LAB_AND_COMMANDS.md)
+**Day 2 War Room Runbook:** [`00_DAY_02_KANTHAST_TRAINER_WAR_ROOM_RUNBOOK.md`](file:///c:/Users/Rose/Videos/GLA%20Trainings/HPC_Master_Curriculum/Day-02_Parallel_OpenMP_MPI_oneDAL/00_DAY_02_KANTHAST_TRAINER_WAR_ROOM_RUNBOOK.md)  
+**Day 2 Master Terminology Glossary:** [`00_DAY_02_MASTER_TERMINOLOGY_AND_CONCEPT_GLOSSARY.md`](file:///c:/Users/Rose/Videos/GLA%20Trainings/HPC_Master_Curriculum/Day-02_Parallel_OpenMP_MPI_oneDAL/00_DAY_02_MASTER_TERMINOLOGY_AND_CONCEPT_GLOSSARY.md)  
+**Day 2 Hands-On Lab Runbook:** [`02_DAY_02_HANDS_ON_LAB_AND_COMMANDS.md`](file:///c:/Users/Rose/Videos/GLA%20Trainings/HPC_Master_Curriculum/Day-02_Parallel_OpenMP_MPI_oneDAL/02_DAY_02_HANDS_ON_LAB_AND_COMMANDS.md)  
+**Day 2 Afternoon Dedicated Training Module:** [`INTEL_AI_ANALYTICS_AND_ACCELERATED_ML_TRAINING_MODULE/`](file:///c:/Users/Rose/Videos/GLA%20Trainings/HPC_Master_Curriculum/Day-02_Parallel_OpenMP_MPI_oneDAL/INTEL_AI_ANALYTICS_AND_ACCELERATED_ML_TRAINING_MODULE/README.md)  
+**Day 2 Master Student Colab Notebook:** [`Day_02_Intel_AI_Analytics_and_Accelerated_ML_Colab.ipynb`](file:///c:/Users/Rose/Videos/GLA%20Trainings/HPC_Master_Curriculum/Day-02_Parallel_OpenMP_MPI_oneDAL/Day_02_Intel_AI_Analytics_and_Accelerated_ML_Colab.ipynb)  
+**Day 2 Master Presentation Deck:** [`Day-02_Master_Presentation_Intel_AI_Analytics_and_oneDAL.pptx`](file:///c:/Users/Rose/Videos/GLA%20Trainings/HPC_Master_Curriculum/Day-02_Parallel_OpenMP_MPI_oneDAL/INTEL_AI_ANALYTICS_AND_ACCELERATED_ML_TRAINING_MODULE/Day-02_Master_Presentation_Intel_AI_Analytics_and_oneDAL.pptx)
 
 ---
 
 ## 🎯 1. Official Syllabus Scope (Page 2 of PDF — Strictly Preserved)
 
 The official curriculum specifies **strictly 5 core topics for Day 2**:
-1. **Parallel Computing** (Amdahl's law, serial bottleneck, task vs data parallelism)
-2. **OpenMP for multithreading, MPI for distributed systems**
-3. **Data decomposition and synchronization**
-4. **Using Intel AI Analytics Toolkit (Optimized Scikit-learn, Pandas, NumPy)**
-5. **Intel Extension for Scikit-learn for optimized ML algorithms**
+1. **Parallel Computing** (Amdahl's law, serial bottleneck, task vs data parallelism) — *Trainer 1*
+2. **OpenMP for multithreading, MPI for distributed systems** — *Trainer 1*
+3. **Data decomposition and synchronization** — *Trainer 1*
+4. **Using Intel AI Analytics Toolkit (Optimized Scikit-learn, Pandas, NumPy)** — *Trainer 2 (Shivam Gupta)*
+5. **Intel Extension for Scikit-learn for optimized ML algorithms** — *Trainer 2 (Shivam Gupta)*
 
 > [!IMPORTANT]
 > **Curriculum Boundary Discipline:**
@@ -202,8 +208,12 @@ The official curriculum specifies **strictly 5 core topics for Day 2**:
 ---
 
 ## 💻 4. SESSION 2: Afternoon Hands-On Supercomputer Lab Playbook (01:30 PM - 04:30 PM | 3 Hours)
+**Session Lead:** Trainer 2 — Applied AI & ML Acceleration Lead (**Shivam Gupta**)  
 *Reference Runbook:* [`02_DAY_02_HANDS_ON_LAB_AND_COMMANDS.md`](file:///c:/Users/Rose/Videos/GLA%20Trainings/HPC_Master_Curriculum/Day-02_Parallel_OpenMP_MPI_oneDAL/02_DAY_02_HANDS_ON_LAB_AND_COMMANDS.md)  
-*Notebook Reference:* [`Day_02_Traditional_ML_oneAPI_OpenMP_MPI_oneDAL.ipynb`](file:///c:/Users/Rose/Videos/GLA%20Trainings/HPC_Master_Curriculum/Day-02_Parallel_OpenMP_MPI_oneDAL/Day_02_Traditional_ML_oneAPI_OpenMP_MPI_oneDAL.ipynb)
+*Dedicated Inner Module:* [`INTEL_AI_ANALYTICS_AND_ACCELERATED_ML_TRAINING_MODULE/`](file:///c:/Users/Rose/Videos/GLA%20Trainings/HPC_Master_Curriculum/Day-02_Parallel_OpenMP_MPI_oneDAL/INTEL_AI_ANALYTICS_AND_ACCELERATED_ML_TRAINING_MODULE/README.md)  
+*Day 2 Master Colab Notebook:* [`Day_02_Intel_AI_Analytics_and_Accelerated_ML_Colab.ipynb`](file:///c:/Users/Rose/Videos/GLA%20Trainings/HPC_Master_Curriculum/Day-02_Parallel_OpenMP_MPI_oneDAL/Day_02_Intel_AI_Analytics_and_Accelerated_ML_Colab.ipynb)  
+*HPC Cluster Notebook:* [`Day_02_Traditional_ML_oneAPI_OpenMP_MPI_oneDAL.ipynb`](file:///c:/Users/Rose/Videos/GLA%20Trainings/HPC_Master_Curriculum/Day-02_Parallel_OpenMP_MPI_oneDAL/Day_02_Traditional_ML_oneAPI_OpenMP_MPI_oneDAL.ipynb)  
+*Master Presentation Deck:* [`Day-02_Master_Presentation_Intel_AI_Analytics_and_oneDAL.pptx`](file:///c:/Users/Rose/Videos/GLA%20Trainings/HPC_Master_Curriculum/Day-02_Parallel_OpenMP_MPI_oneDAL/INTEL_AI_ANALYTICS_AND_ACCELERATED_ML_TRAINING_MODULE/Day-02_Master_Presentation_Intel_AI_Analytics_and_oneDAL.pptx)
 
 ```
 +──────────────────────────────────────────────────────────────────────────────────────────+
