@@ -64,11 +64,11 @@ The primary Day 2 laboratory notebook ([`Day_02_Traditional_ML_oneAPI_OpenMP_MPI
    - Automatically activates Intel oneDAL acceleration seamlessly in cloud memory.
 2. **Amdahl's Law Scaling Curve Generation**:
    - Plots theoretical speedup curves across core counts ($N = 1$ to $64$) and parallel fractions ($P = 0.50, 0.75, 0.90, 0.95, 0.99$).
-   - Automatically saves high-res visualization to Google Drive: `reports/amdahl_scaling_curve.png`.
+   - Automatically saves high-res visualization to local workspace: `reports/amdahl_scaling_curve.png`.
 3. **100,000-Sample Random Forest Benchmark**:
    - Compares stock Scikit-Learn vs Intel oneDAL on a 100k-sample, 20-feature classification task.
    - Achieves **~4.77x speedup** (~2.86s down to ~0.60s) with **100% identical test accuracy** (0.8665).
-   - Exports benchmark telemetry to Google Drive: `reports/day02_random_forest_benchmark.csv`.
+   - Exports benchmark telemetry to local workspace: `reports/day02_random_forest_benchmark.csv`.
 4. **End-to-End 8/8 Deliverable Automated Validation**:
    - Validates all 8 deliverables with automated assertions: Drive structure, Amdahl plot, OpenMP vector sum source & binary, False sharing demo, MPI scatter-reduce, RF benchmark CSV, and oneDAL dynamic patch.
    - For complete curriculum notes, see [`HPC_Master_Curriculum/Day-02_Parallel_OpenMP_MPI_oneDAL/README.md`](file:///c:/Users/Rose/Videos/GLA%20Trainings/HPC_Master_Curriculum/Day-02_Parallel_OpenMP_MPI_oneDAL/README.md).

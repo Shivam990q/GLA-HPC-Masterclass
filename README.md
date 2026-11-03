@@ -118,7 +118,7 @@ To deliver a truly world-class, rigorous, and practical curriculum without cogni
   4. *k-Nearest Neighbors (KNN):* Fast brute-force and KD-tree spatial neighbor queries.
   5. *Support Vector Machines (SVC):* Quadratic programming optimization speedup.
 - **Comparative Benchmarks:** Side-by-side performance profiling measuring execution wall-clock time, CPU core utilization across threads, and verification of exact numerical parity ($R^2 > 0.999$, zero loss in accuracy).
-- **Automated Verification & Google Drive Auto-Sync:** 8/8 passing automated deliverable checks and continuous session mirroring to Google Drive.
+- **Automated Verification & Local Workspace Auto-Sync:** 8/8 passing automated deliverable checks, instant local workspace persistence, and optional 1-click zip export.
 
 #### 🚀 Interactive Hands-on Labs:
 - **Unified Master Lab (OpenMP, MPI & oneDAL):** [Day 02 Traditional ML, oneAPI, OpenMP, MPI & oneDAL Colab Notebook](file:///c:/Users/Rose/Videos/GLA%20Trainings/COLAB_NOTEBOOKS/Day_02_Traditional_ML_oneAPI_OpenMP_MPI_oneDAL.ipynb) — *Full-day unified master lab with 8/8 automated deliverable checks.*
@@ -258,7 +258,7 @@ To deliver a truly world-class, rigorous, and practical curriculum without cogni
 1. Navigate to the [Colab Deployment Table](#-1-click-interactive-google-colab-deployment-hub) above.
 2. Click the **"Open In Colab"** badge for the day and session you are attending.
 3. Once the notebook opens in Google Colab, select **Runtime > Change runtime type** and ensure you are on a Python 3 runtime (T4 GPU recommended for Day 3 and Day 5).
-4. Run **Section 0** to mount your Google Drive and register the automated auto-sync engine.
+4. Run **Section 0** to initialize your local Colab workspace and register the automated auto-sync engine (zero Drive mount required).
 
 ### Option B: On-Premises Linux Cluster / Intel Developer Cloud (IDC)
 Clone the repository and explore the local modules:

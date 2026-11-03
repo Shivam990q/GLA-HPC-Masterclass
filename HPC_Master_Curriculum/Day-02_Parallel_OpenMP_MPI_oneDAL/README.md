@@ -21,7 +21,7 @@ Run the complete Day 02 laboratory in your browser without local software instal
 
 > 💡 **Master Colab Highlights:**
 > - **Unified Full-Day Lab:** Covers both Morning (Systems & Concurrency) and Afternoon (Intel oneDAL & ML) in one continuous, verified notebook.
-> - **Persistent Google Drive Auto-Sync:** Automatically mounts Google Drive (`/content/drive/MyDrive/`) and mirrors all C++ source files, binaries, benchmarks, and plots to `📁 GLA_HPC_Masterclass_Day02/` via an IPython `post_run_cell` hook.
+> - **High-Speed Colab Local Workspace:** Uses local Colab storage (`/content/hpc_day02_workspace`) with **zero Google Drive mounting friction**, zero authorization popups, instant local NVMe compilation, and 1-click zip deliverables export.
 > - **Intel oneDAL Dynamic Import Fix:** Uses dynamic runtime sys.path recovery (`site.main()`, `site.getsitepackages()`) ensuring `scikit-learn-intelex` activates instantly in Colab without needing a runtime restart.
 > - **Complete 8/8 Deliverable Verification:** End-to-end automated audit suite confirming 100% compliance across all code, binaries, and exported datasets.
 
@@ -62,7 +62,7 @@ Day 2 delivers 6 hours of high-performance computing instruction strictly bifurc
   $$S(N) = \frac{1}{(1-P) + \frac{P}{N}}$$
   Where $P$ is the parallel fraction and $N$ is processor count. As $N \to \infty$, speedup asymptotically approaches $\frac{1}{1-P}$.
 - **Gustafson's Law (Weak Scaling):** Scaling problem size proportionally with compute resources: $S(N) = N - \alpha(N - 1)$.
-- **Interactive Scaling Curve Visualization:** Generates and exports high-resolution scaling curves across varying parallel fractions ($P = 0.50, 0.75, 0.90, 0.95, 0.99$) to Google Drive at `reports/amdahl_scaling_curve.png`.
+- **Interactive Scaling Curve Visualization:** Generates and exports high-resolution scaling curves across varying parallel fractions ($P = 0.50, 0.75, 0.90, 0.95, 0.99$) to local workspace at `reports/amdahl_scaling_curve.png`.
 
 ### 2. C++ OpenMP Shared-Memory Multithreading
 - **The Fork-Join Execution Model:** Master thread spawning worker thread teams upon encountering `#pragma omp parallel` directives.
@@ -124,7 +124,7 @@ Day 2 delivers 6 hours of high-performance computing instruction strictly bifurc
   * Intel oneDAL Accelerated Time: **~0.60 seconds**
   * **Net Speedup Factor:** **~4.77x Faster**
   * **Accuracy Parity:** Test accuracy **100% identical** (0.8665 vs 0.8665) — zero numerical degradation.
-- **Artifact Export:** Automatically writes full benchmark telemetry to Google Drive: `reports/day02_random_forest_benchmark.csv`.
+- **Artifact Export:** Automatically writes full benchmark telemetry to local workspace: `reports/day02_random_forest_benchmark.csv`.
 
 ### 5. Hands-on Student Coding Challenges
 - **Challenge 1 (OpenMP):** Calculating $\pi$ via numerical integration ($\int_0^1 \frac{4}{1+x^2} dx$) using `#pragma omp parallel for reduction(+:pi)`.
@@ -132,7 +132,7 @@ Day 2 delivers 6 hours of high-performance computing instruction strictly bifurc
 
 ### 6. Automated 8-Point Concept Mastery Evaluation
 Every student's notebook verifies and confirms 8 tangible deliverables before session completion:
-1. `[PASS]` Google Drive Directory Structure initialized (`📁 GLA_HPC_Masterclass_Day02/`)
+1. `[PASS]` Colab Local Workspace initialized (`📁 /content/hpc_day02_workspace/`)
 2. `[PASS]` Amdahl's Law Scaling Curve Plot generated (`reports/amdahl_scaling_curve.png`)
 3. `[PASS]` OpenMP Vector Sum C++ Source written (`src/openmp_vector_sum.cpp`)
 4. `[PASS]` OpenMP Vector Sum Binary compiled (`bin/openmp_vector_sum`)
