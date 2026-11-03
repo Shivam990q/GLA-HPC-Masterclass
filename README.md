@@ -22,8 +22,8 @@ Eliminate all local compiler, library, and environment setup friction. Launch th
 | :---: | :--- | :--- | :---: |
 | **Day 1 (Morning)** | **HPC Architecture, Linux & Intel oneAPI Base & HPC Toolkit** | Supercomputer topology, Memory Wall, TOP500, Intel oneAPI ecosystem, `icx`/`icpx`, SYCL, DPC++ device discovery. | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Shivam990q/GLA-HPC-Masterclass/blob/main/COLAB_NOTEBOOKS/Day_01_Intel_oneAPI_and_HPC_Toolkit_Master_Lab.ipynb) |
 | **Day 1 (Afternoon)** | **Linux Systems, Defensive Shell Scripting & SSH Key Automation** | Applied Linux hierarchy, Heredocs, streams (`awk`, `grep`), defensive shell automation (`hpc_node_audit.sh`), Ed25519 SSH keys, cluster config. | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Shivam990q/GLA-HPC-Masterclass/blob/main/COLAB_NOTEBOOKS/Day_01_Linux_Basics_Shell_Scripting_and_SSH_Colab.ipynb) |
-| **Day 2 (Morning)** | **Parallel Computing, Amdahl's Law, OpenMP & MPI Systems** | Amdahl's & Gustafson's Laws, OpenMP shared-memory multithreading, 64-byte L1 cache false sharing mitigation (`alignas(64)`), distributed MPI (`MPI_Scatter`/`Reduce`). | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Shivam990q/GLA-HPC-Masterclass/blob/main/COLAB_NOTEBOOKS/Day_02_Traditional_ML_oneAPI_OpenMP_MPI_oneDAL.ipynb) |
-| **Day 2 (Afternoon)** | **Intel AI Analytics Toolkit & oneDAL: Accelerated ML on CPUs** | NumPy MKL BLAS/LAPACK, oneDAL C++ engine, `patch_sklearn()` monkey-patching, 5 accelerated classical ML benchmarks (K-Means, PCA, Random Forest, KNN, SVM). | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Shivam990q/GLA-HPC-Masterclass/blob/main/COLAB_NOTEBOOKS/Day_02_Intel_AI_Analytics_and_Accelerated_ML_Colab.ipynb) |
+| **Day 2 (Unified Master Lab)** | **Parallel Computing (OpenMP, MPI) & Intel oneDAL Accelerated ML** | **Full-Day Master Lab:** Amdahl's Law scaling curve, OpenMP reduction, 64-byte L1 cache false sharing (`alignas(64)`), MPI message passing, and Intel oneDAL `patch_sklearn()` 100k-sample Random Forest (~4.77x speedup, 100% accuracy parity) with 8/8 automated deliverable checks. | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Shivam990q/GLA-HPC-Masterclass/blob/main/COLAB_NOTEBOOKS/Day_02_Traditional_ML_oneAPI_OpenMP_MPI_oneDAL.ipynb) |
+| **Day 2 (Afternoon Track)** | **Intel AI Analytics Toolkit & oneDAL: Accelerated ML on CPUs** | Dedicated module: NumPy oneMKL BLAS/LAPACK, oneDAL C++ engine, `patch_sklearn()` monkey-patching, and 5 classical ML benchmarks (K-Means, PCA, Random Forest, KNN, SVM). | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Shivam990q/GLA-HPC-Masterclass/blob/main/COLAB_NOTEBOOKS/Day_02_Intel_AI_Analytics_and_Accelerated_ML_Colab.ipynb) |
 | **Day 3 (Full Day)** | **Deep Learning on HPC: Intel oneDNN, TensorFlow & Slurm Cluster Jobs** | Hardware-aware DL, Intel oneDNN primitives, operator fusion, AMX matrix engines, Intel-optimized TensorFlow, Slurm batch job scripts (`#SBATCH`), Horovod distributed training. | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Shivam990q/GLA-HPC-Masterclass/blob/main/COLAB_NOTEBOOKS/Day_03_Deep_Learning_TensorFlow_oneDNN_Slurm_Horovod.ipynb) |
 | **Day 4 (Full Day)** | **Distributed AI Cluster Scaling & Intel VTune Performance Profiling** | Multi-node scaling theory, Data vs Model parallelism, Top-Down Microarchitecture Analysis (TMAM), Intel VTune Profiler hotspots, memory bandwidth bottlenecks, Intel Advisor roofline modeling. | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Shivam990q/GLA-HPC-Masterclass/blob/main/COLAB_NOTEBOOKS/Day_04_Distributed_AI_Slurm_VTune_Profiling.ipynb) |
 | **Day 5 (Full Day)** | **Generative AI, LLMs on Intel Xeon, Habana Gaudi & OpenVINO Quantization** | Transformer memory wall physics, KV-cache math, Xeon AMX vs Gaudi 2/3 matrix engines, OpenVINO NNCF INT4 quantization, real-time TTFT/TPS latency benchmarks, Capstone Project. | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Shivam990q/GLA-HPC-Masterclass/blob/main/COLAB_NOTEBOOKS/Day_05_Generative_AI_LLMs_OpenVINO_Gaudi_HPC_Master_Lab.ipynb) |
@@ -95,29 +95,34 @@ To deliver a truly world-class, rigorous, and practical curriculum without cogni
 ---
 
 ### ⚡ Day 2: Parallel Computing, OpenMP, MPI & Intel Accelerated Machine Learning
-*Theme: Concurrency from Single-Node Multi-Threading to Distributed Systems & Accelerated Classical ML.*
+*Theme: Concurrency from Single-Node Multi-Threading to Distributed Systems & Accelerated Classical ML.*  
+📖 **Comprehensive Day 2 Guide:** [Day-02 Master Curriculum & Lab Guide](file:///c:/Users/Rose/Videos/GLA%20Trainings/HPC_Master_Curriculum/Day-02_Parallel_OpenMP_MPI_oneDAL/README.md)
 
-#### ☀️ Part 1: Morning Session (09:30 AM – 12:30 PM) — Covered by Trainer 1
+#### ☀️ Part 1: Morning Session (09:30 AM – 12:30 PM) — Covered by Trainer 1 (Rajat Garg)
 - **Foundations of Parallel Computing:** Flynn's Taxonomy (SISD, SIMD, MISD, MIMD). Theoretical limits of parallel speedup: **Amdahl's Law** (strong scaling) vs **Gustafson's Law** (weak scaling).
 - **The Power Wall & Multicore Era:** Dennard Scaling breakdown, Moore's Law limits, thermal design power (TDP), and frequency saturation.
 - **Shared-Memory Multithreading with OpenMP:** OpenMP programming model, compilation with `-qopenmp`, parallel regions (`#pragma omp parallel`), loop work-sharing (`#pragma omp parallel for`), scheduling policies (`static`, `dynamic`, `guided`), private vs shared variables, reductions, and critical sections.
 - **Hardware-Level Pitfalls:** **False Sharing** on 64-byte L1 cache lines, cache invalidation storms under the MESI protocol, and padding data structures with `alignas(64)`.
 - **Distributed Computing with MPI:** Message Passing Interface architecture, distributed-memory model, communicators (`MPI_COMM_WORLD`), point-to-point communication (`MPI_Send`, `MPI_Recv`), and collective operations (`MPI_Bcast`, `MPI_Scatter`, `MPI_Gather`, `MPI_Reduce`).
-- **Interactive Hands-on Lab:** [Day 02 OpenMP & MPI Colab Notebook](file:///c:/Users/Rose/Videos/GLA%20Trainings/COLAB_NOTEBOOKS/Day_02_Traditional_ML_oneAPI_OpenMP_MPI_oneDAL.ipynb).
 
-#### 🌙 Part 2: Afternoon Session (01:30 PM – 04:30 PM) — Covered by Shivam Gupta
+#### 🌙 Part 2: Afternoon Session (01:30 PM – 04:30 PM) — Covered by Trainer 2 (Shivam Gupta)
 - **Intel AI Analytics Toolkit Overview:** Purpose-built Python distribution and acceleration libraries designed to maximize compute density on Intel Xeon architectures.
 - **Hardware Acceleration without Code Rewrites:** The mechanics of **Monkey-Patching** standard Python libraries via `scikit-learn-intelex` (`from sklearnex import patch_sklearn; patch_sklearn()`).
 - **Intel oneDAL C++ Engine:** How the Intel oneAPI Data Analytics Library replaces slow Python loops with multithreaded, AVX-512 vector-aligned native C++ kernels.
-- **NumPy MKL BLAS/LAPACK Acceleration:** Linking NumPy with Intel Math Kernel Library (MKL) for multi-threaded GEMM (General Matrix Multiply) operations.
+- **Dynamic oneDAL Environment Recovery:** Automatic discovery and recovery of oneDAL shared libraries in Google Colab via dynamic `sys.path` injection (`site.main()`, `getsitepackages()`).
+- **NumPy oneMKL BLAS/LAPACK Acceleration:** Linking NumPy with Intel Math Kernel Library (oneMKL) for multi-threaded GEMM (General Matrix Multiply) operations.
 - **5 Accelerated Classical ML Benchmarks (Hands-On):**
   1. *K-Means Clustering:* High-dimensional centroid convergence across 100,000 samples.
   2. *Principal Component Analysis (PCA):* Covariance matrix decomposition and dimensionality reduction.
-  3. *Random Forest Classifier:* High-throughput parallel ensemble decision tree training.
+  3. *Random Forest Classifier:* High-throughput parallel ensemble decision tree training (~4.77x speedup, 100% accuracy parity).
   4. *k-Nearest Neighbors (KNN):* Fast brute-force and KD-tree spatial neighbor queries.
   5. *Support Vector Machines (SVC):* Quadratic programming optimization speedup.
 - **Comparative Benchmarks:** Side-by-side performance profiling measuring execution wall-clock time, CPU core utilization across threads, and verification of exact numerical parity ($R^2 > 0.999$, zero loss in accuracy).
-- **Interactive Hands-on Lab:** [Day 02 Intel AI Analytics Colab Notebook](file:///c:/Users/Rose/Videos/GLA%20Trainings/COLAB_NOTEBOOKS/Day_02_Intel_AI_Analytics_and_Accelerated_ML_Colab.ipynb).
+- **Automated Verification & Google Drive Auto-Sync:** 8/8 passing automated deliverable checks and continuous session mirroring to Google Drive.
+
+#### 🚀 Interactive Hands-on Labs:
+- **Unified Master Lab (OpenMP, MPI & oneDAL):** [Day 02 Traditional ML, oneAPI, OpenMP, MPI & oneDAL Colab Notebook](file:///c:/Users/Rose/Videos/GLA%20Trainings/COLAB_NOTEBOOKS/Day_02_Traditional_ML_oneAPI_OpenMP_MPI_oneDAL.ipynb) — *Full-day unified master lab with 8/8 automated deliverable checks.*
+- **Dedicated AI Analytics Lab:** [Day 02 Intel AI Analytics & Accelerated ML Colab Notebook](file:///c:/Users/Rose/Videos/GLA%20Trainings/COLAB_NOTEBOOKS/Day_02_Intel_AI_Analytics_and_Accelerated_ML_Colab.ipynb) — *Focused module on oneDAL and Scikit-learn acceleration.*
 
 ---
 
@@ -215,12 +220,15 @@ To deliver a truly world-class, rigorous, and practical curriculum without cogni
 │   │   └── 📁 lab_activities/
 │   │
 │   ├── 📁 Day-02_Parallel_OpenMP_MPI_oneDAL/
+│   │   ├── README.md                            <- Comprehensive Day 2 syllabus & lab deployment guide
+│   │   ├── Day_02_Traditional_ML_oneAPI_OpenMP_MPI_oneDAL.ipynb <- Unified Master Lab (OpenMP, MPI & oneDAL)
 │   │   ├── 00_DAY_02_MASTER_TERMINOLOGY_AND_CONCEPT_GLOSSARY.md
 │   │   ├── 01_DAY_02_6_HOUR_MASTER_TRAINER_PLAYBOOK.md
 │   │   ├── 02_DAY_02_HANDS_ON_LAB_AND_COMMANDS.md
 │   │   ├── 03_DAY_02_STUDENT_CHEATSHEET_AND_MCQS.md
 │   │   ├── 04_DAY_02_COMPLETE_TOPIC_BY_TOPIC_STUDY_GUIDE.md
 │   │   ├── 05_DAY_02_ARROW_WORKFLOWS_AND_TOPIC_TREES.md
+│   │   ├── 📁 Collab AI Updated/                <- Verified master Colab notebook source
 │   │   ├── 📁 INTEL_AI_ANALYTICS_AND_ACCELERATED_ML_TRAINING_MODULE/
 │   │   │   ├── README.md
 │   │   │   ├── INTEL_AI_ANALYTICS_AND_ACCELERATED_ML_TRAINING_GUIDE.md
