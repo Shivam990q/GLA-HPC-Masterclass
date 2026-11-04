@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Day 2 Afternoon Live Quiz — Projector Edition</title>
+  <style>
+    :root {
+      --base-font-size: 17px;
+    }
+    * { box-sizing: border-box; }
+    body { 
+      margin: 0; 
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Calibri, sans-serif; 
+      background: #eef3f8; 
+      color: #0b1f3a; 
+      font-size: var(--base-font-size);
+      line-height: 1.6;
+    }
+    header { 
+      background: #0b1f3a; 
+      color: #fff; 
+      padding: 18px 28px; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      border-bottom: 3px solid #0071c5;
+    }
+    header strong { font-size: 22px; font-weight: 800; letter-spacing: 0.02em; }
+    header .subtitle { opacity: 0.85; font-size: 15px; margin-top: 4px; }
+    header a { 
+      color: #9fd0ff; 
+      font-weight: 700; 
+      font-size: 16px; 
+      text-decoration: none; 
+      border: 1px solid #9fd0ff; 
+      padding: 8px 16px; 
+      border-radius: 8px; 
+      transition: all 0.2s;
+    }
+    header a:hover { background: rgba(159, 208, 255, 0.2); }
+
+    .scale-btn {
+      background: #1aa37a;
+      color: #fff;
+      border: 0;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .wrap { max-width: 960px; margin: 0 auto; padding: 26px 20px; }
+    .meta { display: flex; gap: 14px; align-items: center; margin-bottom: 16px; font-weight: 700; font-size: 18px; }
+    #prog { color: #0071c5; min-width: 90px; }
+    #live { color: #1aa37a; min-width: 100px; text-align: right; }
+    .bar { flex: 1; height: 14px; background: #d7e2ee; border-radius: 99px; overflow: hidden; }
+    .bar > div { height: 100%; width: 0; background: #0071c5; transition: width 0.3s; }
+    
+    .q { 
+      background: #fff; 
+      border-radius: 18px; 
+      padding: 28px; 
+      border: 1px solid #d7e2ee; 
+      box-shadow: 0 8px 24px rgba(11, 31, 58, 0.06);
+    }
+    h2 { margin: 0 0 18px; font-size: 24px; font-weight: 800; line-height: 1.45; color: #07182c; }
+    
+    .opt { 
+      display: block; 
+      width: 100%; 
+      text-align: left; 
+      margin: 12px 0; 
+      padding: 16px 20px; 
+      border-radius: 12px; 
+      border: 2px solid #cfdbe8; 
+      background: #f8fbfe; 
+      cursor: pointer; 
+      font-size: 18px; 
+      font-weight: 600;
+      line-height: 1.5;
+      color: #0b1f3a;
+      transition: all 0.2s;
+    }
+    .opt:hover { border-color: #0071c5; background: #f0f7ff; transform: translateY(-1px); }
+    .opt.ok { background: #e7f7ee !important; border-color: #1aa37a !important; color: #0d5f40; }
+    .opt.bad { background: #fdecee !important; border-color: #d1495b !important; color: #7d1d2b; }
+    
+    .why { 
+      display: none; 
+      margin-top: 18px; 
+      padding: 16px 20px; 
+      background: #fff8e4; 
+      border-left: 6px solid #e0a100;
+      border-radius: 0 12px 12px 0; 
+      font-size: 18px;
+      line-height: 1.6;
+      color: #3b3000;
+    }
+    .why.show { display: block; animation: fadeIn 0.25s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+    button.next { 
+      margin-top: 18px; 
+      background: #0071c5; 
+      color: #fff; 
+      border: 0; 
+      padding: 14px 28px; 
+      border-radius: 10px; 
+      font-weight: 800; 
+      font-size: 18px;
+      cursor: pointer; 
+      box-shadow: 0 4px 12px rgba(0, 113, 197, 0.3);
+      transition: all 0.2s;
+    }
+    button.next:hover { background: #005a9e; transform: translateY(-1px); }
+    .score { font-size: 48px; font-weight: 800; color: #0071c5; margin: 10px 0; }
+    
+    body.projector-mode {
+      --base-font-size: 20px;
+    }
+    body.projector-mode h2 { font-size: 28px; }
+    body.projector-mode .opt { font-size: 20px; padding: 18px 24px; }
+    body.projector-mode .why { font-size: 20px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <strong>Interactive MCQ — 20 Classroom Questions (Projector Ready)</strong>
+      <div class="subtitle">Official Syllabus Topics 4–5: Intel AI Analytics Toolkit + oneDAL Acceleration</div>
+    </div>
+    <div style="display:flex; gap:10px; align-items:center;">
+      <button class="scale-btn" onclick="document.body.classList.toggle('projector-mode')">🔍 Toggle Projector Zoom</button>
+      <a href="index.html">← Back to Hub</a>
+    </div>
+  </header>
+  <div class="wrap">
+    <div class="meta">
+      <span id="prog">Q 1 / 20</span>
+      <div class="bar"><div id="fill"></div></div>
+      <span id="live">Score 0</span>
+    </div>
+    <div class="q" id="card"></div>
+  </div>
+<script>
+const Q = [
+  {q:"What is the GIL, and why does it hurt CPU-bound Scikit-learn loops?",
+   a:["OS kernel semaphore that caps a process to one core.","CPython mutex so only one thread runs bytecode at a time.","It forces 32-bit floats.","It disables AVX on Xeon."],
+   k:1, w:"Q02. GIL is a userspace lock in ceval.c. CPU-bound Python threads take turns. oneDAL releases it in native C++ with Py_BEGIN_ALLOW_THREADS."},
+  {q:"How is a Python float laid out, and why does that block SIMD?",
+   a:["Raw 8-byte IEEE double.","Heap PyFloatObject: 16-byte head + 8-byte value; lists chase pointers.","Interned hash-table slot.","mmap page per float."],
+   k:1, w:"Q01. ~24 bytes per float and pointer chasing destroy 64-byte cache-line SIMD loads."},
+  {q:"How does oneDAL bypass the GIL for K-Means / Random Forest?",
+   a:["Rewrites the script with Cython.","Runs in WebAssembly.","Takes contiguous NumPy, Py_BEGIN_ALLOW_THREADS, C++ OpenMP + AVX-512.","Transpiles to CUDA."],
+   k:2, w:"Q03. Python stays the high-level API. Native oneDAL executes the heavy math with the GIL dropped."},
+  {q:"Python list of 1e6 floats vs NumPy float64 array — which is true?",
+   a:["List is contiguous 8 MB; NumPy is pointers.","List = pointers to boxed objects; NumPy = one contiguous 8 MB buffer.","Same locality; NumPy zlib-compresses.","List lives in L1; NumPy on SSD."],
+   k:1, w:"Q04. Contiguous memory layout is why np.dot and oneDAL can vectorize and saturate memory bandwidth on HPC nodes."},
+  {q:"Which command shows if NumPy is linked to Intel MKL?",
+   a:["numpy.check_mkl_status()","numpy.__mkl_version__","numpy.show_config()","numpy.inspect_hardware_acceleration()"],
+   k:2, w:"Q07. Look for blas_mkl_info / mkl_rt in numpy.show_config()."},
+  {q:"In the AI Analytics Toolkit, what accelerates Pandas-style tables?",
+   a:["Intel Distribution of Modin","Intel Extension for PyTorch (IPEX)","Intel Neural Compressor","Intel MPI"],
+   k:0, w:"Q08. Syllabus: Optimized Pandas. Modin: import modin.pandas as pd."},
+  {q:"oneDAL vs oneDNN — pick the Day-2 correct split.",
+   a:["oneDAL = classical ML; oneDNN = DNN primitives (Day 3).","oneDAL is ARM-only; oneDNN is GPU-only.","oneDAL needs a paid license.","oneDAL is Python 2 only."],
+   k:0, w:"Q10. Do not confuse them. oneDAL = classical ML; oneDNN = deep learning."},
+  {q:"Minimum code to accelerate existing Scikit-learn code?",
+   a:["Inherit IntelEstimatorBase.","from sklearnex import patch_sklearn; patch_sklearn() before sklearn imports.","Recompile sklearn with icx.","Rename .fit() to .fit_accelerated()."],
+   k:1, w:"Q11. Two lines. Zero API rewrite. Zero disruption."},
+  {q:"What does patch_sklearn() actually do under the hood?",
+   a:["Edits .pyc on disk.","Monkey-patches sys.modules / sklearn class slots with oneDAL wrappers.","ptrace on the process.","Starts a Docker daemon."],
+   k:1, w:"Q12. After patch, from sklearn.cluster import KMeans imports the accelerated Intel wrapper."},
+  {q:"Accelerate ONLY KMeans and RandomForestClassifier selectively?",
+   a:["patch_sklearn(only=[...])","patch_sklearn(name=[\"KMeans\", \"RandomForestClassifier\"])","patch_sklearn(filter=...)","sklearnex.enable_specific([...])"],
+   k:1, w:"Q13. Selective patching allows targeting specific estimators without altering others."},
+  {q:"Restore stock Scikit-learn in the same process?",
+   a:["sklearnex.reset_sklearn()","sklearnex.disable()","sklearnex.unpatch_sklearn()","sklearn.reload_original()"],
+   k:2, w:"Q14. sklearnex.unpatch_sklearn() restores original estimators for side-by-side benchmarking."},
+  {q:"Accelerate train_pipeline.py with zero source code edits from CLI?",
+   a:["python -m sklearnex train_pipeline.py","python --enable-intel-mkl ...","intel-python ...","python -O3 ..."],
+   k:0, w:"Q15. sklearnex CLI wrapper patches sys.modules before launching the script."},
+  {q:"Which estimator is NOT accelerated by sklearnex?",
+   a:["SVC / SVR","PCA","RandomForestClassifier","BayesianGaussianMixture"],
+   k:3, w:"Q16. Unsupported algorithms fall back silently and transparently to stock Scikit-learn."},
+  {q:"Environment variable that logs whether oneDAL or fallback executed?",
+   a:["INTEL_DEBUG_LEVEL=3","SKLEARNEX_VERBOSE=INFO","ONEAPI_LOG_FALLBACKS=1","MKL_VERBOSE=1"],
+   k:1, w:"Q18. Set export SKLEARNEX_VERBOSE=INFO to verify hardware kernel dispatch."},
+  {q:"sklearnex accuracy vs stock Scikit-learn?",
+   a:["~25% worse.","Bit-exact IEEE parity; relative error typically < 1e-4.","Always 50% worse.","Identical only if seed is None."],
+   k:1, w:"Q20. Mathematical parity is guaranteed; inertia and AUC match stock baselines."},
+  {q:"If you import KMeans THEN call patch_sklearn(), the name KMeans in that file is:",
+   a:["Automatically Intel.","Still stock; patch does not rewrite already-bound local namespace symbols.","SyntaxError.","sklearn uninstalls."],
+   k:1, w:"Q23. #1 classroom gotcha! Always patch BEFORE importing estimators, or re-import after patching."},
+  {q:"Official PyPI package name for Intel Extension for Scikit-learn?",
+   a:["pip install scikit-learn-intelex","pip install intel-sklearn-turbo","pip install onedal-python-accel","pip install intel-ai-core-ml"],
+   k:0, w:"Q25. Package name is scikit-learn-intelex; module name is sklearnex."},
+  {q:"AVX-512 register width and float64 (double) capacity?",
+   a:["128 bit / 2","256 bit / 4","512 bit / 8","1024 bit / 16"],
+   k:2, w:"Q27. 512 bits / 64 bits = 8 doubles, or 16 float32s in one clock cycle."},
+  {q:"Setting OMP_NUM_THREADS=4 on an 8-core system does what?",
+   a:["OpenMP thread pool uses exactly 4 worker threads.","Starts 4 separate processes.","Splits data into 4 files on disk.","Caps RAM at 4 GB."],
+   k:0, w:"Q29. Controls the thread team size in OpenMP shared-memory regions."},
+  {q:"Why is K-Means speedup small on 1,000 rows but huge on 500,000 rows?",
+   a:["CPU clock ramps slowly.","Fixed dispatch/thread overhead dominates tiny N; large N amortizes overhead and saturates AVX-512.","License throttles small data.","sklearn disables threads above 10k rows."],
+   k:1, w:"Q34. Amdahl's Law in action: Large datasets amortize invocation overhead and unleash full SIMD throughput."}
+];
+
+let i = 0, score = 0, locked = false;
+const card = document.getElementById('card');
+function render() {
+  locked = false;
+  document.getElementById('prog').textContent = 'Q ' + (i + 1) + ' / ' + Q.length;
+  document.getElementById('fill').style.width = (i / Q.length * 100) + '%';
+  document.getElementById('live').textContent = 'Score ' + score + ' / ' + i;
+  if (i >= Q.length) {
+    card.innerHTML = '<div style="text-align:center; padding:20px 0;"><div class="score">' + score + ' / ' + Q.length + '</div>' +
+      '<p style="font-size:22px; font-weight:700; color:#1aa37a;">Quiz Completed Successfully!</p>' +
+      '<p style="font-size:18px;">Review concepts using <code>06_QUICK_REFERENCE_CHEAT_SHEET.md</code>. Preview Day 3: TensorFlow-MKL, oneDNN, Slurm and Horovod.</p>' +
+      '<button class="next" onclick="i=0;score=0;render()">↺ Restart Quiz</button></div>';
+    document.getElementById('fill').style.width = '100%';
+    document.getElementById('live').textContent = 'Final Score: ' + score + ' / ' + Q.length;
+    return;
+  }
+  const item = Q[i];
+  card.innerHTML = '<h2>' + (i + 1) + '. ' + item.q + '</h2>' +
+    item.a.map((t, idx) => '<button class="opt" data-i="' + idx + '"><b>' + 'ABCD'[idx] + '.</b> ' + t + '</button>').join('') +
+    '<div class="why" id="why"><b>Technical Rationale:</b> ' + item.w + '</div>' +
+    '<button class="next" id="nx" style="display:none">Continue to Next Question ➔</button>';
+  card.querySelectorAll('.opt').forEach(btn => btn.onclick = () => pick(+btn.dataset.i, item, btn));
+  document.getElementById('nx').onclick = () => { i++; render(); };
+}
+function pick(idx, item, btn) {
+  if (locked) return;
+  locked = true;
+  card.querySelectorAll('.opt').forEach((b, j) => {
+    if (j === item.k) b.classList.add('ok');
+    if (j === idx && idx !== item.k) b.classList.add('bad');
+  });
+  if (idx === item.k) score++;
+  document.getElementById('live').textContent = 'Score ' + score + ' / ' + (i + 1);
+  document.getElementById('why').classList.add('show');
+  document.getElementById('nx').style.display = 'inline-block';
+}
+render();
+</script>
+</body>
+</html>

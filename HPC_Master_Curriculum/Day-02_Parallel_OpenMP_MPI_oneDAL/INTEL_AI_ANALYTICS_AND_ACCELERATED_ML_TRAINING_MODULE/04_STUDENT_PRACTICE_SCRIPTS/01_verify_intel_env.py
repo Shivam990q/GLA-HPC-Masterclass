@@ -70,14 +70,24 @@ def audit_sklearnex():
         import sklearnex
         print(f"[*] sklearnex Version: {sklearnex.__version__}")
         
-        # Check dispatcher
-        from sklearnex.dispatcher import is_patched
-        print(f"[*] Initial Patch Status: {'Active (Patched)' if is_patched() else 'Inactive (Unpatched)'}")
+        # Robust patch status helper supporting legacy and modern 2024-2026+ releases
+        def check_patch_status(algo=None):
+            if hasattr(sklearnex, "sklearn_is_patched"):
+                return sklearnex.sklearn_is_patched(algo) if algo else sklearnex.sklearn_is_patched()
+            if hasattr(sklearnex, "is_patched"):
+                return sklearnex.is_patched(algo) if algo else sklearnex.is_patched()
+            try:
+                from sklearnex.dispatcher import is_patched
+                return is_patched(algo) if algo else is_patched()
+            except Exception:
+                return False
+
+        print(f"[*] Initial Patch Status: {'Active (Patched)' if check_patch_status() else 'Inactive (Unpatched)'}")
         
         # Test patching
         from sklearnex import patch_sklearn, unpatch_sklearn
         patch_sklearn(verbose=False)
-        print(f"[*] Status After patch_sklearn(): {'Active (Patched)' if is_patched() else 'Inactive'}")
+        print(f"[*] Status After patch_sklearn(): {'Active (Patched)' if check_patch_status() else 'Inactive'}")
         
         # Test class module resolution
         from sklearn.cluster import KMeans
@@ -86,7 +96,7 @@ def audit_sklearnex():
         
         # Revert
         unpatch_sklearn()
-        print(f"[*] Status After unpatch_sklearn(): {'Active' if is_patched() else 'Inactive (Restored Clean)'}")
+        print(f"[*] Status After unpatch_sklearn(): {'Active' if check_patch_status() else 'Inactive (Restored Clean)'}")
         print("\n[+] STATUS: All Intel oneAPI telemetry checks passed successfully!")
     except ImportError as e:
         print(f"[!] ERROR: scikit-learn-intelex is not installed: {e}")

@@ -13,3 +13,5 @@ __pycache__/
 *.log
 .system_generated/
 scratch/
+*hpc_intel_analytics_workspace/
+*hpc_day03_workspace/

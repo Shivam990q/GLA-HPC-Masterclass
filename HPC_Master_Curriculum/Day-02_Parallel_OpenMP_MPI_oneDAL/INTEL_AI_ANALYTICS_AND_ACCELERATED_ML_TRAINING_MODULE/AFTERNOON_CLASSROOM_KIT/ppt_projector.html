@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Day 2 Afternoon — PPT Projector + Notes</title>
+  <style>
+    body { margin:0; background:#111; color:#eee; font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Calibri, sans-serif; font-size: 17px; }
+    header { display:flex; justify-content:space-between; align-items:center; padding:14px 20px; background:#0b1f3a; border-bottom: 2px solid #0071c5; }
+    header a { color:#9fd0ff; font-weight:700; font-size:16px; text-decoration:none; padding:6px 12px; border:1px solid #9fd0ff; border-radius:6px; }
+    img { width:100%; max-height:62vh; object-fit:contain; background:#1a1a1a; display:block; }
+    .notes { background:#1b2430; padding:20px 26px 30px; min-height:28vh; }
+    .notes h2 { margin:0 0 12px; font-size:22px; color:#9fd0ff; font-weight:800; }
+    #note { font-size:18px; line-height:1.6; color:#e2e8f0; }
+    button { background:#0071c5; color:#fff; border:0; padding:10px 18px; border-radius:8px; font-weight:800; font-size:16px; cursor:pointer; }
+    kbd { background:#333; padding:4px 8px; border-radius:6px; font-size:14px; }
+    #lab { font-weight:800; font-size:18px; color:#fff; margin:0 10px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><button onclick="go(-1)">← Prev</button> <span id="lab">1 / 15</span> <button onclick="go(1)">Next →</button> &nbsp; <kbd>←</kbd> <kbd>→</kbd></div>
+    <a href="index.html">Opener</a>
+  </header>
+  <img id="slide" alt="slide" />
+  <div class="notes">
+    <h2 id="title"></h2>
+    <div id="note"></div>
+  </div>
+<script>
+const notes = [
+  {t:"Title — 180 minutes, oneDAL", n:"Welcome back from lunch. Morning was C++ OpenMP/MPI. Afternoon is: keep writing Python ML, get Xeon speed. Syllabus lines: AI Analytics Toolkit (optimized sklearn, Pandas, NumPy) and Intel Extension for Scikit-learn."},
+  {t:"180-minute timeline", n:"Five blocks. You will not teach OpenMP labs again. 01:30 theory, 02:00 patch, 02:40 live demos, 03:20 student Colab, 04:00 quiz."},
+  {t:"What sits in the module folder", n:"Skip this slide fast unless someone asks where files are. Point at the AFTERNOON_CLASSROOM_KIT hub instead."},
+  {t:"Where students run code", n:"Classroom default = Google Colab notebook Day_02_Intel_AI_Analytics_and_Accelerated_ML_Colab.ipynb. Cluster SSH/Slurm is Day 1 leftover / Day 3. Do not spend afternoon on job scripts."},
+  {t:"Python bottleneck", n:"Two pictures: GIL padlock (1 core busy) and PyObject cargo (24-byte boxed float, cache misses). Switch to animations.html tab 1–2 and press Play."},
+  {t:"oneDAL + AVX-512", n:"oneDAL intercepts math, drops GIL, OpenMP on all cores, contiguous NumPy into 512-bit registers (16 float32 / 8 float64). Toolkit names: oneMKL, Modin, oneDAL."},
+  {t:"Two-line patch", n:"Read the two lines out loud. Flow: patch → intercept KMeans import → daal4py/sklearnex wrapper → libonedal C++. Gotcha: patch BEFORE import."},
+  {t:"Algorithm matrix", n:"Clustering 15–35×, trees 10–25×, PCA/t-SNE 10–25×, SVM/KNN/linear 8–35×. Unsupported estimators fall back silently. BayesianGaussianMixture is the quiz trap."},
+  {t:"Six live demos", n:"1 env  2 NumPy MKL  3 K-Means 500k  4 RF 100k  5 PCA  6 parity. Project Colab or 04_STUDENT_PRACTICE_SCRIPTS."},
+  {t:"Proof numbers", n:"K-Means 18.50s → 0.72s = 25.7×. RF 24.20s → 1.80s = 13.4×. Tell students Colab VMs vary; they still must record speedup and parity."},
+  {t:"Six student labs", n:"03:20–04:00. Lab 1 telemetry, 2 K-Means, 3 RF fraud, 4 PCA, 5 selective patch, 6 pipeline. You roam. Ask every row: what speedup and what delta?"},
+  {t:"Parity guarantee", n:"Acceleration is not approximation. Inertia Δ≤0.0001, AUC Δ≤0.005, accuracy Δ<0.02. np.allclose is the student proof."},
+  {t:"MCQ bank shape", n:"35 in the markdown bank. Live HTML quiz is 20. Mix: GIL/memory, sklearnex, AVX/OpenMP threads. False sharing is morning leftover — one recap question only."},
+  {t:"Cheat sheet", n:"OMP_NUM_THREADS=physical cores, KMP_AFFINITY compact, SKLEARNEX_VERBOSE=INFO, float32 doubles AVX density. Share 06_QUICK_REFERENCE_CHEAT_SHEET.md."},
+  {t:"Day 3 teaser only", n:"Close: today = classical ML on CPU. Tomorrow = TensorFlow-MKL / oneDNN / Slurm / Horovod. Stop. Do not open Day 3 slides."}
+];
+let i=0;
+const img=document.getElementById('slide');
+function show(){
+  img.src='ppt_slides/slide_'+String(i+1).padStart(2,'0')+'.png';
+  document.getElementById('lab').textContent=(i+1)+' / 15';
+  document.getElementById('title').textContent='Slide '+(i+1)+' — '+notes[i].t;
+  document.getElementById('note').textContent=notes[i].n;
+}
+function go(d){ i=Math.max(0,Math.min(14,i+d)); show(); }
+document.addEventListener('keydown', e=>{
+  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ') go(1);
+  if(e.key==='ArrowLeft'||e.key==='PageUp') go(-1);
+});
+show();
+</script>
+</body>
+</html>

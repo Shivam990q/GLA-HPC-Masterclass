@@ -20,6 +20,26 @@ import numpy as np
 from sklearn.datasets import make_blobs, make_classification, make_regression
 from sklearnex import patch_sklearn, unpatch_sklearn
 
+def safe_patch(algo_name=None):
+    """
+    Safely patch sklearn across both legacy and modern scikit-learn-intelex versions.
+    """
+    patch_map = {
+        "KMeans": "sklearn.cluster.KMeans",
+        "PCA": "sklearn.decomposition.PCA",
+        "RandomForestClassifier": "sklearn.ensemble.RandomForestClassifier",
+        "KNeighborsClassifier": "sklearn.neighbors.KNeighborsClassifier",
+        "Ridge": "sklearn.linear_model.Ridge"
+    }
+    if algo_name:
+        target = patch_map.get(algo_name, algo_name)
+        try:
+            patch_sklearn([target], verbose=False)
+            return
+        except Exception:
+            pass
+    patch_sklearn(verbose=False)
+
 def run_suite():
     print("=" * 80)
     print("      INTEL AI ANALYTICS TOOLKIT: COMPREHENSIVE ML BENCHMARK SUITE")
@@ -40,13 +60,13 @@ def run_suite():
     StockKMeans(n_clusters=8, n_init=5, max_iter=150, random_state=42).fit(X_km)
     t_stock_km = time.perf_counter() - t0
 
-    patch_sklearn(["KMeans"])
+    safe_patch("KMeans")
     from sklearn.cluster import KMeans as IntelKMeans
     t0 = time.perf_counter()
     IntelKMeans(n_clusters=8, n_init=5, max_iter=150, random_state=42).fit(X_km)
     t_intel_km = time.perf_counter() - t0
 
-    sp_km = t_stock_km / t_intel_km
+    sp_km = t_stock_km / t_intel_km if t_intel_km > 0 else 1.0
     results.append({
         "Algorithm": "K-Means Clustering",
         "Dataset Shape": "500,000 x 10",
@@ -62,6 +82,7 @@ def run_suite():
     print("\n[*] Benchmarking 2/5: Principal Component Analysis (250,000 samples)...")
     np.random.seed(42)
     X_pca = np.random.randn(250_000, 50).astype(np.float32)
+    X_pca = np.ascontiguousarray(X_pca, dtype=np.float32)
 
     unpatch_sklearn()
     from sklearn.decomposition import PCA as StockPCA
@@ -69,13 +90,13 @@ def run_suite():
     StockPCA(n_components=5, svd_solver="full", random_state=42).fit(X_pca)
     t_stock_pca = time.perf_counter() - t0
 
-    patch_sklearn(["PCA"])
+    safe_patch("PCA")
     from sklearn.decomposition import PCA as IntelPCA
     t0 = time.perf_counter()
     IntelPCA(n_components=5, svd_solver="full", random_state=42).fit(X_pca)
     t_intel_pca = time.perf_counter() - t0
 
-    sp_pca = t_stock_pca / t_intel_pca
+    sp_pca = t_stock_pca / t_intel_pca if t_intel_pca > 0 else 1.0
     results.append({
         "Algorithm": "PCA (SVD Solver)",
         "Dataset Shape": "250,000 x 50",
@@ -99,13 +120,13 @@ def run_suite():
     StockRF(n_estimators=100, max_depth=12, random_state=42, n_jobs=-1).fit(X_rf, y_rf)
     t_stock_rf = time.perf_counter() - t0
 
-    patch_sklearn(["RandomForestClassifier"])
+    safe_patch("RandomForestClassifier")
     from sklearn.ensemble import RandomForestClassifier as IntelRF
     t0 = time.perf_counter()
     IntelRF(n_estimators=100, max_depth=12, random_state=42, n_jobs=-1).fit(X_rf, y_rf)
     t_intel_rf = time.perf_counter() - t0
 
-    sp_rf = t_stock_rf / t_intel_rf
+    sp_rf = t_stock_rf / t_intel_rf if t_intel_rf > 0 else 1.0
     results.append({
         "Algorithm": "Random Forest (100 Trees)",
         "Dataset Shape": "80,000 x 20",
@@ -119,7 +140,9 @@ def run_suite():
     # 4. K-Nearest Neighbors (50k train, 5k query, 20 features)
     # -------------------------------------------------------------
     print("\n[*] Benchmarking 4/5: K-Nearest Neighbors Classifier (50,000 train, 5k query)...")
-    X_knn, y_knn = make_classification(n_samples=55_000, n_features=20, n_classes=4, random_state=42)
+    X_knn, y_knn = make_classification(n_samples=55_000, n_features=20, n_informative=10, n_classes=4, random_state=42)
+    X_knn = np.ascontiguousarray(X_knn, dtype=np.float32)
+    y_knn = np.ascontiguousarray(y_knn, dtype=np.int32)
     X_tr_knn, X_te_knn = X_knn[:50_000], X_knn[50_000:]
     y_tr_knn, y_te_knn = y_knn[:50_000], y_knn[50_000:]
 
@@ -130,14 +153,14 @@ def run_suite():
     _ = m_sk_knn.predict(X_te_knn)
     t_stock_knn = time.perf_counter() - t0
 
-    patch_sklearn(["KNeighborsClassifier"])
+    safe_patch("KNeighborsClassifier")
     from sklearn.neighbors import KNeighborsClassifier as IntelKNN
     t0 = time.perf_counter()
     m_in_knn = IntelKNN(n_neighbors=5, n_jobs=-1).fit(X_tr_knn, y_tr_knn)
     _ = m_in_knn.predict(X_te_knn)
     t_intel_knn = time.perf_counter() - t0
 
-    sp_knn = t_stock_knn / t_intel_knn
+    sp_knn = t_stock_knn / t_intel_knn if t_intel_knn > 0 else 1.0
     results.append({
         "Algorithm": "K-Nearest Neighbors (k=5)",
         "Dataset Shape": "50,000 x 20",
@@ -153,6 +176,7 @@ def run_suite():
     print("\n[*] Benchmarking 5/5: Ridge Regression (200,000 samples)...")
     X_rg, y_rg = make_regression(n_samples=200_000, n_features=40, noise=0.1, random_state=42)
     X_rg = np.ascontiguousarray(X_rg, dtype=np.float32)
+    y_rg = np.ascontiguousarray(y_rg, dtype=np.float32)
 
     unpatch_sklearn()
     from sklearn.linear_model import Ridge as StockRidge
@@ -160,13 +184,13 @@ def run_suite():
     StockRidge(alpha=1.0).fit(X_rg, y_rg)
     t_stock_rg = time.perf_counter() - t0
 
-    patch_sklearn(["Ridge"])
+    safe_patch("Ridge")
     from sklearn.linear_model import Ridge as IntelRidge
     t0 = time.perf_counter()
     IntelRidge(alpha=1.0).fit(X_rg, y_rg)
     t_intel_rg = time.perf_counter() - t0
 
-    sp_rg = t_stock_rg / t_intel_rg
+    sp_rg = t_stock_rg / t_intel_rg if t_intel_rg > 0 else 1.0
     results.append({
         "Algorithm": "Ridge Regression",
         "Dataset Shape": "200,000 x 40",

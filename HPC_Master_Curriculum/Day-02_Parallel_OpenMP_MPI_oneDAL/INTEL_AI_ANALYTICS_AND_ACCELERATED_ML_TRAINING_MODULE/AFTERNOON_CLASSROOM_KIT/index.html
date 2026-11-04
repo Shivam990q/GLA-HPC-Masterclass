@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Day 2 Afternoon — Open This First</title>
+  <style>
+    :root {
+      --navy: #0b1f3a;
+      --intel: #0071c5;
+      --mint: #1aa37a;
+      --paper: #f4f7fb;
+      --line: #d7e2ee;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Calibri, sans-serif;
+      background: var(--paper);
+      color: var(--navy);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(135deg, #061526, #0d3a66);
+      color: #fff;
+      padding: 32px 36px 28px;
+      border-bottom: 3px solid var(--intel);
+    }
+    header h1 { margin: 8px 0; font-size: 32px; font-weight: 800; letter-spacing: -0.01em; }
+    header p { margin: 0; opacity: .95; font-size: 18px; line-height: 1.5; }
+    .wrap { max-width: 1240px; margin: 0 auto; padding: 26px; }
+    .grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 24px; }
+    @media (max-width: 980px) { .grid { grid-template-columns: 1fr; } }
+    .card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(11,31,58,.06);
+    }
+    h2 { margin: 0 0 16px; font-size: 22px; font-weight: 800; color: #07182c; }
+    ol.steps { margin: 0; padding-left: 22px; font-size: 16px; }
+    ol.steps li { margin: 12px 0; line-height: 1.6; }
+    a.btn {
+      display: inline-block;
+      margin: 6px 8px 6px 0;
+      padding: 12px 18px;
+      border-radius: 10px;
+      background: var(--intel);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 16px;
+      transition: all 0.2s;
+    }
+    a.btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,113,197,0.3); }
+    a.btn.alt { background: var(--navy); }
+    a.btn.mint { background: var(--mint); }
+    a.btn.ghost { background: #eaf3fb; color: var(--navy); border: 1px solid #cfdbe8; }
+    table { width: 100%; border-collapse: collapse; font-size: 16px; }
+    th, td { border-bottom: 1px solid var(--line); text-align: left; padding: 12px 10px; vertical-align: top; }
+    th { color: #4a6178; font-size: 14px; letter-spacing: .06em; text-transform: uppercase; font-weight: 800; }
+    .pill { display: inline-block; padding: 4px 12px; border-radius: 999px; background: #e8f4ff; color: #08548f; font-size: 14px; font-weight: 800; }
+    .warn { background: #fff6e8; border: 1px solid #f0d7a8; border-radius: 14px; padding: 16px 18px; font-size: 16px; line-height: 1.6; }
+    code { background: #eef3f8; padding: 2px 7px; border-radius: 6px; font-size: 15px; }
+    .scope { display: flex; gap: 12px; flex-wrap: wrap; }
+    .scope span { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; font-size: 15px; font-weight: 600; }
+    .out { opacity: .55; text-decoration: line-through; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap" style="padding-top:0;padding-bottom:0">
+      <p class="pill">GLA HPC · Edulateral · Day 2 Afternoon · Your 3 hours</p>
+      <h1>Intel AI Analytics Toolkit + sklearnex</h1>
+      <p>Official syllabus topics 4 and 5 only. Morning already covered OpenMP and MPI. Do not teach TensorFlow, Slurm, Horovod, VTune, Gaudi, or OpenVINO today.</p>
+    </div>
+  </header>
+  <div class="wrap">
+    <div class="scope" style="margin-bottom:18px">
+      <span><b>IN:</b> Optimized NumPy, Pandas/Modin, Scikit-learn, oneDAL, patch_sklearn()</span>
+      <span class="out"><b>OUT:</b> Deep Learning / oneDNN</span>
+      <span class="out"><b>OUT:</b> Horovod / Slurm jobs</span>
+      <span class="out"><b>OUT:</b> OpenVINO / LLMs</span>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Open these on your laptop, in this order</h2>
+        <p><a class="btn" href="classroom.html" style="font-size:16px">Project this: module classroom (slide vs animation, one click at a time)</a></p>
+        <ol class="steps">
+          <li><b>This hub</b> stays on one monitor. The <b>module classroom</b> is what students see — Topic A then Topic B, with a purple/blue badge telling you SLIDE vs ANIMATION vs COLAB.</li>
+          <li><b>PowerPoint</b> is optional backup. The classroom already embeds the 15 slides.
+            <div>
+              <a class="btn alt" href="../Intel_AI_Analytics_Masterclass.pptx">Open PPT</a>
+              <a class="btn ghost" href="ppt_projector.html">HTML slide projector + speaker notes</a>
+            </div>
+          </li>
+          <li><b>Standalone animations</b> only if you want a full-screen GIL/SIMD demo without the module sidebar.
+            <div><a class="btn" href="01_theory_animations.html">Open animations only</a></div>
+          </li>
+          <li><b>Colab notebook</b> — student lab. Share this file / Colab link. Students run cells; you walk the room.
+            <div>
+              <a class="btn mint" href="../Day_02_Intel_AI_Analytics_and_Accelerated_ML_Colab.ipynb">Open afternoon Colab notebook</a>
+            </div>
+          </li>
+          <li><b>Live demo scripts</b> if Colab is slow — run from PowerShell:
+            <div><code>04_STUDENT_PRACTICE_SCRIPTS\01_verify_intel_env.py</code> then 02 → 03 → 04 → 05</div>
+          </li>
+          <li><b>Interactive quiz</b> at 04:00 PM.
+            <div><a class="btn" href="02_interactive_quiz.html">Open 20-question live quiz</a></div>
+          </li>
+        </ol>
+        <p class="warn"><b>Do not open</b> <code>Day_02_Traditional_ML_oneAPI_OpenMP_MPI_oneDAL.ipynb</code> as the afternoon student notebook. That is the full-day combined lab (morning C++ OpenMP/MPI + afternoon). Your students already did morning with the co-trainer. Afternoon students should use the Intel Analytics Colab only.</p>
+      </div>
+
+      <div class="card">
+        <h2>180-minute clock (match the PPT)</h2>
+        <table>
+          <tr><th>Time</th><th>You do</th><th>Open</th></tr>
+          <tr><td>01:30–02:00</td><td>Theory: why Python ML is slow; Intel AI Analytics Toolkit (NumPy MKL, Modin Pandas, oneDAL)</td><td>PPT 1–6 + Animations 1–3</td></tr>
+          <tr><td>02:00–02:40</td><td>sklearnex: two-line patch, algorithm matrix, selective patch / unpatch</td><td>PPT 7–8 + Animation 4</td></tr>
+          <tr><td>02:40–03:20</td><td>Live demos 1–6 on projector</td><td>Colab or practice scripts</td></tr>
+          <tr><td>03:20–04:00</td><td>Students run Labs 1–6 in Colab. You debug.</td><td>Colab</td></tr>
+          <tr><td>04:00–04:30</td><td>Quiz + cheat sheet + Day 3 teaser only (do not teach Day 3)</td><td>Quiz HTML</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <h2>What you already have vs what you teach</h2>
+      <table>
+        <tr><th>Already in this folder</th><th>Use it as</th></tr>
+        <tr><td><code>01_THEORY_AND_TRAINER_LECTURE_GUIDE.md</code></td><td>Your spoken script. Do not read every word. Use the Hinglish hooks.</td></tr>
+        <tr><td><code>Intel_AI_Analytics_Masterclass.pptx</code> (15 image slides)</td><td>Main projected deck. Keep it. HTML animations sit beside it, not instead of it.</td></tr>
+        <tr><td><code>02_LIVE_DEMOS_AND_CODE_WALKTHROUGH.md</code> + <code>04_STUDENT_PRACTICE_SCRIPTS/</code></td><td>Fallback if Colab install fails. Same 6 demos.</td></tr>
+        <tr><td><code>03_HANDS_ON_STUDENT_LAB_ACTIVITIES.md</code></td><td>Answer key while students work. Do not dump starter blanks on projector.</td></tr>
+        <tr><td><code>Day_02_Intel_AI_Analytics_and_Accelerated_ML_Colab.ipynb</code></td><td>The actual student activity. This is the collab/lab.</td></tr>
+        <tr><td><code>05_MCQ_ASSESSMENT_BANK.md</code> (35 Qs)</td><td>Source bank. The HTML quiz is the live 20-Q classroom cut.</td></tr>
+        <tr><td><code>06_QUICK_REFERENCE_CHEAT_SHEET.md</code></td><td>Share after quiz. Two-line patch + env vars.</td></tr>
+      </table>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <h2>Five sentences you must be able to say without notes</h2>
+      <ol>
+        <li>Standard Python ML is slow because the GIL lets only one thread run bytecode, and Python numbers are boxed objects that chase pointers.</li>
+        <li>Intel AI Analytics Toolkit keeps the Python API and moves the heavy math into C++: oneMKL for NumPy, Modin for Pandas, oneDAL for Scikit-learn.</li>
+        <li>The student change is two lines, before any sklearn import: <code>from sklearnex import patch_sklearn</code> then <code>patch_sklearn()</code>.</li>
+        <li>K-Means, Random Forest, PCA, SVM, KNN get the speedup; unsupported estimators silently fall back to stock sklearn.</li>
+        <li>Speedup is not a cheaper answer: inertia, ROC-AUC, and explained variance stay within numerical tolerance.</li>
+      </ol>
+    </div>
+  </div>
+</body>
+</html>

@@ -128,8 +128,16 @@ def audit_system_environment():
     print(f"    - sklearnex Version: {sklearnex.__version__}")
     
     # 5. Patch Status Check
-    from sklearnex.dispatcher import is_patched
-    print(f"    - Global Patch Active: {is_patched()}")
+    try:
+        from sklearnex import sklearn_is_patched
+        patch_active = sklearn_is_patched()
+    except ImportError:
+        try:
+            from sklearnex.dispatcher import is_patched
+            patch_active = is_patched()
+        except ImportError:
+            patch_active = False
+    print(f"    - Global Patch Active: {patch_active}")
     
     print("=" * 65)
     print("  [PASSED] Telemetry Audit Completed Successfully!")
@@ -634,7 +642,7 @@ In a complex multi-team microservice codebase, some components may use experimen
 
 ### 📝 Step-by-Step Instructions
 1. Inspect the initial state of `sys.modules` for Scikit-learn estimators.
-2. Selectively patch only `["KMeans", "PCA"]` using `sklearnex.patch_sklearn(name=["KMeans", "PCA"])`.
+2. Selectively patch only `KMeans` and `PCA` using `sklearnex.patch_sklearn(name=["sklearn.cluster.KMeans", "sklearn.decomposition.PCA"])` (or `["KMeans", "PCA"]` on legacy releases).
 3. Assert that `sklearn.cluster.KMeans` resolves to `daal4py` or `sklearnex`.
 4. Assert that `sklearn.ensemble.RandomForestClassifier` remains in the standard `sklearn.ensemble._forest` module (unpatched).
 5. Call `sklearnex.unpatch_sklearn()` and assert that all estimators revert to stock Scikit-learn.
@@ -700,9 +708,15 @@ def run_selective_patching_lab():
     print(f"   -> Baseline RF Module    : {InitialRF.__module__}")
     
     # 2. Selectively Patch
-    target_estimators = ["KMeans", "PCA"]
+    # In modern scikit-learn-intelex (2024-2026+), patch_sklearn uses fully-qualified names:
+    # ['sklearn.cluster.KMeans', 'sklearn.decomposition.PCA']. Legacy releases accept ['KMeans', 'PCA'].
+    try:
+        target_estimators = ["sklearn.cluster.KMeans", "sklearn.decomposition.PCA"]
+        patch_sklearn(name=target_estimators)
+    except ValueError:
+        target_estimators = ["KMeans", "PCA"]
+        patch_sklearn(name=target_estimators)
     print(f"\n[*] Applying SELECTIVE patch to: {target_estimators}...")
-    patch_sklearn(name=target_estimators)
     
     from sklearn.cluster import KMeans as PatchedKMeans
     from sklearn.decomposition import PCA as PatchedPCA
@@ -748,7 +762,10 @@ def test_lab_5_selective_isolation():
     from sklearnex import patch_sklearn, unpatch_sklearn
     
     unpatch_sklearn()
-    patch_sklearn(name=["KMeans"])
+    try:
+        patch_sklearn(name=["sklearn.cluster.KMeans"])
+    except ValueError:
+        patch_sklearn(name=["KMeans"])
     
     from sklearn.cluster import KMeans
     from sklearn.linear_model import Ridge

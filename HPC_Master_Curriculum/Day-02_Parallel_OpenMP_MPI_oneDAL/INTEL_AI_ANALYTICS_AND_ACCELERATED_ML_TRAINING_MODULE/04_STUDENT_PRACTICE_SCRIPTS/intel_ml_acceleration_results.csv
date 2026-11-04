@@ -1,0 +1,6 @@
+Algorithm,Dataset Shape,Stock Time (s),Intel Time (s),Speedup
+K-Means Clustering,"500,000 x 10",2.964,0.254,11.68x
+PCA (SVD Solver),"250,000 x 50",0.472,0.056,8.40x
+Random Forest (100 Trees),"80,000 x 20",8.687,1.055,8.24x
+K-Nearest Neighbors (k=5),"50,000 x 20",0.564,0.105,5.37x
+Ridge Regression,"200,000 x 40",0.042,0.018,2.31x
