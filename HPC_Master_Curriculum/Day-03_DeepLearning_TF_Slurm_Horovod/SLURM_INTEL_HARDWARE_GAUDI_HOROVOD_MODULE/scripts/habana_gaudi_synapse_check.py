@@ -42,3 +42,4 @@ print("    By integrating 24 high-speed RoCEv2 RDMA networking ports directly on
 print("    Gaudi eliminates external PCIe NIC cards and proprietary cluster switches, delivering")
 print("    near-linear scaling across thousands of nodes in supercomputing centers.")
 print("==========================================================")
+

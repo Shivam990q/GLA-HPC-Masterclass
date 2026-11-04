@@ -170,3 +170,4 @@ if hvd.rank() == 0:
    - Ask students for their answer before clicking.
    - Click the chosen option to reveal immediate Green/Red feedback.
    - Read the `.why` architectural rationale box aloud to reinforce physical hardware and scheduler mechanisms.
+

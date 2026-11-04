@@ -53,3 +53,4 @@ mpirun -n ${SLURM_NTASKS} \
 echo "=========================================================="
 echo "[+] Slurm batch job ${SLURM_JOB_ID} successfully completed at $(date)"
 echo "=========================================================="
+

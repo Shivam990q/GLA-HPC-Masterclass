@@ -65,3 +65,4 @@ print(f"[+] oneDNN Fused Memory Traffic  : {fused_traffic_mb:.2f} MB (Cache resi
 print(f"[+] Memory Bandwidth Saved       : {bandwidth_saved_pct:.1f} %")
 print(f"[+] Status                       : ✅ 100% HARDWARE ACCELERATED VIA oneDNN")
 print("==========================================================")
+

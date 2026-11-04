@@ -159,3 +159,4 @@ mpirun -n 4 --allow-run-as-root python3 ../scripts/distributed_tf_horovod.py
    $$\text{Efficiency} = \frac{\text{Throughput}_{K \text{ workers}}}{K \times \text{Throughput}_{1 \text{ worker}}} \times 100\%$$
 3. **Ring-AllReduce Communication Volume per Worker:**
    $$\text{Volume}_{\text{worker}} = 2 \times \frac{N - 1}{N} \times S \quad (\text{independent of } N \text{ at scale!})$$
+
