@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Day 3 Deep Learning on HPC — 3-Tier Interactive Quiz (Projector Ready)</title>
+  <style>
+    :root {
+      --navy: #0b1f3a;
+      --navy-dark: #071326;
+      --intel: #0071c5;
+      --intel-light: #00c7fd;
+      --red: #d1495b;
+      --mint: #1aa37a;
+      --amber: #e0a100;
+      --bg: #eef3f8;
+      --border: #d7e2ee;
+      --base-font-size: 17px;
+    }
+    * { box-sizing: border-box; }
+    body { 
+      margin: 0; 
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Calibri, sans-serif; 
+      background: var(--bg); 
+      color: var(--navy); 
+      font-size: var(--base-font-size);
+      line-height: 1.6;
+    }
+    header { 
+      background: var(--navy); 
+      color: #fff; 
+      padding: 18px 28px; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      gap: 16px;
+      border-bottom: 3px solid var(--intel);
+    }
+    header strong { font-size: 22px; font-weight: 800; letter-spacing: 0.02em; }
+    header .subtitle { opacity: 0.9; font-size: 15px; margin-top: 4px; }
+    header a { 
+      color: #9fd0ff; 
+      font-weight: 700; 
+      font-size: 15px; 
+      text-decoration: none; 
+      border: 1px solid #9fd0ff; 
+      padding: 8px 16px; 
+      border-radius: 8px; 
+      transition: all 0.2s;
+    }
+    header a:hover { background: rgba(159, 208, 255, 0.2); }
+
+    .scale-btn {
+      background: var(--mint);
+      color: #fff;
+      border: 0;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+    .scale-btn:hover { background: #158664; }
+
+    /* Category Filter Tabs */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 14px 24px;
+      background: #fff;
+      border-bottom: 2px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      justify-content: center;
+    }
+    .filter-btn {
+      border: 1px solid #cfdbe8;
+      background: #f0f6fc;
+      color: var(--navy);
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover { background: #e0edf9; }
+    .filter-btn.active {
+      background: var(--intel);
+      color: #fff;
+      border-color: var(--intel);
+      box-shadow: 0 4px 12px rgba(0, 113, 197, 0.25);
+    }
+
+    .wrap { max-width: 960px; margin: 0 auto; padding: 26px 20px; }
+    
+    /* Progress and Score Bar */
+    .meta { 
+      display: flex; 
+      gap: 16px; 
+      align-items: center; 
+      margin-bottom: 18px; 
+      font-weight: 700; 
+      font-size: 18px; 
+    }
+    #prog { color: var(--intel); min-width: 100px; }
+    #liveScore { color: var(--mint); min-width: 120px; text-align: right; }
+    .bar { flex: 1; height: 14px; background: #d7e2ee; border-radius: 99px; overflow: hidden; }
+    .bar > div { height: 100%; width: 0; background: var(--intel); transition: width 0.3s ease; }
+
+    /* Question Card */
+    .q-card { 
+      background: #fff; 
+      border-radius: 18px; 
+      padding: 30px; 
+      border: 1px solid var(--border); 
+      box-shadow: 0 8px 24px rgba(11, 31, 58, 0.06);
+    }
+    
+    .q-level-badge {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .q-level-badge.l1 { background: #e6f7ef; color: #0d5f40; border: 1px solid #a3e2c3; }
+    .q-level-badge.l2 { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+    .q-level-badge.l3 { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+
+    h2 { margin: 0 0 20px; font-size: 24px; font-weight: 800; line-height: 1.45; color: var(--navy); }
+
+    .opt { 
+      display: block; 
+      width: 100%; 
+      text-align: left; 
+      margin: 12px 0; 
+      padding: 16px 20px; 
+      border-radius: 12px; 
+      border: 2px solid #cfdbe8; 
+      background: #f8fbfe; 
+      cursor: pointer; 
+      font-size: 17px; 
+      font-weight: 600;
+      line-height: 1.5;
+      color: var(--navy);
+      transition: all 0.2s;
+    }
+    .opt:hover:not(:disabled) { border-color: var(--intel); background: #f0f7ff; transform: translateY(-1px); }
+    .opt.ok { background: #e7f7ee !important; border-color: var(--mint) !important; color: #0d5f40; }
+    .opt.bad { background: #fdecee !important; border-color: var(--red) !important; color: #7d1d2b; }
+    .opt:disabled { cursor: default; }
+
+    /* Deep Architectural Rationale Box */
+    .why { 
+      display: none; 
+      margin-top: 20px; 
+      padding: 18px 22px; 
+      background: #fff8e4; 
+      border-left: 6px solid var(--amber);
+      border-radius: 0 12px 12px 0; 
+      font-size: 17px;
+      line-height: 1.6;
+      color: #3b3000;
+    }
+    .why.show { display: block; animation: fadeIn 0.25s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+    button.next-btn { 
+      margin-top: 20px; 
+      background: var(--intel); 
+      color: #fff; 
+      border: 0; 
+      padding: 14px 28px; 
+      border-radius: 10px; 
+      font-weight: 800; 
+      font-size: 17px;
+      cursor: pointer; 
+      box-shadow: 0 4px 12px rgba(0, 113, 197, 0.3);
+      transition: all 0.2s;
+      display: none;
+    }
+    button.next-btn:hover { background: #005a9e; transform: translateY(-1px); }
+
+    /* Results Card */
+    .score-banner {
+      font-size: 52px;
+      font-weight: 800;
+      color: var(--intel);
+      margin: 10px 0;
+    }
+    .breakdown-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    .breakdown-table th, .breakdown-table td {
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+    .breakdown-table th { background: #f0f6fc; }
+
+    /* Projector High-Contrast Scaler Mode */
+    body.projector-mode {
+      --base-font-size: 20px;
+    }
+    body.projector-mode h2 { font-size: 28px; }
+    body.projector-mode .opt { font-size: 20px; padding: 18px 24px; }
+    body.projector-mode .why { font-size: 20px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <strong>Day 3: Deep Learning on HPC — 3-Tier Interactive Quiz</strong>
+      <div class="subtitle">25 Evaluated Syllabus Assessment Questions | Categorized by Cognitive & Architectural Depth</div>
+    </div>
+    <div style="display:flex; gap:10px; align-items:center;">
+      <button class="scale-btn" onclick="document.body.classList.toggle('projector-mode')">🔍 Toggle Projector Zoom</button>
+      <a href="index.html">← Back to Hub</a>
+    </div>
+  </header>
+
+  <!-- Level Filter Navigation -->
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="setFilter('all')">All 25 Questions</button>
+    <button class="filter-btn" onclick="setFilter('1')">Level 1: Foundational (Easy - 8 Qs)</button>
+    <button class="filter-btn" onclick="setFilter('2')">Level 2: Conceptual (Medium - 10 Qs)</button>
+    <button class="filter-btn" onclick="setFilter('3')">Level 3: Systems & Math (Advanced - 7 Qs)</button>
+  </div>
+
+  <div class="wrap">
+    <div class="meta">
+      <span id="prog">Question 1 / 25</span>
+      <div class="bar"><div id="fill"></div></div>
+      <span id="liveScore">Score: 0 / 25</span>
+    </div>
+
+    <div class="q-card" id="cardContainer">
+      <!-- Injected by JavaScript -->
+    </div>
+  </div>
+
+  <script>
+    const ALL_QUESTIONS = [
+      // -----------------------------------------------------------------------
+      // LEVEL 1: FOUNDATIONAL / EASY (8 Questions)
+      // -----------------------------------------------------------------------
+      {
+        id: 1,
+        level: 1,
+        levelText: "Level 1: Foundational (Easy)",
+        q: "What is the primary role of the Slurm workload manager in an HPC cluster?",
+        a: [
+          "Designing neural network architectures",
+          "Managing multi-tenant cluster resource allocation, queueing, and job dispatching across compute nodes",
+          "Compiling Python into HTML",
+          "Encrypting local hard drives"
+        ],
+        c: 1,
+        why: "<b>Slurm (Simple Linux Utility for Resource Management):</b> Provides three key functions: (1) allocates exclusive or shared access to compute nodes, (2) provides a framework for starting and monitoring jobs, and (3) arbitrates contention by managing a pending job queue."
+      },
+      {
+        id: 2,
+        level: 1,
+        levelText: "Level 1: Foundational (Easy)",
+        q: "Why is running heavy deep learning training jobs directly on the cluster login/head node strictly prohibited?",
+        a: [
+          "Because the login node has no operating system",
+          "Because it exhausts CPU/RAM shared by all users, degrading responsiveness or crashing the access gateway for the entire institution",
+          "Because TensorFlow cannot run on Linux",
+          "Because Python is disabled on login nodes"
+        ],
+        c: 1,
+        why: "<b>HPC Policy Invariant:</b> The login node is a shared entry portal. Intensive training exhausts shared RAM and locks CPU cores, freezing access for all researchers. Heavy jobs must always be submitted via <code>sbatch</code> to compute nodes."
+      },
+      {
+        id: 3,
+        level: 1,
+        levelText: "Level 1: Foundational (Easy)",
+        q: "Which environment variable activates Intel oneDNN optimizations in standard TensorFlow?",
+        a: [
+          "TF_GPU_ALLOCATOR=cuda",
+          "TF_ENABLE_ONEDNN_OPTS=1",
+          "USE_MKL=true",
+          "INTEL_FAST_MODE=1"
+        ],
+        c: 1,
+        why: "<b>Intel oneDNN Integration:</b> Setting <code>export TF_ENABLE_ONEDNN_OPTS=1</code> instructs TensorFlow's runtime to replace standard Eigen math operators with oneDNN's highly optimized, cache-fused AVX-512 and AMX kernels."
+      },
+      {
+        id: 5,
+        level: 1,
+        levelText: "Level 1: Foundational (Easy)",
+        q: "What does the '#SBATCH --time=01:30:00' directive specify in a job submission script?",
+        a: [
+          "The time of day the job must start (1:30 AM)",
+          "The maximum wall-clock runtime limit (1 hour, 30 minutes) before the job is safely terminated by Slurm",
+          "The date of training",
+          "The user's login session timeout"
+        ],
+        c: 1,
+        why: "<b>Slurm Walltime Enforcement:</b> <code>--time=HH:MM:SS</code> establishes a strict hard timeout. If training exceeds this limit, Slurm sends SIGTERM followed by SIGKILL to free resources for waiting jobs."
+      },
+      {
+        id: 6,
+        level: 1,
+        levelText: "Level 1: Foundational (Easy)",
+        q: "What does 'squeue -u $USER' display in the terminal?",
+        a: [
+          "The list of all files in the current folder",
+          "The status (PENDING, RUNNING, COMPLETED) of all jobs submitted by the current user",
+          "The cluster temperature",
+          "The system log files"
+        ],
+        c: 1,
+        why: "<b>Monitoring Command:</b> <code>squeue -u &lt;username&gt;</code> filters the active scheduler queue, reporting Job IDs, assigned partitions, states (PD, R, CD), and running times for that user."
+      },
+      {
+        id: 7,
+        level: 1,
+        levelText: "Level 1: Foundational (Easy)",
+        q: "Which command immediately cancels a running Slurm job with ID 45102?",
+        a: [
+          "kill 45102",
+          "scancel 45102",
+          "stop 45102",
+          "delete 45102"
+        ],
+        c: 1,
+        why: "<b>Job Cancellation:</b> <code>scancel &lt;job_id&gt;</code> contacts the <code>slurmctld</code> controller, which broadcasts termination signals to all worker <code>slurmd</code> daemons hosting the job."
+      },
+      {
+        id: 15,
+        level: 1,
+        levelText: "Level 1: Foundational (Easy)",
+        q: "What state is reported by 'squeue' when a job is waiting for compute nodes to become available?",
+        a: [
+          "RUNNING (R)",
+          "PENDING (PD)",
+          "FAILED (F)",
+          "COMPLETED (CD)"
+        ],
+        c: 1,
+        why: "<b>Queue State Machine:</b> <code>PD</code> (Pending) signifies the job is queued in the scheduler waiting for requested resources, licenses, or queue priority to free up."
+      },
+      {
+        id: 23,
+        level: 1,
+        levelText: "Level 1: Foundational (Easy)",
+        q: "What does '#SBATCH --partition=gaudi' request in a Slurm script?",
+        a: [
+          "A specific queue targeting Habana Gaudi accelerator nodes",
+          "An operating system reinstallation",
+          "A specific hard drive format",
+          "An internet download queue"
+        ],
+        c: 0,
+        why: "<b>Hardware Partitioning:</b> Slurm partitions segment compute nodes by hardware type. <code>--partition=gaudi</code> directs the job to nodes equipped with Habana Gaudi AI accelerators."
+      },
+
+      // -----------------------------------------------------------------------
+      // LEVEL 2: CONCEPTUAL / MEDIUM (10 Questions)
+      // -----------------------------------------------------------------------
+      {
+        id: 8,
+        level: 2,
+        levelText: "Level 2: Conceptual (Medium)",
+        q: "What is 'Operator Fusion' in deep learning acceleration libraries like oneDNN?",
+        a: [
+          "Combining two separate neural networks into one",
+          "Fusing consecutive mathematical operations (e.g., Convolution + Bias + Activation) into a single pass through cache memory to avoid DRAM trips",
+          "Joining two Python strings",
+          "Merging two dataset files on disk"
+        ],
+        c: 1,
+        why: "<b>Cache Residency Principle:</b> In naive DL graphs, each operator writes intermediate feature maps out to slow DRAM. Operator fusion combines Conv2D + BatchNorm + ReLU into a single compound kernel, keeping activations in fast L1/L2 cache and cutting DRAM bandwidth by 75%."
+      },
+      {
+        id: 9,
+        level: 2,
+        levelText: "Level 2: Conceptual (Medium)",
+        q: "When scaling from 1 node to 4 nodes with Horovod, why must the learning rate typically be scaled?",
+        a: [
+          "Because the learning rate automatically halves",
+          "Because the effective global batch size is multiplied by 4, requiring larger gradient steps to maintain convergence dynamics (Linear Scaling Rule)",
+          "Because the CPU runs 4x colder",
+          "It should never be changed"
+        ],
+        c: 1,
+        why: "<b>Linear Scaling Rule (Goyal et al.):</b> When scaling across $K$ workers, the global batch size becomes $K \\times \\text{local\\_batch}$. To maintain statistical step trajectory, learning rate must be multiplied: $lr_{\\text{new}} = lr \\times K$."
+      },
+      {
+        id: 10,
+        level: 2,
+        levelText: "Level 2: Conceptual (Medium)",
+        q: "What does the '%j' placeholder represent in '#SBATCH --output=logs/job_%j.out'?",
+        a: [
+          "The job name",
+          "The unique numeric Slurm Job ID",
+          "The user's name",
+          "The date of submission"
+        ],
+        c: 1,
+        why: "<b>Dynamic Filename Substitution:</b> Slurm replaces <code>%j</code> with the integer Job ID (e.g. <code>logs/job_45102.out</code>), preventing concurrent runs from colliding and overwriting log files."
+      },
+      {
+        id: 11,
+        level: 2,
+        levelText: "Level 2: Conceptual (Medium)",
+        q: "Which daemon runs on each individual compute/worker node in a Slurm cluster?",
+        a: [
+          "slurmctld",
+          "slurmd",
+          "systemd",
+          "sshd only"
+        ],
+        c: 1,
+        why: "<b>Slurm Distributed Topology:</b> <code>slurmd</code> is the node supervisor agent on compute hosts that spawns tasks and enforces cgroup constraints. <code>slurmctld</code> is the centralized controller daemon running on the management head node."
+      },
+      {
+        id: 12,
+        level: 2,
+        levelText: "Level 2: Conceptual (Medium)",
+        q: "What is the primary bottleneck in scaling distributed deep learning models beyond a single node?",
+        a: [
+          "Disk storage capacity",
+          "Inter-node network communication and gradient synchronization latency",
+          "Python version differences",
+          "Screen resolution"
+        ],
+        c: 1,
+        why: "<b>Communication Overhead:</b> While compute scales with additional nodes, exchanging gigabytes of gradient tensors over physical network fabrics (InfiniBand/Ethernet) becomes the ultimate scaling limiter."
+      },
+      {
+        id: 14,
+        level: 2,
+        levelText: "Level 2: Conceptual (Medium)",
+        q: "In TensorFlow, how does Horovod distribute gradient updates across workers?",
+        a: [
+          "By uploading gradients to Google Drive",
+          "By wrapping the standard Keras/TF optimizer with hvd.DistributedOptimizer()",
+          "By saving gradients as text files on the login node",
+          "By running multiple independent training loops without communication"
+        ],
+        c: 1,
+        why: "<b>Optimizer Wrapping:</b> <code>hvd.DistributedOptimizer()</code> intercepts the backward pass, invokes an allreduce operation across all worker ranks to average gradients, and then applies the synchronized updates."
+      },
+      {
+        id: 16,
+        level: 2,
+        levelText: "Level 2: Conceptual (Medium)",
+        q: "Which Slurm directive requests 8 CPU cores per distributed task for OpenMP multithreading?",
+        a: [
+          "#SBATCH --cpus-per-task=8",
+          "#SBATCH --cores=8",
+          "#SBATCH --threads=8",
+          "#SBATCH --cpu-count=8"
+        ],
+        c: 0,
+        why: "<b>Thread Allocation:</b> <code>--cpus-per-task=8</code> reserves 8 hardware threads for each task instance, which directly sets <code>OMP_NUM_THREADS=8</code> and TensorFlow's intra-op thread pool."
+      },
+      {
+        id: 18,
+        level: 2,
+        levelText: "Level 2: Conceptual (Medium)",
+        q: "What command displays the overall status and available partitions of an entire Slurm cluster?",
+        a: [
+          "sinfo",
+          "top",
+          "htop",
+          "cluster_view"
+        ],
+        c: 0,
+        why: "<b>Cluster Inventory:</b> <code>sinfo</code> provides a birds-eye overview of cluster partitions, node states (idle, allocated, down, drained), and node counts."
+      },
+      {
+        id: 20,
+        level: 2,
+        levelText: "Level 2: Conceptual (Medium)",
+        q: "In a multi-node Horovod job, what does 'hvd.rank()' return?",
+        a: [
+          "The global rank (ID) of the current worker process",
+          "The CPU clock frequency",
+          "The total memory available",
+          "The learning rate"
+        ],
+        c: 0,
+        why: "<b>Process Identification:</b> <code>hvd.rank()</code> returns the unique integer ID (0 to N-1) of the calling process within the global communicator, enabling rank-conditional logic like logging and checkpointing."
+      },
+      {
+        id: 24,
+        level: 2,
+        levelText: "Level 2: Conceptual (Medium)",
+        q: "When training with Horovod, which worker rank is typically responsible for saving checkpoints and writing logs?",
+        a: [
+          "All workers simultaneously",
+          "Rank 0 (Master worker) only",
+          "The last worker rank only",
+          "A random worker chosen each epoch"
+        ],
+        c: 1,
+        why: "<b>I/O Collision Prevention:</b> Restricting model checkpointing and validation logging to Rank 0 (<code>if hvd.rank() == 0:</code>) prevents corrupted files, disk race conditions, and duplicated I/O operations."
+      },
+
+      // -----------------------------------------------------------------------
+      // LEVEL 3: SYSTEMS, ARCHITECTURE & MATH / ADVANCED (7 Questions)
+      // -----------------------------------------------------------------------
+      {
+        id: 4,
+        level: 3,
+        levelText: "Level 3: Systems & Math (Advanced)",
+        q: "In the Ring-Allreduce algorithm used by Horovod, how does communication time scale with the number of compute nodes N?",
+        a: [
+          "It increases exponentially (O(2^N))",
+          "It is largely independent of N, scaling as 2 * ((N-1)/N) * (M/B) where bandwidth is fully saturated",
+          "It drops to zero instantly",
+          "It requires a central server to store all weights"
+        ],
+        c: 1,
+        why: "<b>Ring-Allreduce Invariant:</b> In a ring topology of $N$ nodes, total data transferred per worker is $2 \\frac{N-1}{N} S$. As $N \\to \\infty$, this converges to $2S$. Bandwidth required per worker remains constant regardless of whether the cluster has 4 or 4,000 nodes!"
+      },
+      {
+        id: 13,
+        level: 3,
+        levelText: "Level 3: Systems & Math (Advanced)",
+        q: "Which Intel AI accelerator features 24 integrated 100GbE RoCE ports directly on the silicon substrate to eradicate cluster networking bottlenecks?",
+        a: [
+          "Intel Xeon E5-2670",
+          "Habana Gaudi 2 / Gaudi 3",
+          "Intel Core i7-13700K",
+          "Intel UHD Graphics"
+        ],
+        c: 1,
+        why: "<b>Habana Gaudi Silicon Architecture:</b> Gaudi 2/3 integrates 24x 100GbE RoCEv2 (RDMA over Converged Ethernet) engines directly onto the processor die, allowing nodes to build an All-to-All mesh without external PCIe NIC cards or proprietary switches."
+      },
+      {
+        id: 17,
+        level: 3,
+        levelText: "Level 3: Systems & Math (Advanced)",
+        q: "In deep learning on CPUs, which instruction set extension enables low-precision INT8 neural network inference with 4x throughput?",
+        a: [
+          "MMX",
+          "AVX-512 VNNI (Vector Neural Network Instructions)",
+          "SSE2",
+          "BIOS"
+        ],
+        c: 1,
+        why: "<b>VNNI Hardware Acceleration:</b> AVX-512 VNNI introduces the <code>vpdpbusd</code> instruction, which computes an INT8 dot-product with 32-bit accumulation in a single cycle, quadrupling convolutional inference speed."
+      },
+      {
+        id: 19,
+        level: 3,
+        levelText: "Level 3: Systems & Math (Advanced)",
+        q: "What does the Parameter Server architecture suffer from when scaling to 16+ distributed nodes?",
+        a: [
+          "High CPU overheating on worker nodes",
+          "Network bandwidth saturation and CPU bottleneck on the central parameter server",
+          "Immediate loss of training data",
+          "Software license expiration"
+        ],
+        c: 1,
+        why: "<b>Central Bottleneck Math:</b> In Parameter Server mode, the central node must receive $O(N \\times S)$ gradients and broadcast $O(N \\times S)$ updated weights. At 16 nodes, the central server's network bandwidth becomes completely saturated, causing all workers to stall."
+      },
+      {
+        id: 21,
+        level: 3,
+        levelText: "Level 3: Systems & Math (Advanced)",
+        q: "Which tool in Intel oneAPI provides the low-level deep learning primitives utilized by TensorFlow-MKL?",
+        a: [
+          "Intel oneDNN",
+          "Intel VTune",
+          "Intel Inspector",
+          "Intel Advisor"
+        ],
+        c: 0,
+        why: "<b>oneAPI Component Mapping:</b> <b>oneDNN</b> (oneAPI Deep Neural Network Library) contains optimized C++ kernels for Conv2D, pooling, and GEMM. (Note: oneDAL is for classical ML; oneMKL is for general linear algebra; VTune is for profiling)."
+      },
+      {
+        id: 22,
+        level: 3,
+        levelText: "Level 3: Systems & Math (Advanced)",
+        q: "How should an interactive multi-task job be launched inside an active Slurm environment?",
+        a: [
+          "bash script.sh",
+          "srun python3 app.py",
+          "python3 app.py &",
+          "nohup python3 app.py"
+        ],
+        c: 1,
+        why: "<b>Slurm Step Launcher:</b> <code>srun</code> connects directly to the Slurm scheduler to launch tasks across assigned nodes and cores, binding CPU affinities and forwarding MPI environment variables."
+      },
+      {
+        id: 25,
+        level: 3,
+        levelText: "Level 3: Systems & Math (Advanced)",
+        q: "What supercomputing discipline is introduced on Day 4 to diagnose microarchitectural bottlenecks in distributed jobs?",
+        a: [
+          "Frontend design",
+          "Microarchitecture profiling and debugging with Intel VTune Profiler",
+          "Spreadsheet auditing",
+          "Mobile app development"
+        ],
+        c: 1,
+        why: "<b>Curriculum Progression:</b> Day 4 introduces <b>Intel VTune Profiler</b> to inspect hardware telemetry: CPI (Cycles Per Instruction), L1/L2/L3 cache misses, branch mispredictions, NUMA traffic, and lock contention."
+      }
+    ];
+
+    let currentFilter = 'all';
+    let filteredQuestions = [...ALL_QUESTIONS];
+    let currentIndex = 0;
+    let score = 0;
+    let answered = false;
+    let levelStats = {
+      1: { total: 0, correct: 0 },
+      2: { total: 0, correct: 0 },
+      3: { total: 0, correct: 0 }
+    };
+
+    function setFilter(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+
+      if (filter === 'all') {
+        filteredQuestions = [...ALL_QUESTIONS];
+      } else {
+        const lvl = parseInt(filter);
+        filteredQuestions = ALL_QUESTIONS.filter(q => q.level === lvl);
+      }
+      resetQuiz();
+    }
+
+    function resetQuiz() {
+      currentIndex = 0;
+      score = 0;
+      answered = false;
+      levelStats = {
+        1: { total: 0, correct: 0 },
+        2: { total: 0, correct: 0 },
+        3: { total: 0, correct: 0 }
+      };
+      // Count totals for filtered set
+      filteredQuestions.forEach(q => levelStats[q.level].total++);
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      answered = false;
+      const total = filteredQuestions.length;
+      document.getElementById('prog').innerText = `Question ${currentIndex + 1} / ${total}`;
+      document.getElementById('liveScore').innerText = `Score: ${score} / ${total}`;
+      document.getElementById('fill').style.width = ((currentIndex / total) * 100) + '%';
+
+      const qData = filteredQuestions[currentIndex];
+      const card = document.getElementById('cardContainer');
+
+      let optionsHtml = '';
+      qData.a.forEach((optText, idx) => {
+        optionsHtml += `<button class="opt" id="opt_${idx}" onclick="selectAnswer(${idx})">${String.fromCharCode(65 + idx)}) ${optText}</button>`;
+      });
+
+      card.innerHTML = `
+        <span class="q-level-badge l${qData.level}">${qData.levelText}</span>
+        <h2>Q${qData.id}. ${qData.q}</h2>
+        <div>${optionsHtml}</div>
+        <div class="why" id="whyBox">${qData.why}</div>
+        <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Next Question ➔</button>
+      `;
+    }
+
+    function selectAnswer(chosenIdx) {
+      if (answered) return;
+      answered = true;
+      const qData = filteredQuestions[currentIndex];
+      const isCorrect = (chosenIdx === qData.c);
+
+      if (isCorrect) {
+        score++;
+        levelStats[qData.level].correct++;
+      }
+
+      // Highlight options
+      qData.a.forEach((_, idx) => {
+        const btn = document.getElementById('opt_' + idx);
+        btn.disabled = true;
+        if (idx === qData.c) {
+          btn.classList.add('ok');
+        } else if (idx === chosenIdx && !isCorrect) {
+          btn.classList.add('bad');
+        }
+      });
+
+      // Show Deep Rationale
+      const whyBox = document.getElementById('whyBox');
+      whyBox.classList.add('show');
+
+      // Update live score display
+      const total = filteredQuestions.length;
+      document.getElementById('liveScore').innerText = `Score: ${score} / ${total}`;
+
+      // Show Next or Finish Button
+      const nextBtn = document.getElementById('nextBtn');
+      nextBtn.style.display = 'inline-block';
+      if (currentIndex === total - 1) {
+        nextBtn.innerText = '🏁 View Final Assessment Scorecard';
+      }
+    }
+
+    function nextQuestion() {
+      currentIndex++;
+      if (currentIndex < filteredQuestions.length) {
+        renderQuestion();
+      } else {
+        renderResults();
+      }
+    }
+
+    function renderResults() {
+      const total = filteredQuestions.length;
+      const pct = Math.round((score / total) * 100);
+      document.getElementById('fill').style.width = '100%';
+      document.getElementById('prog').innerText = 'Completed';
+      document.getElementById('liveScore').innerText = `Final: ${score} / ${total}`;
+
+      let badgeTitle = '';
+      let badgeClass = '';
+      if (pct >= 90) {
+        badgeTitle = '🏆 Distinction: Supercomputing Architect Mastery';
+        badgeClass = 'green';
+      } else if (pct >= 75) {
+        badgeTitle = '⚡ Proficient: HPC Systems Practitioner';
+        badgeClass = 'green';
+      } else {
+        badgeTitle = '🔄 Recommended Revision: Review Day 3 Study Guide';
+        badgeClass = 'red';
+      }
+
+      const card = document.getElementById('cardContainer');
+      card.innerHTML = `
+        <div style="text-align:center; padding:20px 0;">
+          <div style="font-size:20px; font-weight:800; color:#64748b;">OFFICIAL ASSESSMENT RESULTS</div>
+          <div class="score-banner">${score} / ${total} (${pct}%)</div>
+          <div style="font-size:22px; font-weight:800; color:var(--intel); margin-bottom:20px;">${badgeTitle}</div>
+          
+          <table class="breakdown-table">
+            <thead>
+              <tr>
+                <th>Cognitive Difficulty Tier</th>
+                <th>Questions In Set</th>
+                <th>Your Score</th>
+                <th>Proficiency</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>Level 1: Foundational (Easy)</b></td>
+                <td>${levelStats[1].total}</td>
+                <td>${levelStats[1].correct} / ${levelStats[1].total}</td>
+                <td>${levelStats[1].total > 0 ? Math.round((levelStats[1].correct / levelStats[1].total)*100) : 0}%</td>
+              </tr>
+              <tr>
+                <td><b>Level 2: Conceptual (Medium)</b></td>
+                <td>${levelStats[2].total}</td>
+                <td>${levelStats[2].correct} / ${levelStats[2].total}</td>
+                <td>${levelStats[2].total > 0 ? Math.round((levelStats[2].correct / levelStats[2].total)*100) : 0}%</td>
+              </tr>
+              <tr>
+                <td><b>Level 3: Systems & Math (Advanced)</b></td>
+                <td>${levelStats[3].total}</td>
+                <td>${levelStats[3].correct} / ${levelStats[3].total}</td>
+                <td>${levelStats[3].total > 0 ? Math.round((levelStats[3].correct / levelStats[3].total)*100) : 0}%</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div style="display:flex; gap:12px; justify-content:center; margin-top:24px;">
+            <button class="next-btn" style="display:inline-block;" onclick="resetQuiz()">↺ Retake Quiz</button>
+            <a href="01_day03_theory_animations.html" style="text-decoration:none;">
+              <button class="next-btn" style="display:inline-block; background:var(--mint);">🎬 Review Theory Animations</button>
+            </a>
+          </div>
+        </div>
+      `;
+    }
+
+    // Initialize Quiz on load
+    resetQuiz();
+  </script>
+</body>
+</html>

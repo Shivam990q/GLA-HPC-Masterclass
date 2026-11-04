@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Day 3 Deep Learning on HPC — Theory Animations (Projector Ready)</title>
+  <style>
+    :root { 
+      --navy: #0b1f3a; 
+      --navy-dark: #071326;
+      --intel: #0071c5; 
+      --intel-light: #00c7fd;
+      --red: #d1495b; 
+      --mint: #1aa37a; 
+      --amber: #e0a100;
+      --idle: #9aa8b8; 
+      --bg: #eef3f8;
+      --card-bg: #ffffff;
+      --border: #d7e2ee;
+      --base-font-size: 16px;
+    }
+    * { box-sizing: border-box; }
+    body { 
+      margin: 0; 
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Calibri, sans-serif; 
+      background: var(--bg); 
+      color: var(--navy); 
+      font-size: var(--base-font-size);
+      line-height: 1.6;
+    }
+    header { 
+      background: var(--navy); 
+      color: #fff; 
+      padding: 18px 28px; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      gap: 16px; 
+      border-bottom: 3px solid var(--intel);
+    }
+    header strong { font-size: 22px; font-weight: 800; letter-spacing: 0.02em; }
+    header .subtitle { opacity: 0.9; font-size: 15px; margin-top: 4px; }
+    header a { 
+      color: #9fd0ff; 
+      font-weight: 700; 
+      font-size: 15px; 
+      text-decoration: none; 
+      border: 1px solid #9fd0ff; 
+      padding: 8px 16px; 
+      border-radius: 8px; 
+      transition: all 0.2s;
+    }
+    header a:hover { background: rgba(159, 208, 255, 0.2); }
+    
+    .scale-btn {
+      background: var(--mint);
+      color: #fff;
+      border: 0;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+    .scale-btn:hover { background: #158664; }
+    
+    nav { 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 10px; 
+      padding: 14px 24px; 
+      background: #fff; 
+      border-bottom: 2px solid var(--border); 
+      position: sticky; 
+      top: 0; 
+      z-index: 100; 
+    }
+    nav button { 
+      border: 1px solid #cfdbe8; 
+      background: #f0f6fc; 
+      color: var(--navy); 
+      padding: 10px 18px; 
+      border-radius: 999px; 
+      font-weight: 700; 
+      font-size: 15px; 
+      cursor: pointer; 
+      transition: all 0.2s;
+    }
+    nav button:hover { background: #e0edf9; }
+    nav button.on { 
+      background: var(--intel); 
+      color: #fff; 
+      border-color: var(--intel); 
+      box-shadow: 0 4px 12px rgba(0, 113, 197, 0.25);
+    }
+    
+    section { display: none; padding: 24px; max-width: 1280px; margin: 0 auto; }
+    section.show { display: block; animation: fadeIn 0.3s ease-in-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    
+    .stage { 
+      background: var(--card-bg); 
+      border-radius: 18px; 
+      padding: 28px; 
+      border: 1px solid var(--border); 
+      box-shadow: 0 6px 20px rgba(11, 31, 58, 0.05);
+    }
+    h2 { margin: 0 0 12px; font-size: 26px; font-weight: 800; color: var(--navy); }
+    h3 { margin: 16px 0 10px; font-size: 20px; font-weight: 700; color: var(--intel); }
+    
+    .say { 
+      background: #fff9e6; 
+      border-left: 6px solid var(--amber); 
+      padding: 16px 20px; 
+      margin: 12px 0 20px; 
+      border-radius: 0 12px 12px 0; 
+      font-size: 18px;
+      line-height: 1.6;
+      color: #2e2600;
+      box-shadow: 0 2px 8px rgba(224, 161, 0, 0.08);
+    }
+    .say b { color: #8c6000; font-size: 19px; }
+    
+    .row { display: flex; gap: 24px; flex-wrap: wrap; }
+    .col { flex: 1; min-width: 320px; }
+    
+    /* Interactive Controls */
+    .ctrl-bar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+    button.play { 
+      background: var(--intel); 
+      color: #fff; 
+      border: 0; 
+      padding: 11px 22px; 
+      border-radius: 10px; 
+      font-weight: 800; 
+      font-size: 16px; 
+      cursor: pointer; 
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(0, 113, 197, 0.3);
+    }
+    button.play:hover { background: #005a9e; transform: translateY(-1px); }
+    button.sec {
+      background: #f0f6fc;
+      color: var(--navy);
+      border: 1px solid #cfdbe8;
+      padding: 11px 18px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    button.sec:hover { background: #e2eaf2; }
+    
+    /* Custom Visual Layout Elements */
+    .metric-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #eaf3fb;
+      color: #005691;
+      font-weight: 800;
+      font-size: 14px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid #c0d8f0;
+    }
+    .metric-badge.green { background: #e6f7ef; color: #0f6c49; border-color: #a3e2c3; }
+    .metric-badge.red { background: #fdebee; color: #8e1c2b; border-color: #f7b2bb; }
+    
+    /* Visual Diagram Containers */
+    .diagram-box {
+      background: #f8fafc;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      min-height: 280px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* SIMD / Vector Lane */
+    .zmm-register {
+      display: grid;
+      grid-template-columns: repeat(16, 1fr);
+      gap: 4px;
+      margin: 14px 0;
+      background: #0b1f3a;
+      padding: 8px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .zmm-slot {
+      background: #1a3b68;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      text-align: center;
+      padding: 12px 2px;
+      border-radius: 6px;
+      transition: all 0.3s;
+    }
+    .zmm-slot.active {
+      background: var(--intel-light);
+      color: #071326;
+      box-shadow: 0 0 10px var(--intel-light);
+    }
+    
+    /* 64-Core Xeon Grid */
+    .cores-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px; }
+    .core-cell {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      background: var(--idle);
+      color: #fff;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      transition: all 0.3s;
+    }
+    .core-cell.busy { background: var(--red); animation: corePulse 1s infinite; }
+    .core-cell.work { background: var(--intel); animation: corePulse 0.8s infinite; }
+    @keyframes corePulse { 50% { transform: scale(0.94); opacity: 0.85; } }
+    
+    /* AMX 2D TMUL Matrix Tiles */
+    .tile-grid {
+      display: grid;
+      grid-template-columns: repeat(16, 1fr);
+      gap: 2px;
+      background: #071326;
+      padding: 8px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto;
+    }
+    .tile-cell {
+      aspect-ratio: 1;
+      background: #1e3a5f;
+      border-radius: 2px;
+      transition: background 0.2s;
+    }
+    .tile-cell.pulse {
+      background: var(--intel-light);
+      box-shadow: 0 0 6px var(--intel-light);
+    }
+    
+    /* Data Pipeline Timeline (Gantt) */
+    .timeline-row {
+      display: flex;
+      height: 44px;
+      background: #e2e8f0;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .t-block {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 13px;
+      height: 100%;
+      transition: width 0.4s;
+    }
+    .t-block.io { background: #e0a100; }
+    .t-block.compute { background: var(--intel); }
+    .t-block.idle { background: var(--red); }
+    .t-block.overlap { background: var(--mint); }
+    
+    /* Cache vs DRAM Memory Hierarchy Animation */
+    .mem-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .mem-layer {
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+    }
+    .mem-layer.l1 { background: #e6f7ef; border-left: 6px solid var(--mint); color: #0d5f40; }
+    .mem-layer.l2 { background: #e0f2fe; border-left: 6px solid var(--intel); color: #0369a1; }
+    .mem-layer.l3 { background: #ede9fe; border-left: 6px solid #8b5cf6; color: #6d28d9; }
+    .mem-layer.dram { background: #fee2e2; border-left: 6px solid var(--red); color: #991b1b; }
+    
+    /* Ring-AllReduce Circular Visualizer */
+    .ring-container {
+      position: relative;
+      width: 320px;
+      height: 320px;
+      margin: 0 auto;
+    }
+    .ring-node {
+      position: absolute;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 13px;
+      box-shadow: 0 4px 12px rgba(11, 31, 58, 0.3);
+      border: 3px solid var(--intel);
+      transition: transform 0.3s;
+    }
+    .ring-node span { font-size: 10px; opacity: 0.8; }
+    .ring-chunk {
+      display: flex;
+      gap: 2px;
+      margin-top: 3px;
+    }
+    .c-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      background: #9aa8b8;
+    }
+    .c-dot.c0 { background: #3b82f6; }
+    .c-dot.c1 { background: #10b981; }
+    .c-dot.c2 { background: #f59e0b; }
+    .c-dot.c3 { background: #ef4444; }
+    
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; font-size: 15px; margin-top: 12px; }
+    th { background: #f0f6fc; color: var(--navy); font-weight: 800; padding: 12px 14px; border-bottom: 2px solid #cfdbe8; text-align: left; }
+    td { border-bottom: 1px solid var(--border); padding: 12px 14px; vertical-align: middle; }
+    
+    code { background: #eaf1f8; color: #005691; padding: 3px 8px; border-radius: 6px; font-family: 'Consolas', monospace; font-size: 0.95em; }
+    p { font-size: 16px; line-height: 1.6; margin: 8px 0; }
+    
+    /* Projector High-Contrast Scaler Mode */
+    body.projector-mode {
+      --base-font-size: 19px;
+    }
+    body.projector-mode h2 { font-size: 32px; }
+    body.projector-mode h3 { font-size: 24px; }
+    body.projector-mode .say { font-size: 21px; }
+    body.projector-mode .say b { font-size: 22px; }
+    body.projector-mode nav button { font-size: 18px; padding: 12px 22px; }
+    body.projector-mode .core-cell { font-size: 14px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <strong>Day 3: Deep Learning on HPC — Theory Animations (Projector Ready)</strong>
+      <div class="subtitle">GLA Supercomputing Masterclass | Intel & NEC Alliance | Lead Trainer: Shivam Gupta</div>
+    </div>
+    <div style="display:flex; gap:10px; align-items:center;">
+      <button class="scale-btn" onclick="toggleProjector()">🔍 Toggle Projector Zoom</button>
+      <a href="index.html">← Back to Hub</a>
+    </div>
+  </header>
+
+  <nav id="navBar">
+    <button class="on" data-tab="1">1. AVX-512 BLAS</button>
+    <button data-tab="2">2. oneDAL Zero-Copy</button>
+    <button data-tab="3">3. Intel AMX Systolic</button>
+    <button data-tab="4">4. AUTOTUNE Pipeline</button>
+    <button data-tab="5">5. oneDNN Fusion</button>
+    <button data-tab="6">6. GPU Max & Gaudi</button>
+    <button data-tab="7">7. Slurm Scheduler</button>
+    <button data-tab="8">8. Ring-AllReduce</button>
+  </nav>
+
+  <!-- ========================================================================= -->
+  <!-- TAB 1: Vectorized BLAS vs Scalar Memory Chasing -->
+  <!-- ========================================================================= -->
+  <section id="tab1" class="show">
+    <div class="stage">
+      <h2>1. Vectorized oneMKL BLAS vs CPython Scalar Pointer Chasing</h2>
+      <div class="say">
+        <b>Say this:</b> “When multiplying matrices in native CPython, every number is a heap-allocated 24-byte <code>PyObject</code>. The CPU has to perform 16 separate memory lookups across the slow 64-bit bus, suffering constant cache misses. In contrast, <b>Intel oneMKL</b> utilizes 512-bit <code>ZMM</code> vector registers to load 16 float32 numbers in a single memory cycle and compute 16 Fused Multiply-Add (FMA) operations simultaneously!”
+      </div>
+      <div class="ctrl-bar">
+        <button class="play" onclick="runSimdAnimation()">▶ Run SIMD Memory Cycle</button>
+        <span class="metric-badge green" id="simdSpeedBadge">AVX-512: 16 Floats / Cycle (32 FLOPs)</span>
+        <span class="metric-badge red">CPython: 1 Float / 65ns RAM Latency</span>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h3>CPython List — Pointer Chasing & Cache Misses</h3>
+          <div class="diagram-box" id="scalarHeap">
+            <p style="font-size:14px; color:#64748b; margin-top:0;">Scattered Heap Memory (DRAM):</p>
+            <div id="heapObjects" style="position:relative; height:200px;"></div>
+            <div id="scalarStatus" style="font-weight:700; color:var(--red); margin-top:10px;">Click 'Run SIMD Memory Cycle' to compare memory traffic.</div>
+          </div>
+        </div>
+        <div class="col">
+          <h3>Intel oneMKL — 512-bit ZMM Register (16 Packed FP32 Values)</h3>
+          <div class="diagram-box">
+            <p style="font-size:14px; color:#64748b; margin-top:0;">Single-Cycle 512-bit AVX-512 Vector Bus Load:</p>
+            <div class="zmm-register" id="zmmRegister"></div>
+            <div style="background:#071326; color:#00c7fd; padding:12px; border-radius:8px; font-family:monospace; font-size:13px; margin-top:14px;">
+              <div>// Sapphire Rapids / Emerald Rapids Vector Engine</div>
+              <div>vmovups zmm0, [rdi]        ; 512-bit load (16x float32)</div>
+              <div>vfmadd231ps zmm1, zmm0, zmm2 ; 16 FMAs in 1 clock cycle</div>
+            </div>
+            <div id="simdStatus" style="font-weight:700; color:var(--intel); margin-top:10px;">Packed contiguous SIMD: 0 pointer chasing, 100% cache-line utilization.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- TAB 2: Intel oneDAL (sklearnex) Zero-Copy Patching -->
+  <!-- ========================================================================= -->
+  <section id="tab2">
+    <div class="stage">
+      <h2>2. Intel oneDAL (<code>sklearnex</code>) Zero-Copy Memory & GIL Release</h2>
+      <div class="say">
+        <b>Say this:</b> “Stock Scikit-learn runs inside the CPython interpreter under the Global Interpreter Lock (GIL). When computing algorithms like KMeans or SVM, 63 out of 64 Xeon cores sit 100% idle! When you execute <code>patch_sklearn()</code>, Intel oneDAL intercepts the call, extracts the raw memory pointer via zero-copy C-Capsules, immediately drops the GIL, and dispatches multi-threaded native C++ OpenMP/SYCL kernels across every physical CPU core!”
+      </div>
+      <div class="ctrl-bar">
+        <button class="play" id="patchBtn" onclick="toggleOneDalPatch()">▶ Apply patch_sklearn()</button>
+        <button class="sec" onclick="resetOneDalPatch()">Reset to Stock</button>
+        <span class="metric-badge" id="dalBadge">Stock Scikit-Learn (1 Core Active)</span>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h3>CPython Boundary & Execution State</h3>
+          <div class="diagram-box">
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              <div id="gilBox" style="background:#fdebee; border:2px solid var(--red); padding:14px; border-radius:10px; font-weight:700; color:var(--red);">
+                🔒 CPython GIL: LOCKED (Single thread bytecode execution)
+              </div>
+              <div id="memoryPath" style="background:#f0f6fc; border:2px dashed #9aa8b8; padding:14px; border-radius:10px; font-size:14px;">
+                <b>Memory Path:</b> Boxed PyObjects -> Python C-API -> Serial evaluation
+              </div>
+              <div style="background:#071326; color:#a3e2c3; padding:12px; border-radius:8px; font-family:monospace; font-size:13px;">
+                from sklearnex import patch_sklearn<br>
+                patch_sklearn() # Replaces sklearn algorithms with oneDAL C++
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <h3>64-Core Xeon Scalable Processor Allocation</h3>
+          <div class="diagram-box">
+            <div class="cores-grid" id="dalCores"></div>
+            <p id="dalCoresLabel" style="font-weight:700; color:var(--red); margin-top:14px;">
+              1 Core Active (Core 00), 63 Cores Wasted. Speedup: 1.0x
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- TAB 3: Intel AMX (Advanced Matrix Extensions) 2D Systolic TMUL Tiles -->
+  <!-- ========================================================================= -->
+  <section id="tab3">
+    <div class="stage">
+      <h2>3. Intel AMX (Advanced Matrix Extensions) 2D Tile Systolic Engine</h2>
+      <div class="say">
+        <b>Say this:</b> “On 4th and 5th Gen Intel Xeon Scalable processors (Sapphire Rapids & Emerald Rapids), Intel introduced <b>AMX</b>. Unlike 1D vector registers, AMX features eight 2D Tile registers (<code>TMM0-TMM7</code>), each holding 1 Kilobyte of data. The TMUL (Tile Matrix Multiply) systolic array performs matrix outer-product contractions, calculating <b>2,048 INT8 operations or 1,024 BF16 operations per single clock cycle</b> right on the CPU die!”
+      </div>
+      <div class="ctrl-bar">
+        <button class="play" onclick="stepAmxTile()">▶ Step AMX Systolic MatMul</button>
+        <span class="metric-badge green">AMX TMUL: 2048 INT8 Ops/Cycle</span>
+        <span class="metric-badge green">1024 Bfloat16 Ops/Cycle</span>
+        <span class="metric-badge">8 Tile Registers (8 KB Register File)</span>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h3>16x16 Systolic Matrix Accumulator (TMUL Engine)</h3>
+          <div class="diagram-box" style="text-align:center;">
+            <p style="font-size:13px; color:#64748b; margin-top:0;">16x16 Systolic Processing Array (TMM0 += TMM1 * TMM2):</p>
+            <div class="tile-grid" id="amxGrid"></div>
+            <div id="amxCounter" style="margin-top:12px; font-weight:800; color:var(--intel);">Cycle: 0 / 16 | Cumulative Operations: 0</div>
+          </div>
+        </div>
+        <div class="col">
+          <h3>NUMA Sub-Clustering (SNC-4) vs Cross-Socket Contention</h3>
+          <div class="diagram-box">
+            <div class="mem-stack">
+              <div class="mem-layer l1">
+                <span><b>Local Sub-NUMA Cluster (SNC)</b>: Cores pinned to local DDR5 channel</span>
+                <span style="font-weight:800;">70 ns Latency</span>
+              </div>
+              <div class="mem-layer dram">
+                <span><b>Cross-Socket Remote Access (UPI Bus)</b>: Remote socket memory traversal</span>
+                <span style="font-weight:800;">145 ns Latency (2x Delay!)</span>
+              </div>
+            </div>
+            <div style="background:#071326; color:#9fd0ff; padding:12px; border-radius:8px; font-family:monospace; font-size:13px; margin-top:16px;">
+              # High-Performance NUMA Job Invocation:<br>
+              numactl --cpunodebind=0 --membind=0 python3 train.py
+            </div>
+            <p style="font-size:14px; margin-top:10px;">
+              <b>Key Takeaway:</b> Always bind deep learning workers to local NUMA nodes to prevent UPI interconnect saturation.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- TAB 4: Hardware-Aware ML: tf.data.AUTOTUNE Prefetching -->
+  <!-- ========================================================================= -->
+  <section id="tab4">
+    <div class="stage">
+      <h2>4. Hardware-Aware Data Pipelines: <code>tf.data.AUTOTUNE</code> & Thread Pools</h2>
+      <div class="say">
+        <b>Say this:</b> “In naive deep learning code, the GPU or Xeon matrix engine sits idle while the CPU reads images from disk, and then the CPU sits idle while the accelerator trains the batch. This is the <i>Step-and-Wait</i> bottleneck! By applying <code>dataset.prefetch(tf.data.AUTOTUNE)</code>, background I/O threads continuously load batches $N+1$ and $N+2$ into host RAM while the accelerator trains batch $N$. The compute engine never starves!”
+      </div>
+      <div class="ctrl-bar">
+        <button class="play" id="autotuneBtn" onclick="toggleAutotune()">▶ Toggle tf.data.AUTOTUNE Prefetching</button>
+        <span class="metric-badge red" id="pipeBadge">Naive Pipeline: 42% Compute Utilization (Stalled on Disk)</span>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h3>Execution Timeline Comparison (Gantt Chart)</h3>
+          <div class="diagram-box">
+            <p style="font-weight:700; margin:0 0 6px;">1. Naive Synchronous Pipeline (Step-and-Wait Bottleneck):</p>
+            <div class="timeline-row">
+              <div class="t-block io" style="width:25%;">Disk I/O</div>
+              <div class="t-block compute" style="width:25%;">Train Batch 1</div>
+              <div class="t-block idle" style="width:25%;">GPU Idle (Stall)</div>
+              <div class="t-block io" style="width:25%;">Disk I/O</div>
+            </div>
+            <p style="font-weight:700; margin:16px 0 6px;">2. Hardware-Aware Decoupled Pipeline (<code>tf.data.AUTOTUNE</code>):</p>
+            <div class="timeline-row">
+              <div class="t-block overlap" style="width:100%;">
+                ⚡ 100% Saturation: Background Threads Load Batch N+1 while Core Trains Batch N
+              </div>
+            </div>
+            <p id="pipeDesc" style="font-size:14px; margin-top:12px; color:#475569;">
+              Without prefetching, 58% of execution time is wasted in I/O wait states.
+            </p>
+          </div>
+        </div>
+        <div class="col">
+          <h3>Intra-op vs Inter-op Decoupled Thread Architecture</h3>
+          <div class="diagram-box">
+            <table>
+              <thead>
+                <tr>
+                  <th>Thread Pool</th>
+                  <th>Hardware Target</th>
+                  <th>Recommended Setting</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>intra_op_parallelism</code></td>
+                  <td>Threads within a single math kernel (GEMM, Conv2D)</td>
+                  <td>= Physical Cores per Socket</td>
+                </tr>
+                <tr>
+                  <td><code>inter_op_parallelism</code></td>
+                  <td>Concurrent independent graph nodes</td>
+                  <td>= 2 (Socket count)</td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="background:#071326; color:#9fd0ff; padding:12px; border-radius:8px; font-family:monospace; font-size:13px; margin-top:16px;">
+              tf.config.threading.set_intra_op_parallelism_threads(32)<br>
+              tf.config.threading.set_inter_op_parallelism_threads(2)
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- TAB 5: Intel oneDNN Operator Fusion -->
+  <!-- ========================================================================= -->
+  <section id="tab5">
+    <div class="stage">
+      <h2>5. Intel oneDNN Operator Fusion: Crushing the DRAM Memory Wall</h2>
+      <div class="say">
+        <b>Say this:</b> “Why is standard deep learning memory-bound? Because in an unfused graph, <code>Conv2D</code> writes 3.2 Megabytes to DRAM; then <code>BatchNorm</code> reads it back, computes, and writes back to DRAM; then <code>ReLU</code> reads it back again! That is <b>12.8 Megabytes of slow DRAM memory traffic</b>. <b>Intel oneDNN fuses Conv + BatchNorm + ReLU into a single compound kernel</b>. The intermediate data never leaves fast L1/L2 cache, cutting memory bandwidth by 75%!”
+      </div>
+      <div class="ctrl-bar">
+        <button class="play" onclick="runFusionSim()">▶ Simulate Operator Memory Passes</button>
+        <span class="metric-badge green" id="fusionSpeedBadge">oneDNN Fused: 1 DRAM Read + 1 DRAM Write</span>
+        <span class="metric-badge red">Unfused: 3 Round-Trips (12.8 MB Traversed)</span>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h3>Unfused Graph (3 Separate DRAM Round-Trips)</h3>
+          <div class="diagram-box">
+            <div class="mem-stack">
+              <div class="mem-layer dram" id="unfusedDram">
+                <span>DDR5 DRAM Chip (Main Memory)</span>
+                <span id="unfusedTraffic">Traffic: 0 MB</span>
+              </div>
+              <div style="text-align:center; font-weight:800; color:var(--red); font-size:20px;">⇅ ⇅ ⇅</div>
+              <div class="mem-layer l2">
+                <span>CPU L2 / L1 Cache (Local Core)</span>
+                <span>Conv2D ➔ BatchNorm ➔ ReLU</span>
+              </div>
+            </div>
+            <p style="font-size:14px; margin-top:14px; color:#64748b;">
+              Every operation flushes intermediate tensors to DRAM because the framework executes them as independent nodes.
+            </p>
+          </div>
+        </div>
+        <div class="col">
+          <h3>Intel oneDNN Fused Graph (L1/L2 Cache Resident)</h3>
+          <div class="diagram-box">
+            <div class="mem-stack">
+              <div class="mem-layer l1" style="background:#e6f7ef; border-left:6px solid var(--mint);">
+                <span><b>Fused oneDNN Kernel (L1/L2 Cache)</b></span>
+                <span style="font-weight:800;">[ Conv2D + BN + ReLU ]</span>
+              </div>
+              <div style="text-align:center; font-weight:800; color:var(--mint); font-size:20px;">↓ (Single Write Out)</div>
+              <div class="mem-layer dram" style="background:#f0f6fc; border-left:6px solid var(--intel);">
+                <span>DDR5 DRAM Chip</span>
+                <span>Traffic: 3.2 MB (75% Reduction!)</span>
+              </div>
+            </div>
+            <div style="background:#071326; color:#a3e2c3; padding:12px; border-radius:8px; font-family:monospace; font-size:13px; margin-top:14px;">
+              export TF_ENABLE_ONEDNN_OPTS=1<br>
+              # Activates MKL-DNN graph fusion & AMX/VNNI kernels
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- TAB 6: Heterogeneous Supercomputing: Intel GPU Max & Habana Gaudi -->
+  <!-- ========================================================================= -->
+  <section id="tab6">
+    <div class="stage">
+      <h2>6. Heterogeneous HPC: Intel Data Center GPU Max 1550 vs Habana Gaudi 2/3</h2>
+      <div class="say">
+        <b>Say this:</b> “HPC deep learning is not one-size-fits-all. Intel provides two distinct world-class accelerators: <b>Intel GPU Max 1550 (Ponte Vecchio)</b> with 128 Xe Cores and 128GB of stacked HBM2e memory for versatile general scientific & AI workloads; and <b>Habana Gaudi 2 & 3</b>, purpose-built for LLM and deep learning training with <b>24 integrated 100GbE RoCEv2 RDMA ports right on the chip</b> to eliminate cluster network switches!”
+      </div>
+      <div class="row">
+        <div class="col">
+          <h3>Intel Data Center GPU Max 1550 (Ponte Vecchio)</h3>
+          <div class="diagram-box">
+            <div style="background:#071326; color:#fff; padding:16px; border-radius:10px;">
+              <div style="font-weight:800; color:#00c7fd; font-size:18px;">Xe-HPC Architecture</div>
+              <ul style="margin:10px 0 0 20px; padding:0; font-size:14px; line-height:1.7;">
+                <li><b>Compute Tiles:</b> 2 Discrete Stacks linked via EMIB</li>
+                <li><b>Xe Cores:</b> 128 Cores (1024 XMX Systolic Matrix Engines)</li>
+                <li><b>High-Bandwidth Memory:</b> 128 GB HBM2e (3.2 TB/s)</li>
+                <li><b>Programming Model:</b> Intel oneAPI (SYCL / DPC++, OpenMP Offload)</li>
+                <li><b>Target:</b> Multi-Precision Scientific HPC & Deep Learning</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <h3>Habana Gaudi 2 / Gaudi 3 (SynapseAI)</h3>
+          <div class="diagram-box">
+            <div style="background:#071326; color:#fff; padding:16px; border-radius:10px;">
+              <div style="font-weight:800; color:#10b981; font-size:18px;">Direct-on-Die Scale-Out Architecture</div>
+              <ul style="margin:10px 0 0 20px; padding:0; font-size:14px; line-height:1.7;">
+                <li><b>Compute:</b> Dual Matrix Multiplication Engines (MME) + 8 TPCs</li>
+                <li><b>Integrated Networking:</b> <b>24x 100GbE RoCEv2 RDMA Ports</b> on die</li>
+                <li><b>Memory:</b> 96 GB HBM2e (Gaudi 2) / 128 GB HBM3 (Gaudi 3)</li>
+                <li><b>Software Stack:</b> Habana SynapseAI + PyTorch/TensorFlow plugins</li>
+                <li><b>Target:</b> Large-Scale Distributed LLM & Vision Model Training</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- TAB 7: Slurm Cluster Architecture & Batch Job Lifecycle -->
+  <!-- ========================================================================= -->
+  <section id="tab7">
+    <div class="stage">
+      <h2>7. Slurm Cluster Architecture: Controller, Workers & Job Lifecycle</h2>
+      <div class="say">
+        <b>Say this:</b> “In supercomputing, you never run heavy training jobs on the login node! The login node runs <code>slurmctld</code> (the controller daemon). You submit an <code>#SBATCH</code> script to the queue. Slurm evaluates available compute nodes running <code>slurmd</code>, transitions your job from <code>PENDING</code> to <code>RUNNING</code>, directs output to <code>job_%j.out</code>, and terminates the job safely if it exceeds <code>--time</code>.”
+      </div>
+      <div class="ctrl-bar">
+        <button class="play" onclick="simulateSlurmJob()">▶ Step Slurm Batch Job Lifecycle</button>
+        <button class="sec" onclick="resetSlurmSim()">Reset Queue</button>
+        <span class="metric-badge" id="slurmStateBadge">State: READY TO SUBMIT</span>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h3>Interactive Slurm Lifecycle State Machine</h3>
+          <div class="diagram-box">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+              <div id="stepSubmit" style="padding:10px 14px; border-radius:8px; background:#e2e8f0; font-weight:800; font-size:13px;">1. sbatch</div>
+              <div style="font-weight:800; color:#94a3b8;">➔</div>
+              <div id="stepPending" style="padding:10px 14px; border-radius:8px; background:#e2e8f0; font-weight:800; font-size:13px;">2. PENDING (PD)</div>
+              <div style="font-weight:800; color:#94a3b8;">➔</div>
+              <div id="stepRunning" style="padding:10px 14px; border-radius:8px; background:#e2e8f0; font-weight:800; font-size:13px;">3. RUNNING (R)</div>
+              <div style="font-weight:800; color:#94a3b8;">➔</div>
+              <div id="stepDone" style="padding:10px 14px; border-radius:8px; background:#e2e8f0; font-weight:800; font-size:13px;">4. COMPLETED (CD)</div>
+            </div>
+            <div id="slurmLogOutput" style="background:#071326; color:#9fd0ff; padding:14px; border-radius:8px; font-family:monospace; font-size:13px; min-height:120px;">
+              $ sbatch train_resnet50.sh<br>
+              Waiting for submission...
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <h3>Cluster Topology: Head Node vs Worker Daemons</h3>
+          <div class="diagram-box">
+            <table>
+              <thead>
+                <tr>
+                  <th>Node Type</th>
+                  <th>Active Daemon</th>
+                  <th>Permitted Tasks</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>Login / Head Node</b></td>
+                  <td><code>slurmctld</code> + <code>munged</code></td>
+                  <td>Code editing, <code>sbatch</code>, <code>squeue</code>, compiling</td>
+                </tr>
+                <tr>
+                  <td><b>Compute Node 01-16</b></td>
+                  <td><code>slurmd</code> (Worker agent)</td>
+                  <td>Heavy TensorFlow, Horovod, AMX/GPU training</td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="margin-top:12px; font-size:14px; color:#64748b;">
+              <b>Life-Saving Command:</b> <code>scancel &lt;job_id&gt;</code> immediately kills runaway jobs before exceeding walltime quotas.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- TAB 8: Distributed Training: Ring-AllReduce vs Parameter Server -->
+  <!-- ========================================================================= -->
+  <section id="tab8">
+    <div class="stage">
+      <h2>8. Distributed Deep Learning: Ring-AllReduce vs Parameter Server</h2>
+      <div class="say">
+        <b>Say this:</b> “Why did the Parameter Server architecture fail at scale? Because every worker sends gradients to one central server. At 16 nodes, the server network connection saturates! <b>Horovod’s Ring-AllReduce</b> arranges nodes in a logical ring ($0 \to 1 \to 2 \to 3 \to 0$). In $2(N-1)$ steps (Scatter-Reduce + All-Gather), every node exchanges exactly $2 \frac{N-1}{N} S$ bytes. <b>The bandwidth per node is completely independent of the number of nodes!</b>”
+      </div>
+      <div class="ctrl-bar">
+        <button class="play" onclick="stepRingAllReduce()">▶ Step Ring-AllReduce Phase</button>
+        <button class="sec" onclick="resetRingSim()">Reset Ring</button>
+        <span class="metric-badge green" id="ringPhaseBadge">Phase: Ready (Initial Gradients)</span>
+        <span class="metric-badge">Formula: Total Volume = 2 * ((N-1)/N) * S</span>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h3>4-Node Ring-AllReduce Circular Data Movement</h3>
+          <div class="diagram-box" style="text-align:center;">
+            <div class="ring-container">
+              <!-- Node 0 (Top) -->
+              <div class="ring-node" id="rNode0" style="top:10px; left:124px;">
+                Rank 0
+                <div class="ring-chunk">
+                  <div class="c-dot c0" id="r0c0"></div>
+                  <div class="c-dot c1" id="r0c1"></div>
+                  <div class="c-dot c2" id="r0c2"></div>
+                  <div class="c-dot c3" id="r0c3"></div>
+                </div>
+              </div>
+              <!-- Node 1 (Right) -->
+              <div class="ring-node" id="rNode1" style="top:124px; right:10px;">
+                Rank 1
+                <div class="ring-chunk">
+                  <div class="c-dot c0" id="r1c0"></div>
+                  <div class="c-dot c1" id="r1c1"></div>
+                  <div class="c-dot c2" id="r1c2"></div>
+                  <div class="c-dot c3" id="r1c3"></div>
+                </div>
+              </div>
+              <!-- Node 2 (Bottom) -->
+              <div class="ring-node" id="rNode2" style="bottom:10px; left:124px;">
+                Rank 2
+                <div class="ring-chunk">
+                  <div class="c-dot c0" id="r2c0"></div>
+                  <div class="c-dot c1" id="r2c1"></div>
+                  <div class="c-dot c2" id="r2c2"></div>
+                  <div class="c-dot c3" id="r2c3"></div>
+                </div>
+              </div>
+              <!-- Node 3 (Left) -->
+              <div class="ring-node" id="rNode3" style="top:124px; left:10px;">
+                Rank 3
+                <div class="ring-chunk">
+                  <div class="c-dot c0" id="r3c0"></div>
+                  <div class="c-dot c1" id="r3c1"></div>
+                  <div class="c-dot c2" id="r3c2"></div>
+                  <div class="c-dot c3" id="r3c3"></div>
+                </div>
+              </div>
+            </div>
+            <div id="ringStepText" style="font-weight:700; color:var(--intel); margin-top:8px;">
+              Click 'Step Ring-AllReduce Phase' to watch Scatter-Reduce & All-Gather.
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <h3>Parameter Server Bottleneck vs Ring Scaling Invariant</h3>
+          <div class="diagram-box">
+            <table>
+              <thead>
+                <tr>
+                  <th>Architecture</th>
+                  <th>Communication Volume</th>
+                  <th>Scaling Bottleneck</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>Parameter Server</b></td>
+                  <td>$2 \times (N-1) \times S$ at server</td>
+                  <td><span class="metric-badge red">Central NIC Saturated</span></td>
+                </tr>
+                <tr>
+                  <td><b>Ring-AllReduce</b></td>
+                  <td>$2 \times \frac{N-1}{N} \times S$ per node</td>
+                  <td><span class="metric-badge green">Constant Bandwidth!</span></td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="background:#071326; color:#a3e2c3; padding:12px; border-radius:8px; font-family:monospace; font-size:13px; margin-top:16px;">
+              import horovod.tensorflow as hvd<br>
+              hvd.init()<br>
+              opt = tf.optimizers.Adam(lr * hvd.size())<br>
+              opt = hvd.DistributedOptimizer(opt)
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT ANIMATION ENGINES -->
+  <!-- ========================================================================= -->
+  <script>
+    // Tab Navigation
+    const tabs = document.querySelectorAll('#navBar button');
+    tabs.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabs.forEach(b => b.classList.remove('on'));
+        btn.classList.add('on');
+        document.querySelectorAll('section').forEach(s => s.classList.remove('show'));
+        document.getElementById('tab' + btn.dataset.tab).classList.add('show');
+      });
+    });
+
+    // Keyboard Shortcuts (1-8 for tabs, P for play, Z for projector)
+    window.addEventListener('keydown', (e) => {
+      if (e.key >= '1' && e.key <= '8') {
+        const btn = document.querySelector(`button[data-tab="${e.key}"]`);
+        if (btn) btn.click();
+      } else if (e.key.toLowerCase() === 'z') {
+        toggleProjector();
+      }
+    });
+
+    function toggleProjector() {
+      document.body.classList.toggle('projector-mode');
+    }
+
+    // -------------------------------------------------------------
+    // Tab 1: SIMD Vector vs Scalar Memory Engine
+    // -------------------------------------------------------------
+    const zmmReg = document.getElementById('zmmRegister');
+    for (let i = 0; i < 16; i++) {
+      const slot = document.createElement('div');
+      slot.className = 'zmm-slot';
+      slot.innerText = 'F' + i;
+      zmmReg.appendChild(slot);
+    }
+    const heapObjContainer = document.getElementById('heapObjects');
+    const positions = [
+      {x: 20, y: 20}, {x: 140, y: 80}, {x: 60, y: 130}, {x: 220, y: 30},
+      {x: 180, y: 140}, {x: 280, y: 90}, {x: 90, y: 50}, {x: 250, y: 150}
+    ];
+    positions.forEach((p, idx) => {
+      const d = document.createElement('div');
+      d.style.position = 'absolute';
+      d.style.left = p.x + 'px';
+      d.style.top = p.y + 'px';
+      d.style.padding = '6px 10px';
+      d.style.background = '#d1495b';
+      d.style.color = '#fff';
+      d.style.fontSize = '11px';
+      d.style.fontWeight = '700';
+      d.style.borderRadius = '6px';
+      d.innerText = `PyFloat[${idx}]\n24 Bytes`;
+      heapObjContainer.appendChild(d);
+    });
+
+    function runSimdAnimation() {
+      const slots = document.querySelectorAll('.zmm-slot');
+      slots.forEach(s => s.classList.remove('active'));
+      let i = 0;
+      const interval = setInterval(() => {
+        if (i < 16) {
+          slots[i].classList.add('active');
+          i++;
+        } else {
+          clearInterval(interval);
+          document.getElementById('simdStatus').innerText = '✅ 16 FP32 values loaded into ZMM0 in ONE single bus cycle!';
+          document.getElementById('scalarStatus').innerText = '⚠️ CPython still pointer chasing through 8 scattered memory addresses...';
+        }
+      }, 50);
+    }
+
+    // -------------------------------------------------------------
+    // Tab 2: oneDAL 64-Core Allocation Engine
+    // -------------------------------------------------------------
+    const dalCoresContainer = document.getElementById('dalCores');
+    for (let i = 0; i < 64; i++) {
+      const c = document.createElement('div');
+      c.className = 'core-cell' + (i === 0 ? ' busy' : '');
+      c.id = 'core_' + i;
+      c.innerText = i < 10 ? '0' + i : i;
+      dalCoresContainer.appendChild(c);
+    }
+
+    let isPatched = false;
+    function toggleOneDalPatch() {
+      isPatched = !isPatched;
+      const label = document.getElementById('dalCoresLabel');
+      const badge = document.getElementById('dalBadge');
+      const gil = document.getElementById('gilBox');
+      const mem = document.getElementById('memoryPath');
+      const btn = document.getElementById('patchBtn');
+
+      if (isPatched) {
+        for (let i = 0; i < 64; i++) {
+          const c = document.getElementById('core_' + i);
+          c.className = 'core-cell work';
+        }
+        label.innerText = '⚡ Intel oneDAL Active: 64/64 Cores Saturated via Native C++ OpenMP. Speedup: 28.4x';
+        label.style.color = 'var(--mint)';
+        badge.innerText = 'Intel oneDAL Patched (64 Cores Active)';
+        badge.className = 'metric-badge green';
+        gil.innerHTML = '🔓 CPython GIL: DROPPED! (Native C++ multi-threading unlocked)';
+        gil.style.background = '#e6f7ef';
+        gil.style.borderColor = 'var(--mint)';
+        gil.style.color = '#0d5f40';
+        mem.innerHTML = '<b>Memory Path:</b> Zero-Copy NumPy C-Pointer passed directly to SYCL/oneDAL engine.';
+        btn.innerText = '↺ Unpatch to Stock Scikit-Learn';
+      } else {
+        resetOneDalPatch();
+      }
+    }
+
+    function resetOneDalPatch() {
+      isPatched = false;
+      for (let i = 0; i < 64; i++) {
+        const c = document.getElementById('core_' + i);
+        c.className = 'core-cell' + (i === 0 ? ' busy' : '');
+      }
+      document.getElementById('dalCoresLabel').innerText = '1 Core Active (Core 00), 63 Cores Wasted. Speedup: 1.0x';
+      document.getElementById('dalCoresLabel').style.color = 'var(--red)';
+      document.getElementById('dalBadge').innerText = 'Stock Scikit-Learn (1 Core Active)';
+      document.getElementById('dalBadge').className = 'metric-badge red';
+      document.getElementById('gilBox').innerHTML = '🔒 CPython GIL: LOCKED (Single thread bytecode execution)';
+      document.getElementById('gilBox').style.background = '#fdebee';
+      document.getElementById('gilBox').style.borderColor = 'var(--red)';
+      document.getElementById('gilBox').style.color = 'var(--red)';
+      document.getElementById('memoryPath').innerHTML = '<b>Memory Path:</b> Boxed PyObjects -> Python C-API -> Serial evaluation';
+      document.getElementById('patchBtn').innerText = '▶ Apply patch_sklearn()';
+    }
+
+    // -------------------------------------------------------------
+    // Tab 3: Intel AMX Systolic MatMul Tile Engine
+    // -------------------------------------------------------------
+    const amxGrid = document.getElementById('amxGrid');
+    for (let i = 0; i < 256; i++) {
+      const d = document.createElement('div');
+      d.className = 'tile-cell';
+      d.id = 'amx_cell_' + i;
+      amxGrid.appendChild(d);
+    }
+    let amxCycle = 0;
+    function stepAmxTile() {
+      if (amxCycle >= 16) amxCycle = 0;
+      amxCycle++;
+      const cells = document.querySelectorAll('.tile-cell');
+      cells.forEach(c => c.classList.remove('pulse'));
+      
+      // Light up diagonal wavefront row/columns in systolic array
+      for (let r = 0; r < amxCycle; r++) {
+        for (let c = 0; c < 16; c++) {
+          const idx = r * 16 + c;
+          if (idx < 256) {
+            cells[idx].classList.add('pulse');
+          }
+        }
+      }
+      const ops = amxCycle * 2048;
+      document.getElementById('amxCounter').innerText = `Cycle: ${amxCycle} / 16 | Cumulative INT8 Operations: ${ops.toLocaleString()}`;
+    }
+
+    // -------------------------------------------------------------
+    // Tab 4: Pipeline Prefetching Toggle
+    // -------------------------------------------------------------
+    let autotuneActive = false;
+    function toggleAutotune() {
+      autotuneActive = !autotuneActive;
+      const btn = document.getElementById('autotuneBtn');
+      const badge = document.getElementById('pipeBadge');
+      const desc = document.getElementById('pipeDesc');
+      if (autotuneActive) {
+        badge.innerText = 'AUTOTUNE Active: 99.2% Compute Saturation (Zero Stalls)';
+        badge.className = 'metric-badge green';
+        desc.innerText = '✅ Double buffering enabled: CPU threads prefetch batches into pinned memory concurrently with GPU execution.';
+        btn.innerText = '↺ Disable tf.data.AUTOTUNE';
+      } else {
+        badge.innerText = 'Naive Pipeline: 42% Compute Utilization (Stalled on Disk)';
+        badge.className = 'metric-badge red';
+        desc.innerText = '⚠️ Without prefetching, 58% of execution time is wasted in I/O wait states.';
+        btn.innerText = '▶ Toggle tf.data.AUTOTUNE Prefetching';
+      }
+    }
+
+    // -------------------------------------------------------------
+    // Tab 5: oneDNN Operator Fusion Simulation
+    // -------------------------------------------------------------
+    function runFusionSim() {
+      let traffic = 0;
+      const unfusedLabel = document.getElementById('unfusedTraffic');
+      const interval = setInterval(() => {
+        traffic += 3.2;
+        unfusedLabel.innerText = `Traffic: ${traffic.toFixed(1)} MB (Conv -> DRAM -> BN -> DRAM -> ReLU)`;
+        if (traffic >= 12.8) {
+          clearInterval(interval);
+        }
+      }, 350);
+    }
+
+    // -------------------------------------------------------------
+    // Tab 7: Slurm Batch Simulator
+    // -------------------------------------------------------------
+    let slurmStep = 0;
+    function simulateSlurmJob() {
+      slurmStep = (slurmStep % 4) + 1;
+      const badge = document.getElementById('slurmStateBadge');
+      const log = document.getElementById('slurmLogOutput');
+      ['stepSubmit', 'stepPending', 'stepRunning', 'stepDone'].forEach(id => {
+        document.getElementById(id).style.background = '#e2e8f0';
+        document.getElementById(id).style.color = '#0b1f3a';
+      });
+
+      if (slurmStep === 1) {
+        document.getElementById('stepSubmit').style.background = 'var(--intel)';
+        document.getElementById('stepSubmit').style.color = '#fff';
+        badge.innerText = 'State: SUBMITTED';
+        badge.className = 'metric-badge';
+        log.innerHTML = '$ sbatch --partition=compute-ai --nodes=2 --cpus-per-task=8 train.sh<br>[+] Submitted batch job 45102 to partition compute-ai';
+      } else if (slurmStep === 2) {
+        document.getElementById('stepPending').style.background = 'var(--amber)';
+        document.getElementById('stepPending').style.color = '#fff';
+        badge.innerText = 'State: PENDING (PD)';
+        badge.className = 'metric-badge';
+        log.innerHTML += '<br>$ squeue -u $USER<br>JOBID PARTITION NAME USER ST TIME NODES<br>45102 compute-ai train.sh shivam PD 0:00 2 (Resources)';
+      } else if (slurmStep === 3) {
+        document.getElementById('stepRunning').style.background = 'var(--mint)';
+        document.getElementById('stepRunning').style.color = '#fff';
+        badge.innerText = 'State: RUNNING (R)';
+        badge.className = 'metric-badge green';
+        log.innerHTML += '<br>[+] slurmd allocated node-01, node-02. Spawning Horovod ranks...<br>[+] Rank 0/4 on node-01, Rank 1/4 on node-01, Rank 2/4 on node-02, Rank 3/4 on node-02';
+      } else if (slurmStep === 4) {
+        document.getElementById('stepDone').style.background = 'var(--navy)';
+        document.getElementById('stepDone').style.color = '#fff';
+        badge.innerText = 'State: COMPLETED (CD)';
+        badge.className = 'metric-badge green';
+        log.innerHTML += '<br>[+] Training finished successfully. Flushed logs to logs/train_45102.out<br>$ squeue -u $USER (Queue Empty)';
+      }
+    }
+    function resetSlurmSim() {
+      slurmStep = 0;
+      ['stepSubmit', 'stepPending', 'stepRunning', 'stepDone'].forEach(id => {
+        document.getElementById(id).style.background = '#e2e8f0';
+        document.getElementById(id).style.color = '#0b1f3a';
+      });
+      document.getElementById('slurmStateBadge').innerText = 'State: READY TO SUBMIT';
+      document.getElementById('slurmStateBadge').className = 'metric-badge';
+      document.getElementById('slurmLogOutput').innerHTML = '$ sbatch train_resnet50.sh<br>Waiting for submission...';
+    }
+
+    // -------------------------------------------------------------
+    // Tab 8: Ring-AllReduce Step Engine
+    // -------------------------------------------------------------
+    let ringStep = 0;
+    function stepRingAllReduce() {
+      ringStep = (ringStep % 6) + 1;
+      const badge = document.getElementById('ringPhaseBadge');
+      const text = document.getElementById('ringStepText');
+      
+      if (ringStep <= 3) {
+        badge.innerText = `Phase 1: Scatter-Reduce (Step ${ringStep} of 3)`;
+        badge.className = 'metric-badge';
+        text.innerText = `Step ${ringStep}: Each rank transfers 1 chunk to adjacent neighbor and performs local vector addition.`;
+        // Shift highlight around ring
+        const targetNode = document.getElementById('rNode' + ((ringStep - 1) % 4));
+        targetNode.style.transform = 'scale(1.15)';
+        setTimeout(() => targetNode.style.transform = 'scale(1.0)', 400);
+      } else {
+        const gatherStep = ringStep - 3;
+        badge.innerText = `Phase 2: All-Gather (Step ${gatherStep} of 3)`;
+        badge.className = 'metric-badge green';
+        text.innerText = `Step ${gatherStep}: Globally summed chunks forwarded around ring. All ranks obtain full averaged gradient!`;
+        if (ringStep === 6) {
+          text.innerHTML = '<b>✅ Ring-AllReduce Complete!</b> All 4 ranks synchronized with zero central server bottleneck.';
+        }
+      }
+    }
+    function resetRingSim() {
+      ringStep = 0;
+      document.getElementById('ringPhaseBadge').innerText = 'Phase: Ready (Initial Gradients)';
+      document.getElementById('ringPhaseBadge').className = 'metric-badge green';
+      document.getElementById('ringStepText').innerText = "Click 'Step Ring-AllReduce Phase' to watch Scatter-Reduce & All-Gather.";
+    }
+  </script>
+</body>
+</html>

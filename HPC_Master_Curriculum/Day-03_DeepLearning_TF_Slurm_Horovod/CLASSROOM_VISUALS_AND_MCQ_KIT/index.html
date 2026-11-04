@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Day 3 Deep Learning on HPC — Master Trainer & Classroom Hub</title>
+  <style>
+    :root {
+      --navy: #0b1f3a;
+      --navy-dark: #071326;
+      --intel: #0071c5;
+      --intel-light: #00c7fd;
+      --mint: #1aa37a;
+      --amber: #e0a100;
+      --red: #d1495b;
+      --paper: #eef3f8;
+      --line: #d7e2ee;
+      --card: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Calibri, sans-serif;
+      background: var(--paper);
+      color: var(--navy);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(135deg, #071326 0%, #0b1f3a 50%, #004b87 100%);
+      color: #fff;
+      padding: 32px 36px 28px;
+      border-bottom: 4px solid var(--intel);
+    }
+    .header-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 999px;
+      background: rgba(0, 199, 253, 0.2);
+      color: var(--intel-light);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border: 1px solid rgba(0, 199, 253, 0.4);
+      margin-bottom: 8px;
+    }
+    header h1 { margin: 6px 0 10px; font-size: 32px; font-weight: 800; letter-spacing: -0.01em; }
+    header p { margin: 0; opacity: 0.95; font-size: 17px; max-width: 900px; line-height: 1.5; }
+    
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 28px 20px; }
+    
+    /* 2-Column Responsive Layout */
+    .grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 24px; }
+    @media (max-width: 960px) { .grid { grid-template-columns: 1fr; } }
+    
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 26px;
+      box-shadow: 0 8px 24px rgba(11, 31, 58, 0.05);
+      margin-bottom: 24px;
+    }
+    h2 { margin: 0 0 16px; font-size: 22px; font-weight: 800; color: var(--navy); }
+    h3 { margin: 18px 0 10px; font-size: 17px; font-weight: 700; color: var(--intel); }
+    
+    /* Buttons */
+    a.btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 6px 8px 6px 0;
+      padding: 13px 20px;
+      border-radius: 10px;
+      background: var(--intel);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 15px;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(0, 113, 197, 0.25);
+    }
+    a.btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0, 113, 197, 0.35); background: #005a9e; }
+    a.btn.mint { background: var(--mint); box-shadow: 0 4px 12px rgba(26, 163, 122, 0.25); }
+    a.btn.mint:hover { background: #137e5e; }
+    a.btn.navy { background: var(--navy); box-shadow: 0 4px 12px rgba(11, 31, 58, 0.25); }
+    a.btn.ghost { background: #f0f6fc; color: var(--navy); border: 1px solid #cfdbe8; box-shadow: none; }
+    a.btn.ghost:hover { background: #e0edf9; }
+    
+    /* Action Cards */
+    .action-card {
+      background: #f8fafc;
+      border: 2px solid var(--line);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 16px;
+      transition: border-color 0.2s;
+    }
+    .action-card:hover { border-color: var(--intel); }
+    .action-card h4 { margin: 0 0 8px; font-size: 18px; font-weight: 800; color: var(--navy); }
+    .action-card p { margin: 0 0 14px; font-size: 14px; color: #475569; }
+
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 10px; }
+    th { background: #f0f6fc; color: var(--navy); font-weight: 800; padding: 10px 12px; border-bottom: 2px solid var(--line); text-align: left; }
+    td { border-bottom: 1px solid var(--line); padding: 10px 12px; vertical-align: top; }
+    
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .badge.green { background: #e6f7ef; color: #0d5f40; }
+    .badge.blue { background: #e0f2fe; color: #0369a1; }
+    .badge.amber { background: #fef3c7; color: #92400e; }
+
+    /* Highlights list */
+    ul.check-list { margin: 0; padding-left: 20px; font-size: 14px; }
+    ul.check-list li { margin: 8px 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap" style="padding-top:0; padding-bottom:0;">
+      <span class="header-tag">GLA Supercomputing Curriculum · Track 3 · Day 3 of 5</span>
+      <h1>Day 3: Deep Learning on HPC with TensorFlow, Slurm & GPUs</h1>
+      <p>Master Classroom Launchpad & Trainer Control Hub | Intel & NEC Supercomputing Alliance | Lead Trainer: Shivam Gupta</p>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="grid">
+      <!-- Left Column: Primary Classroom Apps & Launchers -->
+      <div>
+        <div class="card">
+          <h2>🎯 Interactive Classroom Applications (Projector Ready)</h2>
+          
+          <div class="action-card" style="border-left: 6px solid var(--intel);">
+            <h4>🎬 01. Theory Animations & Silicon Architecture Visuals</h4>
+            <p>8 high-fidelity animated interactive hardware demonstrations: AVX-512 ZMM registers vs CPython pointer chasing, Intel oneDAL 64-core saturation, AMX 2D TMUL systolic tiles, <code>tf.data.AUTOTUNE</code> Gantt chart, oneDNN operator fusion memory wall elimination, GPU Max 1550 vs Gaudi 2/3, Slurm state machine, and Ring-AllReduce.</p>
+            <a class="btn" href="01_day03_theory_animations.html">▶ Launch Theory Animations</a>
+          </div>
+
+          <div class="action-card" style="border-left: 6px solid var(--mint);">
+            <h4>🏆 02. 3-Tier Official Assessment Quiz (25 Questions)</h4>
+            <p>25 official evaluated syllabus assessment questions categorized into 3 difficulty tiers: Level 1 (Foundational / Easy), Level 2 (Conceptual / Medium), and Level 3 (Systems & Math / Advanced). Includes live score tracking, instant visual feedback, and deep architectural rationales.</p>
+            <a class="btn mint" href="02_day03_interactive_quiz.html">▶ Launch Interactive Assessment</a>
+          </div>
+
+          <div class="action-card" style="border-left: 6px solid var(--amber);">
+            <h4>📓 03. Verified Colab Master Implementation Notebook</h4>
+            <p>End-to-end executable notebook containing Sections 0 through 12: Intel oneAPI toolkit installation, oneMKL DGEMM benchmarks (14.16 GFLOPS), oneDAL clustering acceleration, oneDNN fusion benchmark, XPU telemetry, Slurm batch scheduling, and 4-worker Horovod distributed training.</p>
+            <a class="btn navy" href="../Day_03_Deep_Learning_TensorFlow_oneDNN_Slurm_Horovod.ipynb">Open Master Notebook</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>📑 Master Curriculum Documents & Cheat Sheets</h2>
+          <div style="display:flex; flex-wrap:wrap; gap:10px;">
+            <a class="btn ghost" href="../03_DAY_03_STUDENT_CHEATSHEET_AND_MCQS.md">Student Cheat Sheet & MCQs</a>
+            <a class="btn ghost" href="../05_DAY_03_ARROW_WORKFLOWS_AND_TOPIC_TREES.md">Arrow Workflows & Topic Trees</a>
+            <a class="btn ghost" href="../04_DAY_03_COMPLETE_TOPIC_BY_TOPIC_STUDY_GUIDE.md">Complete Topic Study Guide</a>
+            <a class="btn ghost" href="../01_DAY_03_6_HOUR_MASTER_TRAINER_PLAYBOOK.md">6-Hour Trainer Playbook</a>
+            <a class="btn ghost" href="../00_DAY_03_MASTER_TERMINOLOGY_AND_CONCEPT_GLOSSARY.md">Terminology Glossary</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Syllabus Alignment & Session Schedule -->
+      <div>
+        <div class="card">
+          <h2>📋 Official Syllabus Alignment (Page 2)</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Syllabus Topic</th>
+                <th>Hardware / Tool Engine</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Intel AI Analytics Toolkit (NumPy, Pandas)</td>
+                <td>Intel oneMKL / Modin</td>
+                <td><span class="badge green">VERIFIED</span></td>
+              </tr>
+              <tr>
+                <td>Intel Extension for Scikit-learn (oneDAL)</td>
+                <td><code>sklearnex.patch_sklearn()</code></td>
+                <td><span class="badge green">VERIFIED</span></td>
+              </tr>
+              <tr>
+                <td>Hardware-Aware ML (AMX / NUMA)</td>
+                <td>Sapphire Rapids AMX TMUL</td>
+                <td><span class="badge green">VERIFIED</span></td>
+              </tr>
+              <tr>
+                <td>Intel-Optimized TensorFlow</td>
+                <td><code>TF_ENABLE_ONEDNN_OPTS=1</code></td>
+                <td><span class="badge green">VERIFIED</span></td>
+              </tr>
+              <tr>
+                <td>Intel GPUs (Xeon, Max 1550, Gaudi)</td>
+                <td>Xe-HPC Tiles & SynapseAI</td>
+                <td><span class="badge green">VERIFIED</span></td>
+              </tr>
+              <tr>
+                <td>Slurm Job Scheduling (#SBATCH)</td>
+                <td><code>slurmctld</code> + <code>slurmd</code></td>
+                <td><span class="badge green">VERIFIED</span></td>
+              </tr>
+              <tr>
+                <td>Distributed DL with Horovod</td>
+                <td>Ring-AllReduce (OpenMPI)</td>
+                <td><span class="badge green">VERIFIED</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h2>⏱️ Trainer 6-Hour Master Schedule</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Time Window</th>
+                <th>Module / Activity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>09:00 - 10:30</b></td>
+                <td>Intel AI Analytics Toolkit, Vectorized BLAS & oneDAL</td>
+              </tr>
+              <tr>
+                <td><b>10:45 - 12:15</b></td>
+                <td>Hardware-Aware Optimization & oneDNN Operator Fusion</td>
+              </tr>
+              <tr>
+                <td><b>13:15 - 14:45</b></td>
+                <td>Heterogeneous Supercomputing (GPU Max 1550, Gaudi) & Slurm</td>
+              </tr>
+              <tr>
+                <td><b>15:00 - 16:30</b></td>
+                <td>Horovod Distributed Ring-AllReduce & 25-Q Live Quiz</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h2>⌨️ Classroom Keyboard Shortcuts</h2>
+          <ul class="check-list">
+            <li><b>1 – 8:</b> Switch theory animation tabs instantly</li>
+            <li><b>Z:</b> Toggle Projector Zoom mode (high-contrast large typography)</li>
+            <li><b>P:</b> Run / step the active animation or lifecycle simulation</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
