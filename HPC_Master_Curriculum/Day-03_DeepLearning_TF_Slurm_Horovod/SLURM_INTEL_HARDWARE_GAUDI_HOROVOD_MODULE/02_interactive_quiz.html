@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Slurm, Intel Hardware, Gaudi & Horovod — 15-Question Interactive Quiz</title>
+  <style>
+    :root {
+      --navy: #0b1f3a;
+      --navy-dark: #071326;
+      --intel: #0071c5;
+      --intel-light: #00c7fd;
+      --red: #d1495b;
+      --mint: #1aa37a;
+      --amber: #e0a100;
+      --bg: #eef3f8;
+      --border: #d7e2ee;
+      --base-font-size: 17px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Calibri, sans-serif;
+      background: var(--bg);
+      color: var(--navy);
+      font-size: var(--base-font-size);
+      line-height: 1.6;
+    }
+    header {
+      background: var(--navy-dark);
+      color: #fff;
+      padding: 18px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      border-bottom: 3px solid var(--intel);
+    }
+    header strong { font-size: 22px; font-weight: 800; letter-spacing: 0.02em; }
+    header .subtitle { opacity: 0.9; font-size: 15px; margin-top: 4px; }
+    header a {
+      color: #9fd0ff;
+      font-weight: 700;
+      font-size: 15px;
+      text-decoration: none;
+      border: 1px solid #9fd0ff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    header a:hover { background: rgba(159, 208, 255, 0.2); }
+
+    .scale-btn {
+      background: var(--mint);
+      color: #fff;
+      border: 0;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+    .scale-btn:hover { background: #158664; }
+
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 14px 24px;
+      background: #fff;
+      border-bottom: 2px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      justify-content: center;
+    }
+    .filter-btn {
+      border: 1px solid #cfdbe8;
+      background: #f0f6fc;
+      color: var(--navy);
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover { background: #e0edf9; }
+    .filter-btn.active {
+      background: var(--intel);
+      color: #fff;
+      border-color: var(--intel);
+      box-shadow: 0 4px 12px rgba(0, 113, 197, 0.25);
+    }
+
+    .wrap { max-width: 960px; margin: 0 auto; padding: 26px 20px; }
+
+    .meta {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 18px;
+      font-weight: 700;
+      font-size: 18px;
+    }
+    #prog { color: var(--intel); min-width: 100px; }
+    #liveScore { color: var(--mint); min-width: 120px; text-align: right; }
+    .bar { flex: 1; height: 14px; background: #d7e2ee; border-radius: 99px; overflow: hidden; }
+    .bar > div { height: 100%; width: 0; background: var(--intel); transition: width 0.3s ease; }
+
+    .q-card {
+      background: #fff;
+      border-radius: 18px;
+      padding: 30px;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 24px rgba(11, 31, 58, 0.06);
+    }
+    .q-level-badge {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .q-level-badge.l1 { background: #e6f7ef; color: #0d5f40; border: 1px solid #a3e2c3; }
+    .q-level-badge.l2 { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+    .q-level-badge.l3 { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+
+    h2 { margin: 0 0 20px; font-size: 24px; font-weight: 800; line-height: 1.45; color: var(--navy); }
+
+    .opt {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin: 12px 0;
+      padding: 16px 20px;
+      border-radius: 12px;
+      border: 2px solid #cfdbe8;
+      background: #f8fbfe;
+      cursor: pointer;
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 1.5;
+      color: var(--navy);
+      transition: all 0.2s;
+    }
+    .opt:hover:not(:disabled) { border-color: var(--intel); background: #f0f7ff; transform: translateY(-1px); }
+    .opt.ok { background: #e7f7ee !important; border-color: var(--mint) !important; color: #0d5f40; }
+    .opt.bad { background: #fdecee !important; border-color: var(--red) !important; color: #7d1d2b; }
+    .opt:disabled { cursor: default; }
+
+    .why {
+      display: none;
+      margin-top: 20px;
+      padding: 18px 22px;
+      background: #fff8e4;
+      border-left: 6px solid var(--amber);
+      border-radius: 0 12px 12px 0;
+      font-size: 17px;
+      line-height: 1.6;
+      color: #3b3000;
+    }
+    .why.show { display: block; animation: fadeIn 0.25s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+    button.next-btn {
+      margin-top: 20px;
+      background: var(--intel);
+      color: #fff;
+      border: 0;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 17px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 113, 197, 0.3);
+      transition: all 0.2s;
+      display: none;
+    }
+    button.next-btn:hover { background: #005a9e; transform: translateY(-1px); }
+
+    .score-banner { font-size: 52px; font-weight: 800; color: var(--intel); margin: 10px 0; }
+    .breakdown-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+    .breakdown-table th, .breakdown-table td { padding: 12px 16px; border: 1px solid var(--border); text-align: left; }
+    .breakdown-table th { background: #f0f6fc; }
+
+    body.projector-mode { --base-font-size: 20px; }
+    body.projector-mode h2 { font-size: 28px; }
+    body.projector-mode .opt { font-size: 20px; padding: 18px 24px; }
+    body.projector-mode .why { font-size: 20px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <strong>HPC Masterclass: Slurm, Intel Hardware, Gaudi & Horovod Live Quiz</strong>
+      <div class="subtitle">15 Evaluated Questions | Categorized by Cognitive & Architectural Depth</div>
+    </div>
+    <div style="display:flex; gap:10px; align-items:center;">
+      <button class="scale-btn" onclick="document.body.classList.toggle('projector-mode')">🔍 Toggle Projector Zoom</button>
+      <a href="index.html">← Back to Module Hub</a>
+    </div>
+  </header>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="setFilter('all')">All 15 Questions</button>
+    <button class="filter-btn" onclick="setFilter('1')">Level 1: Foundational (5 Qs)</button>
+    <button class="filter-btn" onclick="setFilter('2')">Level 2: Conceptual (5 Qs)</button>
+    <button class="filter-btn" onclick="setFilter('3')">Level 3: Systems & Math (5 Qs)</button>
+  </div>
+
+  <div class="wrap">
+    <div class="meta">
+      <span id="prog">Question 1 / 15</span>
+      <div class="bar"><div id="fill"></div></div>
+      <span id="liveScore">Score: 0 / 15</span>
+    </div>
+
+    <div class="q-card" id="cardContainer"></div>
+  </div>
+
+  <script>
+    const QUESTIONS = [
+      // Level 1: Foundational (5 Qs)
+      {
+        id: 1, level: 1, levelText: "Level 1: Foundational", topic: "Slurm",
+        q: "What is the primary role of the Slurm workload manager in an HPC cluster?",
+        a: [
+          "Designing neural network layer connections",
+          "Managing multi-tenant cluster resource allocation, queueing, and job dispatching across compute nodes",
+          "Compiling Python into machine assembly",
+          "Encrypting local hard drives"
+        ],
+        c: 1,
+        why: "<b>Slurm Resource Management:</b> Slurm arbitrates resource contention, schedules queued jobs fairly across nodes, and manages process lifecycles."
+      },
+      {
+        id: 2, level: 1, levelText: "Level 1: Foundational", topic: "HPC Policy",
+        q: "Why is running heavy deep learning training jobs directly on the cluster login/head node strictly prohibited?",
+        a: [
+          "Because the login node has no operating system installed",
+          "Because it exhausts shared CPU/RAM, freezing terminal access for the entire institution",
+          "Because TensorFlow cannot run on Linux servers",
+          "Because Python is disabled on login nodes"
+        ],
+        c: 1,
+        why: "<b>Login Node Invariant:</b> The login node is a shared entry portal. Intensive workloads freeze access for all researchers. Jobs must be submitted to compute nodes via <code>sbatch</code>."
+      },
+      {
+        id: 3, level: 1, levelText: "Level 1: Foundational", topic: "Intel oneDNN",
+        q: "Which environment variable activates Intel oneDNN optimizations in standard TensorFlow?",
+        a: [
+          "TF_GPU_ALLOCATOR=cuda",
+          "TF_ENABLE_ONEDNN_OPTS=1",
+          "USE_MKL=true",
+          "INTEL_FAST_MODE=1"
+        ],
+        c: 1,
+        why: "<b>oneDNN Activation:</b> Setting <code>export TF_ENABLE_ONEDNN_OPTS=1</code> replaces standard Eigen operators with oneDNN's cache-fused AVX-512 and AMX primitives."
+      },
+      {
+        id: 4, level: 1, levelText: "Level 1: Foundational", topic: "Slurm Scripting",
+        q: "What does the '#SBATCH --time=01:30:00' directive specify in a job submission script?",
+        a: [
+          "The scheduled start time of the job (1:30 AM)",
+          "The maximum wall-clock runtime limit (1 hour, 30 minutes) before the job is terminated by Slurm",
+          "The date of training completion",
+          "The user's SSH session timeout"
+        ],
+        c: 1,
+        why: "<b>Walltime Limit:</b> <code>--time=HH:MM:SS</code> sets a hard ceiling so runaway or deadlocked processes do not block the queue indefinitely."
+      },
+      {
+        id: 5, level: 1, levelText: "Level 1: Foundational", topic: "Slurm Queues",
+        q: "What state is reported by 'squeue' when a job is waiting for compute nodes to become available?",
+        a: [
+          "RUNNING (R)",
+          "PENDING (PD)",
+          "FAILED (F)",
+          "COMPLETED (CD)"
+        ],
+        c: 1,
+        why: "<b>Queue State:</b> <code>PD</code> (Pending) signifies the job is waiting in the priority queue for requested hardware resources to free up."
+      },
+
+      // Level 2: Conceptual (5 Qs)
+      {
+        id: 6, level: 2, levelText: "Level 2: Conceptual", topic: "Intel oneDNN",
+        q: "What is 'Operator Fusion' in deep learning acceleration libraries like oneDNN?",
+        a: [
+          "Merging two separate neural networks into one",
+          "Fusing consecutive operations (e.g., Conv2D + BatchNorm + ReLU) into a single pass through cache memory to avoid slow DRAM round-trips",
+          "Joining two Python strings in memory",
+          "Merging two dataset CSV files on disk"
+        ],
+        c: 1,
+        why: "<b>Cache Residency Principle:</b> Fusing Conv2D + BatchNorm + ReLU keeps intermediate feature maps hot in L1/L2 cache, reducing external DDR5 DRAM traffic by 75%."
+      },
+      {
+        id: 7, level: 2, levelText: "Level 2: Conceptual", topic: "Horovod Math",
+        q: "When scaling from 1 node to 4 nodes with Horovod, why must the learning rate typically be scaled?",
+        a: [
+          "Because the learning rate automatically halves in multi-node mode",
+          "Because the effective global batch size is multiplied by 4, requiring proportionally larger gradient steps (Linear Scaling Rule)",
+          "Because the CPU runs 4x colder",
+          "It should never be changed"
+        ],
+        c: 1,
+        why: "<b>Linear Scaling Rule (Goyal et al.):</b> Scaling across $K$ workers multiplies global batch size by $K$. To maintain statistical convergence trajectory, scale: $lr_{\\text{new}} = base\\_lr \\times K$."
+      },
+      {
+        id: 8, level: 2, levelText: "Level 2: Conceptual", topic: "Slurm Scripting",
+        q: "What does the '%j' placeholder represent in '#SBATCH --output=logs/job_%j.out'?",
+        a: [
+          "The job name",
+          "The unique numeric Slurm Job ID allocated by the controller",
+          "The user's username",
+          "The submission timestamp"
+        ],
+        c: 1,
+        why: "<b>Dynamic Substitution:</b> Slurm dynamically substitutes <code>%j</code> with the unique numeric Job ID (e.g. <code>job_45102.out</code>), preventing log file overwrites."
+      },
+      {
+        id: 9, level: 2, levelText: "Level 2: Conceptual", topic: "Slurm Daemons",
+        q: "Which daemon runs on each individual compute/worker node in a Slurm cluster?",
+        a: [
+          "slurmctld",
+          "slurmd",
+          "systemd only",
+          "sshd only"
+        ],
+        c: 1,
+        why: "<b>Node Supervisor:</b> <code>slurmd</code> is the worker daemon running on compute hosts that spawns tasks and enforces cgroups. <code>slurmctld</code> is the centralized controller daemon."
+      },
+      {
+        id: 10, level: 2, levelText: "Level 2: Conceptual", topic: "Horovod Framework",
+        q: "In TensorFlow, how does Horovod distribute gradient updates across workers?",
+        a: [
+          "By uploading gradients to Google Drive",
+          "By wrapping the standard Keras/TF optimizer with hvd.DistributedOptimizer()",
+          "By writing gradients to text files on the login node",
+          "By running independent training loops without synchronization"
+        ],
+        c: 1,
+        why: "<b>Optimizer Wrapping:</b> <code>hvd.DistributedOptimizer()</code> intercepts the backward pass, invokes Ring-AllReduce across all workers to compute the average gradient, and then applies updates."
+      },
+
+      // Level 3: Systems & Math (5 Qs)
+      {
+        id: 11, level: 3, levelText: "Level 3: Systems & Math", topic: "Distributed DL Math",
+        q: "In the Ring-AllReduce algorithm used by Horovod, how does communication volume per worker scale with cluster size N?",
+        a: [
+          "It increases exponentially (O(2^N))",
+          "It is largely constant and independent of N, scaling as 2 * ((N-1)/N) * S bytes",
+          "It drops to zero instantly",
+          "It requires a central parameter server to store all weights"
+        ],
+        c: 1,
+        why: "<b>Ring Scaling Invariant:</b> In a ring of $N$ nodes, total data transferred per worker is $2 \\frac{N-1}{N} S$. As $N \\to \\infty$, this converges to $2S$. Bandwidth per worker is completely independent of cluster scale!"
+      },
+      {
+        id: 12, level: 3, levelText: "Level 3: Systems & Math", topic: "Habana Gaudi",
+        q: "Which architectural feature enables Habana Gaudi 2/3 to eradicate cluster networking bottlenecks?",
+        a: [
+          "A cooling fan attached to the CPU",
+          "24 integrated 100/200 GbE RoCEv2 RDMA ports directly on the silicon die",
+          "A USB-C connection cable",
+          "Integrated Wi-Fi 6"
+        ],
+        c: 1,
+        why: "<b>Gaudi Direct Scale-Out:</b> Gaudi integrates 24x 100GbE RoCEv2 ports on-die, allowing accelerators to connect in an all-to-all direct mesh without external PCIe NICs or proprietary switches."
+      },
+      {
+        id: 13, level: 3, levelText: "Level 3: Systems & Math", topic: "Intel Xeon AMX",
+        q: "What silicon capability allows 4th/5th Gen Intel Xeon processors to achieve 2,048 INT8 ops/cycle?",
+        a: [
+          "Overclocking the system bus",
+          "Intel AMX (Advanced Matrix Extensions) with 8 2D Tile registers (TMM0-TMM7) and TMUL systolic array",
+          "Increasing DDR5 RAM size",
+          "Disabling hyper-threading"
+        ],
+        c: 1,
+        why: "<b>Intel AMX Hardware:</b> AMX introduces 8 2D Tile registers (8 KB total) and a TMUL (Tile Matrix Multiply) systolic array executing 2,048 INT8 ops or 1,024 BF16 ops per clock cycle directly on the CPU."
+      },
+      {
+        id: 14, level: 3, levelText: "Level 3: Systems & Math", topic: "Slurm Execution",
+        q: "How should an interactive parallel multi-task job be launched inside a Slurm allocation?",
+        a: [
+          "bash script.sh",
+          "srun python3 app.py",
+          "python3 app.py &",
+          "nohup python3 app.py"
+        ],
+        c: 1,
+        why: "<b>Interactive Job Launcher:</b> <code>srun</code> connects directly to <code>slurmctld</code> and <code>slurmd</code> to launch parallel tasks across allocated nodes and cores with proper thread binding."
+      },
+      {
+        id: 15, level: 3, levelText: "Level 3: Systems & Math", topic: "Horovod Best Practices",
+        q: "When training with Horovod, which worker rank is typically responsible for saving checkpoints and writing logs?",
+        a: [
+          "All workers simultaneously",
+          "Rank 0 (Master worker) only, guarded by 'if hvd.rank() == 0:'",
+          "The highest rank worker only",
+          "A random worker chosen each epoch"
+        ],
+        c: 1,
+        why: "<b>Disk Race Prevention:</b> Restricting checkpoints and logs to Rank 0 (<code>if hvd.rank() == 0:</code>) prevents corrupted files, disk race conditions, and duplicated I/O."
+      }
+    ];
+
+    let currentFilter = 'all';
+    let filteredQuestions = [...QUESTIONS];
+    let currentIndex = 0;
+    let score = 0;
+    let answered = false;
+    let levelStats = { 1: { total: 0, correct: 0 }, 2: { total: 0, correct: 0 }, 3: { total: 0, correct: 0 } };
+
+    function setFilter(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      if (filter === 'all') {
+        filteredQuestions = [...QUESTIONS];
+      } else {
+        const lvl = parseInt(filter);
+        filteredQuestions = QUESTIONS.filter(q => q.level === lvl);
+      }
+      resetQuiz();
+    }
+
+    function resetQuiz() {
+      currentIndex = 0;
+      score = 0;
+      answered = false;
+      levelStats = { 1: { total: 0, correct: 0 }, 2: { total: 0, correct: 0 }, 3: { total: 0, correct: 0 } };
+      filteredQuestions.forEach(q => levelStats[q.level].total++);
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      answered = false;
+      const total = filteredQuestions.length;
+      document.getElementById('prog').innerText = `Question ${currentIndex + 1} / ${total}`;
+      document.getElementById('liveScore').innerText = `Score: ${score} / ${total}`;
+      document.getElementById('fill').style.width = ((currentIndex / total) * 100) + '%';
+
+      const qData = filteredQuestions[currentIndex];
+      const card = document.getElementById('cardContainer');
+
+      let optionsHtml = '';
+      qData.a.forEach((optText, idx) => {
+        optionsHtml += `<button class="opt" id="opt_${idx}" onclick="selectAnswer(${idx})">${String.fromCharCode(65 + idx)}) ${optText}</button>`;
+      });
+
+      card.innerHTML = `
+        <span class="q-level-badge l${qData.level}">${qData.levelText} • Topic: ${qData.topic}</span>
+        <h2>Q${qData.id}. ${qData.q}</h2>
+        <div>${optionsHtml}</div>
+        <div class="why" id="whyBox">${qData.why}</div>
+        <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Next Question ➔</button>
+      `;
+    }
+
+    function selectAnswer(chosenIdx) {
+      if (answered) return;
+      answered = true;
+      const qData = filteredQuestions[currentIndex];
+      const isCorrect = (chosenIdx === qData.c);
+      if (isCorrect) {
+        score++;
+        levelStats[qData.level].correct++;
+      }
+
+      qData.a.forEach((_, idx) => {
+        const btn = document.getElementById('opt_' + idx);
+        btn.disabled = true;
+        if (idx === qData.c) btn.classList.add('ok');
+        else if (idx === chosenIdx && !isCorrect) btn.classList.add('bad');
+      });
+
+      document.getElementById('whyBox').classList.add('show');
+      const total = filteredQuestions.length;
+      document.getElementById('liveScore').innerText = `Score: ${score} / ${total}`;
+      const nextBtn = document.getElementById('nextBtn');
+      nextBtn.style.display = 'inline-block';
+      if (currentIndex === total - 1) {
+        nextBtn.innerText = '🏁 View Final Assessment Scorecard';
+      }
+    }
+
+    function nextQuestion() {
+      currentIndex++;
+      if (currentIndex < filteredQuestions.length) renderQuestion();
+      else renderResults();
+    }
+
+    function renderResults() {
+      const total = filteredQuestions.length;
+      const pct = Math.round((score / total) * 100);
+      document.getElementById('fill').style.width = '100%';
+      document.getElementById('prog').innerText = 'Completed';
+      document.getElementById('liveScore').innerText = `Final: ${score} / ${total}`;
+
+      let badgeTitle = pct >= 90 ? '🏆 Distinction: Supercomputing Architect Mastery' :
+                       pct >= 75 ? '⚡ Proficient: HPC Systems Practitioner' :
+                                   '🔄 Recommended Revision: Review Module Study Guide';
+
+      const card = document.getElementById('cardContainer');
+      card.innerHTML = `
+        <div style="text-align:center; padding:20px 0;">
+          <div style="font-size:20px; font-weight:800; color:#64748b;">OFFICIAL ASSESSMENT RESULTS</div>
+          <div class="score-banner">${score} / ${total} (${pct}%)</div>
+          <div style="font-size:22px; font-weight:800; color:var(--intel); margin-bottom:20px;">${badgeTitle}</div>
+          
+          <table class="breakdown-table">
+            <thead>
+              <tr>
+                <th>Cognitive Difficulty Tier</th>
+                <th>Questions In Set</th>
+                <th>Your Score</th>
+                <th>Proficiency</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>Level 1: Foundational</b></td>
+                <td>${levelStats[1].total}</td>
+                <td>${levelStats[1].correct} / ${levelStats[1].total}</td>
+                <td>${levelStats[1].total > 0 ? Math.round((levelStats[1].correct / levelStats[1].total)*100) : 0}%</td>
+              </tr>
+              <tr>
+                <td><b>Level 2: Conceptual</b></td>
+                <td>${levelStats[2].total}</td>
+                <td>${levelStats[2].correct} / ${levelStats[2].total}</td>
+                <td>${levelStats[2].total > 0 ? Math.round((levelStats[2].correct / levelStats[2].total)*100) : 0}%</td>
+              </tr>
+              <tr>
+                <td><b>Level 3: Systems & Math</b></td>
+                <td>${levelStats[3].total}</td>
+                <td>${levelStats[3].correct} / ${levelStats[3].total}</td>
+                <td>${levelStats[3].total > 0 ? Math.round((levelStats[3].correct / levelStats[3].total)*100) : 0}%</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div style="display:flex; gap:12px; justify-content:center; margin-top:24px;">
+            <button class="next-btn" style="display:inline-block;" onclick="resetQuiz()">↺ Retake Quiz</button>
+            <a href="01_interactive_animations.html" style="text-decoration:none;">
+              <button class="next-btn" style="display:inline-block; background:var(--mint);">🎬 Review Theory Animations</button>
+            </a>
+          </div>
+        </div>
+      `;
+    }
+
+    resetQuiz();
+  </script>
+</body>
+</html>

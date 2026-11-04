@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Slurm, Intel Hardware, Gaudi & Horovod — Master Presentation Hub</title>
+  <style>
+    :root {
+      --navy: #0b1f3a;
+      --navy-dark: #071326;
+      --intel: #0071c5;
+      --intel-light: #00c7fd;
+      --mint: #1aa37a;
+      --amber: #e0a100;
+      --red: #d1495b;
+      --paper: #eef3f8;
+      --line: #d7e2ee;
+      --card: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Calibri, sans-serif;
+      background: var(--paper);
+      color: var(--navy);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(135deg, #071326 0%, #0b1f3a 50%, #004b87 100%);
+      color: #fff;
+      padding: 32px 36px 28px;
+      border-bottom: 4px solid var(--intel);
+    }
+    .header-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 999px;
+      background: rgba(0, 199, 253, 0.2);
+      color: var(--intel-light);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border: 1px solid rgba(0, 199, 253, 0.4);
+      margin-bottom: 8px;
+    }
+    header h1 { margin: 6px 0 10px; font-size: 30px; font-weight: 800; letter-spacing: -0.01em; }
+    header p { margin: 0; opacity: 0.95; font-size: 16px; max-width: 960px; line-height: 1.5; }
+    
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 28px 20px; }
+    
+    .grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 24px; }
+    @media (max-width: 960px) { .grid { grid-template-columns: 1fr; } }
+    
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 26px;
+      box-shadow: 0 8px 24px rgba(11, 31, 58, 0.05);
+      margin-bottom: 24px;
+    }
+    h2 { margin: 0 0 16px; font-size: 22px; font-weight: 800; color: var(--navy); }
+    
+    a.btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 6px 8px 6px 0;
+      padding: 13px 20px;
+      border-radius: 10px;
+      background: var(--intel);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 15px;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(0, 113, 197, 0.25);
+    }
+    a.btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0, 113, 197, 0.35); background: #005a9e; }
+    a.btn.mint { background: var(--mint); box-shadow: 0 4px 12px rgba(26, 163, 122, 0.25); }
+    a.btn.mint:hover { background: #137e5e; }
+    a.btn.navy { background: var(--navy); box-shadow: 0 4px 12px rgba(11, 31, 58, 0.25); }
+    a.btn.ghost { background: #f0f6fc; color: var(--navy); border: 1px solid #cfdbe8; box-shadow: none; }
+    a.btn.ghost:hover { background: #e0edf9; }
+    
+    .action-card {
+      background: #f8fafc;
+      border: 2px solid var(--line);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 16px;
+      transition: border-color 0.2s;
+    }
+    .action-card:hover { border-color: var(--intel); }
+    .action-card h4 { margin: 0 0 8px; font-size: 18px; font-weight: 800; color: var(--navy); }
+    .action-card p { margin: 0 0 14px; font-size: 14px; color: #475569; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 10px; }
+    th { background: #f0f6fc; color: var(--navy); font-weight: 800; padding: 10px 12px; border-bottom: 2px solid var(--line); text-align: left; }
+    td { border-bottom: 1px solid var(--line); padding: 10px 12px; vertical-align: top; }
+    
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .badge.green { background: #e6f7ef; color: #0d5f40; }
+    .badge.blue { background: #e0f2fe; color: #0369a1; }
+
+    ul.check-list { margin: 0; padding-left: 20px; font-size: 14px; }
+    ul.check-list li { margin: 8px 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap" style="padding-top:0; padding-bottom:0;">
+      <span class="header-tag">GLA Supercomputing Curriculum · Dedicated Module</span>
+      <h1>Slurm Scheduling, Intel Hardware, Habana Gaudi & Horovod Distributed DL</h1>
+      <p>Dedicated Classroom Suite & Presentation Launchpad | Intel & NEC Supercomputing Alliance | Lead Trainer: Shivam Gupta</p>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="grid">
+      <!-- Left Column: Primary Classroom Apps & Launchers -->
+      <div>
+        <div class="card">
+          <h2>🎯 Dedicated Classroom Applications (Projector Ready)</h2>
+          
+          <div class="action-card" style="border-left: 6px solid var(--intel);">
+            <h4>🎬 01. Theory Animations & Hardware Visualizations</h4>
+            <p>6 high-fidelity animated interactive demonstrations: Slurm job scheduling state machine, Intel Xeon AMX 2D TMUL systolic engine, oneDNN operator fusion memory wall elimination, Intel GPU Max 1550 vs Habana Gaudi 2/3 (24x 100GbE RoCE), Ring-AllReduce circular data flow, and Horovod TensorFlow workflow.</p>
+            <a class="btn" href="01_interactive_animations.html">▶ Launch Dedicated Animations</a>
+          </div>
+
+          <div class="action-card" style="border-left: 6px solid var(--mint);">
+            <h4>🏆 02. 15-Question Interactive Assessment Quiz</h4>
+            <p>15 evaluated questions covering Slurm (5 Qs), Intel Hardware/Gaudi (5 Qs), and Horovod Distributed DL (5 Qs) across 3 cognitive difficulty tiers: Level 1 (Foundational), Level 2 (Conceptual), and Level 3 (Systems & Math). Includes live score tracking, instant feedback, and deep architectural rationales.</p>
+            <a class="btn mint" href="02_interactive_quiz.html">▶ Launch Interactive Quiz</a>
+          </div>
+
+          <div class="action-card" style="border-left: 6px solid var(--amber);">
+            <h4>📓 03. Dedicated Hands-On Jupyter Notebook</h4>
+            <p>Self-contained, executable notebook with 5 focused sections: Slurm cluster simulation, oneDNN operator fusion convolution benchmark, GPU Max & Gaudi probes, and real multi-process 4-rank Horovod training with Ring-AllReduce.</p>
+            <a class="btn navy" href="Dedicated_Slurm_Intel_Gaudi_Horovod_HandsOn.ipynb">Open Dedicated Notebook</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>📑 Teaching Documents & Command Runbooks</h2>
+          <div style="display:flex; flex-wrap:wrap; gap:10px;">
+            <a class="btn ghost" href="03_TRAINER_PLAYBOOK_AND_COLAB_GUIDE.md">🎙️ Trainer Playbook & Colab Guide</a>
+            <a class="btn ghost" href="04_HANDS_ON_COMMAND_RUNBOOK.md">🛠️ Hands-On Command Runbook</a>
+            <a class="btn ghost" href="../Day_03_Deep_Learning_TensorFlow_oneDNN_Slurm_Horovod.ipynb">📓 Master Day 3 Notebook</a>
+            <a class="btn ghost" href="../03_DAY_03_STUDENT_CHEATSHEET_AND_MCQS.md">📑 Day 3 Student Cheat Sheet</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Colab Mapping & Standalone Scripts -->
+      <div>
+        <div class="card">
+          <h2>💻 Colab Section Delivery Mapping</h2>
+          <p style="font-size:14px; color:#475569; margin-top:0;">Which section to cover on Colab for each topic:</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Syllabus Topic</th>
+                <th>Colab Section</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>Slurm Scheduling & #SBATCH</b></td>
+                <td>Section 8 (Cells 21–24)</td>
+                <td><span class="badge green">VERIFIED</span></td>
+              </tr>
+              <tr>
+                <td><b>Intel Hardware (AMX, oneDNN)</b></td>
+                <td>Section 4 & 6 (Cells 9–16)</td>
+                <td><span class="badge green">VERIFIED</span></td>
+              </tr>
+              <tr>
+                <td><b>Intel GPU Max & Habana Gaudi</b></td>
+                <td>Section 7 (Cells 17–20)</td>
+                <td><span class="badge green">VERIFIED</span></td>
+              </tr>
+              <tr>
+                <td><b>Horovod Distributed DL (4 Ranks)</b></td>
+                <td>Section 9 (Cells 25–28)</td>
+                <td><span class="badge green">VERIFIED</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h2>📦 Standalone Production Scripts (`scripts/`)</h2>
+          <ul class="check-list">
+            <li><b><code>train_resnet_hpc.slurm</code>:</b> Enterprise multi-node Slurm batch job script.</li>
+            <li><b><code>slurm_cluster_simulator.py</code>:</b> Queue and daemon simulator (`sbatch`, `squeue`, `sinfo`).</li>
+            <li><b><code>benchmark_onednn_fusion.py</code>:</b> Live convolution operator fusion benchmark.</li>
+            <li><b><code>intel_gpu_xpu_check.py</code>:</b> Intel GPU Max 1550 (Ponte Vecchio) architecture audit.</li>
+            <li><b><code>habana_gaudi_synapse_check.py</code>:</b> Habana Gaudi 2/3 (24x 100GbE RoCE) probe.</li>
+            <li><b><code>distributed_tf_horovod.py</code>:</b> Real multi-process Horovod training across 4 ranks.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h2>⌨️ Classroom Keyboard Shortcuts</h2>
+          <ul class="check-list">
+            <li><b>1 – 6:</b> Switch animation tabs instantly</li>
+            <li><b>Z:</b> Toggle Projector Zoom mode (large high-contrast fonts)</li>
+            <li><b>P:</b> Step or run active animation simulations</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
